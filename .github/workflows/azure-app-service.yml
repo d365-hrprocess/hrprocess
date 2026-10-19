@@ -14,60 +14,95 @@ concurrency:
 
 jobs:
   deploy:
-    # Never deploy a fork/PR, a failed CI run, or the personal repository by
-    # accident. IT must explicitly enable this in the company repository.
     if: >-
       vars.AZURE_DEPLOY_ENABLED == 'true' &&
       github.repository == vars.COMPANY_GITHUB_REPOSITORY &&
       github.event.workflow_run.head_repository.full_name == github.repository &&
       github.event.workflow_run.conclusion == 'success' &&
-      (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch')
+      (github.event.workflow_run.event == 'push' ||
+       github.event.workflow_run.event == 'workflow_dispatch')
+
     runs-on: ubuntu-latest
-    environment: production
+
     permissions:
       contents: read
       id-token: write
+
     env:
       ACR_NAME: ${{ vars.AZURE_ACR_NAME }}
       RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
       WEBAPP_NAME: ${{ vars.AZURE_WEBAPP_NAME }}
       PUBLIC_APP_URL: ${{ vars.AZURE_PUBLIC_APP_URL }}
-      IMAGE_REPOSITORY: talentmatch-portal
+      IMAGE_REPOSITORY: ubticareers
       DEPLOY_REVISION: ${{ github.event.workflow_run.head_sha }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout verified commit
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
+
       - name: Validate deployment variables
         shell: bash
         run: |
           set -euo pipefail
+
           for setting in ACR_NAME RESOURCE_GROUP WEBAPP_NAME PUBLIC_APP_URL; do
-            if [ -z "${!setting}" ]; then echo "Missing GitHub variable: $setting" >&2; exit 1; fi
+            if [ -z "${!setting}" ]; then
+              echo "Missing deployment variable: $setting" >&2
+              exit 1
+            fi
           done
+
           python - <<'PY'
-          import os,re
+          import os
+          import re
           from urllib.parse import urlsplit
-          url=urlsplit(os.environ['PUBLIC_APP_URL'])
-          assert url.scheme=='https' and url.hostname and url.path in ('','/') and not url.query and not url.fragment and not url.username and not url.password and url.port in (None,443), 'Use the exact public HTTPS origin'
-          assert re.fullmatch(r'[0-9a-f]{40}',os.environ['DEPLOY_REVISION']), 'Expected a verified commit SHA'
+
+          url = urlsplit(os.environ["PUBLIC_APP_URL"])
+          assert (
+              url.scheme == "https"
+              and url.hostname
+              and url.path in ("", "/")
+              and not url.query
+              and not url.fragment
+              and not url.username
+              and not url.password
+              and url.port in (None, 443)
+          ), "PUBLIC_APP_URL must be the public HTTPS origin"
+
+          assert re.fullmatch(
+              r"[0-9a-f]{40}", os.environ["DEPLOY_REVISION"]
+          ), "Expected a verified commit SHA"
           PY
-      - uses: azure/login@v2
+
+      - name: Login to Azure
+        uses: azure/login@v2
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      - name: Sign in to ACR with federated Azure identity
+
+      - name: Login to Azure Container Registry
         id: registry
         shell: bash
         run: |
           set -euo pipefail
+
           az acr login --name "$ACR_NAME"
-          login_server="$(az acr show --name "$ACR_NAME" --query loginServer --output tsv)"
+
+          login_server="$(az acr show \
+            --name "$ACR_NAME" \
+            --query loginServer \
+            --output tsv)"
+
           echo "server=$login_server" >> "$GITHUB_OUTPUT"
-      - uses: docker/setup-buildx-action@v3
-      - name: Build and push the verified revision
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push verified image
         id: image
         uses: docker/build-push-action@v6
         with:
@@ -76,31 +111,70 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ steps.registry.outputs.server }}/${{ env.IMAGE_REPOSITORY }}:${{ env.DEPLOY_REVISION }}
-          build-args: BUILD_REVISION=${{ env.DEPLOY_REVISION }}
+          build-args: |
+            BUILD_REVISION=${{ env.DEPLOY_REVISION }}
           cache-from: type=gha,scope=azure-single-container
           cache-to: type=gha,mode=max,scope=azure-single-container
-      - name: Deploy exact image digest
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.WEBAPP_NAME }}
-          images: ${{ steps.registry.outputs.server }}/${{ env.IMAGE_REPOSITORY }}@${{ steps.image.outputs.digest }}
-      - name: Verify the new running revision
+
+      - name: Deploy image to App Service main container
+        shell: bash
+        env:
+          IMAGE_REFERENCE: ${{ steps.registry.outputs.server }}/${{ env.IMAGE_REPOSITORY }}@${{ steps.image.outputs.digest }}
+        run: |
+          set -euo pipefail
+
+          mode="$(az webapp config show \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "$WEBAPP_NAME" \
+            --query linuxFxVersion \
+            --output tsv)"
+
+          if [ "${mode,,}" != "sitecontainers" ]; then
+            echo "Expected the existing sidecar-enabled App Service configuration." >&2
+            exit 1
+          fi
+
+          az webapp sitecontainers update \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "$WEBAPP_NAME" \
+            --container-name main \
+            --image "$IMAGE_REFERENCE" \
+            --target-port 8080 \
+            --output none
+
+          az webapp restart \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "$WEBAPP_NAME"
+
+      - name: Verify deployed revision
         shell: bash
         run: |
           set -euo pipefail
+
           for attempt in {1..36}; do
-            if curl --fail --silent --show-error --max-time 10 "${PUBLIC_APP_URL%/}/healthz" > "$RUNNER_TEMP/readiness.json"; then
+            if curl --fail --silent --show-error --max-time 10 \
+              "${PUBLIC_APP_URL%/}/healthz" \
+              > "$RUNNER_TEMP/readiness.json"; then
+
               if python - <<'PY'
-          import json,os
-          with open(os.environ['RUNNER_TEMP']+'/readiness.json') as stream: value=json.load(stream)
-          assert value['status']=='ok' and value['revision']==os.environ['DEPLOY_REVISION']
+          import json
+          import os
+
+          path = os.path.join(os.environ["RUNNER_TEMP"], "readiness.json")
+          with open(path) as stream:
+              result = json.load(stream)
+
+          assert result["status"] == "ok"
+          assert result["revision"] == os.environ["DEPLOY_REVISION"]
           PY
               then
                 echo "Verified deployed revision $DEPLOY_REVISION"
                 exit 0
               fi
             fi
+
             sleep 10
           done
-          echo 'The new revision did not become ready. Inspect App Service container logs; use the documented rollback.' >&2
+
+          echo "The new revision did not become ready. Check App Service container logs." >&2
           exit 1
