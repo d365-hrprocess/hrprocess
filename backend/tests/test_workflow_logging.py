@@ -38,7 +38,9 @@ def events(caplog):
 async def test_submission_failure_marks_d365_stage_and_keeps_frozen_outbox(caplog):
     caplog.set_level(logging.INFO, logger="app.workflow")
     settings = Settings(_env_file=None, demo_mode=False, d365_contract_mode="legacy")
-    adapter = Mock(submit_application=AsyncMock(side_effect=IntegrationError("secret applicant@example.test")))
+    adapter = Mock(submit_application=AsyncMock(side_effect=IntegrationError("secret applicant@example.test",
+        log_diagnostics={"issue_code": "field_length_or_missing", "upstream_status_code": 500,
+                         "activity_id": "cb035259-4dd8-0000-ec66-bed5d84ddd01"})))
     resumes = Mock(store=AsyncMock(return_value="azure:private-resume-reference"), delete=AsyncMock())
     coordinator = SubmissionCoordinator(settings, adapter, resumes)
     user = User(sub="private-sub", issuer="private-issuer", name="Private Applicant",
@@ -70,6 +72,10 @@ async def test_submission_failure_marks_d365_stage_and_keeps_frozen_outbox(caplo
     failure = next(event for event in events(caplog)
                    if event["stage"] == "submission.d365_submit" and event["outcome"] == "failed")
     assert failure["elapsed_ms"] >= 0 and failure["exception_type"] == "IntegrationError"
+    for item in events(caplog):
+        if item["stage"] in {"submission.d365_submit", "submission.finish"} and item["outcome"] == "failed":
+            assert item["issue_code"] == "field_length_or_missing" and item["upstream_status_code"] == 500
+            assert item["activity_id"] == "cb035259-4dd8-0000-ec66-bed5d84ddd01"
     final = next(event for event in events(caplog) if event["stage"] == "test.context_after_submit")
     assert final["request_id"] == "c58c3df3-5dac-4a10-a7e9-6e8cf61ac324"
     assert "requirement_id" not in final

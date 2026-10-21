@@ -19,6 +19,7 @@ from .business import ACCOUNT_PATTERN, FinanceBusiness
 from .d365 import D365Client
 from .errors import FinanceError
 from .metadata import MetadataManager
+from .observability import configure_logging, failure_fields, FinanceRequestLogs, log_event
 from .reporting import FinanceReporting
 from .settings import Settings
 
@@ -121,6 +122,7 @@ def connector_key(settings: Settings) -> str:
 
 
 def error_response(error: FinanceError) -> JSONResponse:
+    log_event("finance.operation", "failed", status_code=error.status_code, **failure_fields(error))
     detail = ErrorDetail(
         code=error.code, message=error.message, retryable=error.retryable,
         outcome_uncertain=error.uncertain, verification_required=error.uncertain,
@@ -144,6 +146,7 @@ def success(data: Any, *, meta=None, status=200, data_model=None):
 
 
 def create_app(settings: Settings | None = None, client=None, metadata=None) -> FastAPI:
+    configure_logging()
     settings = settings or Settings.load()
     supplied_client = client is not None
     client = client or D365Client(settings)
@@ -198,7 +201,8 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
             return await call_next(request)
         except FinanceError as error:
             return error_response(error)
-        except Exception:
+        except Exception as error:
+            log_event("finance.unexpected", "failed", **failure_fields(error))
             return error_response(FinanceError("finance_internal_error", "The finance request could not be completed.", status_code=500))
 
     @application.exception_handler(FinanceError)
@@ -322,6 +326,7 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
         data = await operation(business.delete_customer(account), write=True)
         return success(data, meta={"company": settings.company, "verified": True}, data_model=DeletedCustomerRecord)
 
+    application.add_middleware(FinanceRequestLogs)
     return application
 
 

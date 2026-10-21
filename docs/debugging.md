@@ -1,6 +1,14 @@
 # Terminal logs and debugging
 
-The API and evaluation worker write stage logs to their terminals. Each major operation records when it starts, when it completes, or when it fails, together with its duration. This lets you identify the failing stage without printing candidate details or integration credentials.
+The API, evaluation worker and isolated finance process write stage logs to stdout/stderr. Major operations record progress, failures and timings. Failure context survives integration wrappers and submission reconciliation, so the outer request/worker event retains the available provider cause. Logs exclude candidate details and integration credentials.
+
+## Production: no new settings required
+
+After deploying this revision through the existing image pipeline, open **Azure Portal → App Services → ubtihrprocess → Monitoring → Log stream**. Select application/container logs. The existing supervisor forwards the API, worker and finance process output there; their `stage` names distinguish the processes. No additional environment variable, logging service or application restart setting is introduced. Existing `LOG_LEVEL=INFO` is sufficient; a restart alone does not install these source changes.
+
+Find the portal's failure reference in `correlation_id`, or its support activity in `activity_id`. Read nearby events with the same `request_id`, then follow `application_id` into background recovery/worker events. Save the relevant interval from Log Stream or the existing container logs promptly; the live stream is not a new permanent log archive.
+
+The change adds diagnostics only. It does not alter submission IDs, durable state, resume handling, retries, deadlines, authentication, routing, database schemas or ERP business validation. Logs describe future attempts after deployment; they cannot recover a previously omitted provider response.
 
 ## Enable and capture logs
 
@@ -20,7 +28,7 @@ LOG_LEVEL=DEBUG
 
 Debug level does not enable raw provider responses, tokens, request bodies, candidate contact information, resumes, or AI prompts. Return to `INFO` after troubleshooting.
 
-DEBUG includes known D365 contract field names, value types and string lengths. For example, `field="ApplicationId" value_type="str" value_length=40` helps compare the submitted shape against an existing F&O field size. Actual field values stay excluded.
+Known D365 contract field names, value types and string lengths are logged at **INFO when a D365 HTTP request fails**, and at DEBUG during normal request preparation. For example, `field="ApplicationId" value_type="str" value_length=40` helps compare the submitted shape against an existing F&O field size. Actual field values stay excluded. Do not enable SDK wire/debug logging to obtain these diagnostics.
 
 For Windows, open PowerShell in the `backend` folder. Create the ignored output directory:
 
@@ -65,6 +73,14 @@ Stage events contain these fields when they apply:
 | `issue_code`, `hint` | An identified provider/configuration problem and a suggested check |
 | `provider_message` | A recognized, safe D365 validation message; never an arbitrary raw response body |
 | `activity_id` | A D365 activity ID, when the response supplies a valid one |
+| `upstream_status_code` | Provider HTTP status, distinct from the portal's integration status |
+| `root_exception_type`, `code_location` | Available inner exception type and backend filename/line/function; no exception values or local variables |
+| `message_template` | Bounded technical words from unfamiliar D365 messages; quoted text, numbers, addresses, request values and words outside a closed vocabulary become `[redacted]` |
+| `error_fingerprint` | Hash of the safe message templates for grouping similar failures; not a hash of the original private response |
+| `provider_stack` | Only recognized `UBHRPortalService` method names returned by F&O; no arguments or filesystem paths |
+| `message_count`, `inner_exception_count`, `diagnostic_truncated` | Available bounded message/type counts and whether diagnostics were limited |
+| `cause_available` | Whether a recognized cause pattern was returned; false means the internal cause remains unknown |
+| `provider_code`, `database_state` | Recognized Entra AADSTS code or PostgreSQL SQLSTATE; no raw identity/database error text |
 
 An illustrative trace has this structure; the exact stage names depend on the operation:
 
@@ -104,6 +120,7 @@ Select-String -Path .local\api-debug.log,.local\worker-debug.log -Pattern 'outco
 | AI review | Model request, structured response validation, evidence checks, and durable evaluation caching |
 | D365 evaluation write | Core-result save, provider acknowledgement, and final local completion |
 | Recovery | Retained submission reconciliation and bounded evaluation retries |
+| Finance | `finance.http`, `finance.operation`, `finance.token`, `finance.d365.*`, `finance.metadata`, and `finance.reporting.scan` identify request status, uncertain-write cause, token failures, metadata loading and complete-source scan state without account values or financial amounts |
 
 Some operations skip stages deliberately: a repeated acknowledged submission can reuse its original result, and a persistence retry can reuse the already validated AI evaluation. Demo mode does not call the connected D365/Azure services.
 
@@ -121,7 +138,26 @@ The diagnostic parser recognizes the source pack's safe validation errors, inclu
 
 Recognized failures include an `issue_code`, a canonical `provider_message`, and a `hint`. Field names and configured length limits can identify the AOT property to check without displaying the submitted value. Check these diagnostics before changing the service or table.
 
-If the provider message is unknown, malformed, or contains arbitrary text, the terminal does not dump it. The HTTP status, operation, correlation ID, and validated activity ID still identify the attempt. Obtain the original exception from the F&O debugger or environment monitoring logs and inspect it in the authorized F&O environment. Do not disable TLS, remove validation, or change table constraints solely because the HTTP status is 500.
+For unfamiliar JSON errors, the parser also examines nested errors/Infolog messages and recognizes common duplicate-record, mandatory-field, field-size, type-conversion, null-reference, permission, concurrency, timeout and serialization patterns. Treat these categories as diagnostic clues and confirm the relevant configuration/service code before changing it. Only approved table/field names from the repository's AOT inventory are retained. These new templates, fingerprints and service frames stay in server logs; they are not added to browser error responses.
+
+If F&O returns only a generic `ErrorException`, expect `issue_code="d365_unclassified"` and `cause_available=false`. A redacted template and support activity identify what the provider actually returned; they cannot reveal an internal Infolog exception that F&O omitted. Malformed, HTML and oversized responses are identified by `response_kind` without dumping their content. An authorized F&O developer must inspect/debug the service if the internal cause was not returned; LCS access is not a prerequisite for using these backend diagnostics. Do not disable TLS, remove validation, or change table constraints solely because the HTTP status is 500.
+
+For an idempotency mismatch, `resume_changed`, `contact_changed` and `consent_changed` report comparison results only. Preserve the original pending submission; these flags do not authorize creating a replacement application or deleting durable state. Nginx's request-body buffering warning during a resume upload is normal buffering, not proof of a failed upload.
+
+## Other integration failures
+
+| Diagnostic | What to inspect |
+| --- | --- |
+| `entra_*`, known `AADSTS...` | Client/tenant/resource configuration, actual secret VALUE/expiry, approved consent/policy; token responses and secrets remain suppressed |
+| `network_connect_timeout`, `network_read_timeout`, `network_write_timeout`, `network_pool_timeout` | Connection, provider response, send or pool-exhaustion stage respectively; verify any unconfirmed write before retrying |
+| `network_dns_failed`, `network_tls_verification_failed`, `network_connection_refused` | DNS, existing CA trust/provider certificate or service availability; do not disable certificate verification |
+| `postgres_*`, `database_state` | Named metadata operation, connection/TLS/authentication, SQLSTATE, locks or limits; fixed hints survive wrapper exceptions |
+| `redis_*` | Queue/session/lock connectivity; preserve submission and evaluation keys |
+| `blob_*` | Private-container validation versus upload/read/delete stage, provider HTTP status and existing storage access |
+| `ai_*`, `schema_validation_failed` | Deployment/API compatibility, quota, structured-result validation or evidence stage; prompts/resumes/model output stay excluded |
+| Finance `cause_code`, `stage_tag`, `outcome_uncertain` | Existing finance error classification plus token/transport/metadata/reporting logs. A healthy liveness response alone does not prove metadata readiness or successful ERP writes |
+
+Unrecognized failures retain exception type, safe code location and stage with a generic hint. Logging cannot guarantee an actionable internal cause when the provider does not disclose one. Fix the underlying configuration/service issue separately; logging changes do not turn a failed write into a successful one.
 
 For a retained failed evaluation, repair the identified configuration/service problem, restart with the corrected environment, then follow the recovery instructions in [deployment](deployment.md#redis-durability-and-recovery). Do not create another application just to retry an evaluation.
 

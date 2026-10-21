@@ -17,6 +17,9 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from pathlib import PurePath
 
+from app.diagnostic_templates import valid_message_template
+from app.failure_diagnostics import exception_diagnostics
+
 
 logger = logging.getLogger("app.workflow")
 _context: ContextVar[dict] = ContextVar("workflow_log_context", default={})
@@ -29,20 +32,20 @@ _TEXT_FIELDS = {
     "status", "state", "stage_tag", "ai_status", "deployment", "prompt_version", "claim",
     "oauth_error", "response_kind", "error_code", "method", "route", "extension", "job_reference",
     "code_location",
-    "value_type",
+    "value_type", "root_exception_type", "provider_stack", "error_fingerprint", "database_state", "cause_code", "provider_code",
 }
 _NUMBER_FIELDS = {
     "elapsed_ms", "duration_ms", "status_code", "http_status", "attempt", "count", "bytes_count",
     "text_chars", "max_length", "request_fields_count", "response_bytes", "record_count", "entries_count",
     "retry_delay_seconds", "retry_in_seconds", "limit", "schema_version", "max_bytes", "resume_chars",
     "evidence_count", "matched_count", "missing_count", "score", "max_attempts", "queued_count",
-    "value_length",
+    "value_length", "upstream_status_code", "message_count", "inner_exception_count", "validation_error_count",
 }
 _BOOL_FIELDS = {
     "retryable", "force_refresh", "token_cache_hit", "token_cached", "found", "acquired", "created",
     "cached", "confirmed", "queued", "completed", "recovered", "rejected", "released", "validated",
     "lock_acquired", "authenticated", "rotated", "configured", "consent_accepted", "demo_mode",
-    "existing", "name_available", "email_available", "nonce_present",
+    "existing", "name_available", "email_available", "nonce_present", "diagnostic_truncated", "cause_available", "resume_changed", "contact_changed", "consent_changed",
 }
 
 
@@ -66,6 +69,8 @@ def _safe_fields(fields):
             # free-form names and contact fields are never accepted as metadata.
             if "//" not in value:
                 result[key] = value
+        elif key == "message_template" and valid_message_template(value):
+            result[key] = value
         elif key in {"provider_message", "hint"} and isinstance(value, str):
             # Only the D365 diagnostics parser may supply these canonical messages.
             # Do not call this logger with external response or exception text.
@@ -87,9 +92,9 @@ def log_event(stage: str, outcome: str, *, level: int = logging.INFO, **fields):
                extra={"workflow_event": event})
 
 
-def log_request_shape(operation: str, body: dict):
-    """DEBUG field names/types/lengths explain DTO mismatches without values."""
-    if not logger.isEnabledFor(logging.DEBUG):
+def log_request_shape(operation: str, body: dict, *, level: int = logging.DEBUG):
+    """Known field names/types/lengths at the requested level, never values."""
+    if not logger.isEnabledFor(level):
         return
     flat = next(iter(body.values())) if len(body) == 1 and isinstance(next(iter(body.values())), dict) else body
     permitted = {
@@ -99,7 +104,7 @@ def log_request_shape(operation: str, body: dict):
     }
     for field, value in flat.items():
         if field in permitted:
-            log_event("d365.request.shape", "validated", level=logging.DEBUG, operation=operation, field=field,
+            log_event("d365.request.shape", "validated", level=level, operation=operation, field=field,
                       value_type=type(value).__name__, value_length=len(value) if isinstance(value, str) else None)
 
 
@@ -126,6 +131,13 @@ def error_fields(exc: BaseException):
     retryable = getattr(exc, "retryable", None)
     if isinstance(retryable, bool):
         fields["retryable"] = retryable
+    try:
+        fields.update(_safe_fields(exception_diagnostics(exc)))
+        # The handled Python exception and returned provider cause are distinct.
+        fields["exception_type"] = type(exc).__name__
+    except Exception:
+        # Instrumentation must never replace the application's original failure.
+        fields["issue_code"] = "diagnostic_classification_unavailable"
     return fields
 
 

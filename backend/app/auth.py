@@ -17,7 +17,7 @@ from starlette.responses import JSONResponse, RedirectResponse
 from app.config import Settings
 from app.errors import ConfigurationError
 from app.models import User
-from app.observability import log_event, traced
+from app.observability import error_fields, log_event, traced
 from app.profile import linkedin_profile
 
 
@@ -207,7 +207,7 @@ class OpaqueSessionMiddleware:
                 sid = ""
             data = await self.store.get(sid) if sid else None
         except Exception as exc:
-            log_event("auth.session.load", "failed", level=logging.ERROR, exception_type=type(exc).__name__, status_code=503)
+            log_event("auth.session.load", "failed", level=logging.ERROR, **{**error_fields(exc), "status_code": 503})
             response = JSONResponse({"detail": "Session service unavailable"}, status_code=503)
             return await response(scope, receive, send)
         log_event("auth.session.ready", "completed", authenticated=isinstance(data, dict) and bool(data.get("user")), existing=bool(data))
@@ -233,7 +233,7 @@ class OpaqueSessionMiddleware:
                     ):
                         raise RuntimeError("Session was revoked")
                 except Exception as exc:
-                    log_event("auth.session.persist", "failed", level=logging.ERROR, exception_type=type(exc).__name__, status_code=503)
+                    log_event("auth.session.persist", "failed", level=logging.ERROR, **{**error_fields(exc), "status_code": 503})
                     message = {
                         "type": "http.response.start",
                         "status": 503,
@@ -467,7 +467,7 @@ class OIDC:
             callback_stage = "auth.oidc.identity"
             user = self.identity(claims, provider)
         except HTTPException as exc:
-            log_event(callback_stage, "failed", level=logging.WARNING, provider=provider, status_code=exc.status_code, exception_type=type(exc).__name__)
+            log_event(callback_stage, "failed", level=logging.WARNING, provider=provider, **error_fields(exc))
             raise
         except Exception as exc:
             oauth_error = getattr(exc, "error", "")
@@ -481,7 +481,7 @@ class OIDC:
                 "iss", "aud", "exp", "iat", "nbf", "nonce", "azp", "at_hash", "sub",
             }:
                 claim = "-"
-            log_event(callback_stage, "failed", level=logging.WARNING, provider=provider, exception_type=type(exc).__name__, oauth_error=oauth_error, claim=claim)
+            log_event(callback_stage, "failed", level=logging.WARNING, provider=provider, oauth_error=oauth_error, claim=claim, **error_fields(exc))
             logging.getLogger("uvicorn.error").warning(
                 "OIDC callback failure: provider=%s type=%s error=%s claim=%s",
                 provider, type(exc).__name__, oauth_error, claim,

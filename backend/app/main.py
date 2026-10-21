@@ -22,7 +22,7 @@ from app.config import Settings, get_settings
 from app.demo import DemoAdapter
 from app.errors import IntegrationError, ResumeValidationError
 from app.models import Application, Job, User
-from app.observability import RequestLoggingMiddleware, configure_logging, log_context, log_event, stage, traced
+from app.observability import error_fields, RequestLoggingMiddleware, configure_logging, log_context, log_event, stage, traced
 from app.profile import valid_contact_email
 from app.queue import SubmissionCoordinator, submission_fingerprint
 from app.metadata import MetadataStore
@@ -173,8 +173,7 @@ def create_app(settings: Settings | None = None):
 
     @app.exception_handler(IntegrationError)
     async def integration_error(request, exc):
-        log_event("http.integration", "failed", level=logging.ERROR, exception_type=type(exc).__name__,
-                  status_code=exc.status_code, retryable=exc.retryable)
+        log_event("http.integration", "failed", level=logging.ERROR, **error_fields(exc))
         return JSONResponse({"detail": exc.detail,
                              **({"diagnostics": exc.diagnostics} if exc.diagnostics else {})},
                             status_code=exc.status_code)

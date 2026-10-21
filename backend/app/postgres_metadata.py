@@ -91,7 +91,9 @@ class PostgresMetadata:
             log_event("postgres.transaction", "failed", exception_type=type(exc).__name__,
                       storage="postgres", reason=reason, operation=operation, mode=self._options["sslmode"],
                       error_code=code, hint=detail, retryable=retryable)
-            raise IntegrationError(detail, status_code=503, retryable=retryable) from None
+            raise IntegrationError(detail, status_code=503, retryable=retryable,
+                log_diagnostics={"issue_code": "postgres_" + reason, "database_state": code, "hint": detail,
+                                 "root_exception_type": type(exc).__name__}) from None
 
     @traced("postgres.initialize")
     def _initialize(self):
@@ -270,8 +272,11 @@ class PostgresMetadata:
                 except BaseException:
                     connection.close()
                     raise
-            except psycopg.Error:
-                raise IntegrationError("PostgreSQL evaluation lock is unavailable", status_code=503) from None
+            except psycopg.Error as error:
+                reason, detail, _ = postgres_failure(error)
+                raise IntegrationError("PostgreSQL evaluation lock is unavailable", status_code=503,
+                    log_diagnostics={"issue_code": "postgres_" + reason, "hint": detail,
+                                     "root_exception_type": type(error).__name__}) from None
 
         # Shield acquisition so cancellation cannot abandon an open connection
         # and an unreleased cross-process lock in a background thread.

@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 from .business import FinanceBusiness, validate_account
 from .errors import FinanceError
 from .metadata import utcnow
+from .observability import failure_fields, log_event
 
 INVOICE_TYPES = frozenset(
     {
@@ -288,19 +289,24 @@ class FinanceReporting:
         )
 
     async def _load(self, entry, account, currency):
+        started = time.monotonic()
+        log_event("finance.reporting.scan", "start", scope_type="customer" if account else "company")
         try:
             # Includes queue wait; a normal connector request never awaits this scan.
             async with asyncio.timeout(self.settings.reporting_scan_timeout_seconds):
                 async with self.semaphore:
                     value = await self._scan(account, currency)
             entry.update(state="ready", snapshot=value, finished=time.monotonic())
+            log_event("finance.reporting.scan", "completed", complete=True, record_count=len(value.records), elapsed_ms=round((time.monotonic() - started) * 1000, 2))
         except asyncio.CancelledError:
             raise
         except FinanceError as error:
+            log_event("finance.reporting.scan", "failed", **failure_fields(error))
             entry.update(
                 state="error", error=error, snapshot=None, finished=time.monotonic()
             )
         except TimeoutError:
+            log_event("finance.reporting.scan", "failed", issue_code="report_scan_timeout", complete=False)
             entry.update(
                 state="error",
                 snapshot=None,
@@ -312,7 +318,8 @@ class FinanceReporting:
                     True,
                 ),
             )
-        except Exception:
+        except Exception as error:
+            log_event("finance.reporting.scan", "failed", exception_type=type(error).__name__, complete=False)
             entry.update(
                 state="error",
                 snapshot=None,

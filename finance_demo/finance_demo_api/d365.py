@@ -10,6 +10,7 @@ import httpx
 
 from .errors import FinanceError
 from .settings import Settings
+from .observability import log_event, log_entra_error
 
 
 def parse_json(response: httpx.Response):
@@ -48,6 +49,7 @@ class D365Client:
             if not force and self._access_token and time.monotonic() < self._token_deadline:
                 return self._access_token
             secret = self.settings.secret()
+            log_event("finance.token", "start")
             try:
                 async with asyncio.timeout(self.settings.token_timeout_seconds):
                     result = await self.http.post(
@@ -57,9 +59,12 @@ class D365Client:
                         timeout=httpx.Timeout(self.settings.token_timeout_seconds,
                                               connect=self.settings.connect_timeout_seconds),
                     )
-            except (httpx.HTTPError, TimeoutError):
+            except (httpx.HTTPError, TimeoutError) as error:
+                log_event("finance.token", "failed", exception_type=type(error).__name__)
                 raise FinanceError("d365_token_unavailable", "Finance could not obtain a D365 access token.", 503, True) from None
+            log_event("finance.token", "received", status_code=result.status_code)
             if result.status_code != 200:
+                log_entra_error(result)
                 raise FinanceError("d365_token_rejected", "Entra rejected the finance application's token request. Verify the secret VALUE, expiry and application access.", 503, False)
             try:
                 payload = parse_json(result)
@@ -82,6 +87,7 @@ class D365Client:
 
     def _error(self, response: httpx.Response, *, write: bool) -> FinanceError:
         status = response.status_code
+        log_event("finance.d365.response", "failed", upstream_status_code=status)
         def upstream_error(*args):
             # Only the HTTP status is retained, never the ERP error body/headers.
             return FinanceError(*args, upstream_status_code=status)
@@ -116,6 +122,7 @@ class D365Client:
                             headers={"Authorization": "Bearer " + token, "Accept": "application/json", "OData-Version": "4.0"},
                         )
                     except httpx.HTTPError as error:
+                        log_event("finance.d365.transport", "failed", exception_type=type(error).__name__)
                         if not write and attempt + 1 < attempts:
                             await asyncio.sleep(min(2 ** attempt, 2))
                             continue
@@ -190,6 +197,7 @@ class D365Client:
                                 continue
                             if response.status_code != 200:
                                 raise self._error(response, write=False)
+                            log_event("finance.d365.page", "received", entity=entity, status_code=response.status_code)
                             content = bytearray()
                             async for block in response.aiter_bytes():
                                 content.extend(block)

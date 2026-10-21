@@ -18,6 +18,7 @@ from pydantic import ValidationError
 
 from app.d365_diagnostics import d365_error_diagnostics
 from app.errors import ConfigurationError, IntegrationError
+from app.failure_diagnostics import entra_diagnostics, exception_diagnostics
 from app.models import Candidate, Evaluation, Job, LinkedInProfile, User
 from app.observability import log_event, log_request_shape, traced
 
@@ -158,9 +159,12 @@ class D365Service:
                 known_errors = {"invalid_client", "invalid_scope", "invalid_grant", "unauthorized_client",
                                 "access_denied", "temporarily_unavailable", "server_error", "interaction_required"}
                 code = f"entra_{issue}" if isinstance(issue, str) and issue in known_errors else "entra_token_missing"
-                log_event("d365.auth.acquire", "failed", level=logging.ERROR, issue_code=code,
-                          hint="Check Entra app credentials, D365 application registration and API permissions; token response text is suppressed.")
-                raise IntegrationError("D365 authentication failed; check Entra credentials and permissions", retryable=False)
+                diagnostics = {"issue_code": code,
+                    "hint": "Check Entra app credentials, D365 application registration and API permissions; token response text is suppressed.",
+                    **entra_diagnostics(response)}
+                log_event("d365.auth.acquire", "failed", level=logging.ERROR, **diagnostics)
+                raise IntegrationError("D365 authentication failed; check Entra credentials and permissions",
+                                       retryable=False, log_diagnostics=diagnostics)
             self._token = token
             self._expires_at = time.monotonic() + max(0, int(response.get("expires_in", 300)) - 60)
             log_event("d365.auth.acquire", "completed", force_refresh=force_refresh)
@@ -252,7 +256,11 @@ class D365Service:
                               status_code=response.status_code, attempt=2, response_bytes=len(response.content),
                               elapsed_ms=round((time.monotonic() - started) * 1000, 2))
                 if response.is_error:
-                    diagnostics = d365_error_diagnostics(response)
+                    flat_body = next(iter(body.values())) if len(body) == 1 and isinstance(next(iter(body.values())), dict) else body
+                    sensitive_values = (self.settings.d365_client_secret, token, *payload.values(), *flat_body.values())
+                    diagnostics = d365_error_diagnostics(response, sensitive_values=sensitive_values)
+                    # Request shape is useful on failure at INFO; values never log.
+                    log_request_shape(operation, body, level=logging.INFO)
                     log_event("d365.http", "failed", level=logging.ERROR, operation=operation,
                               status_code=response.status_code, correlation_id=correlation_id,
                               retryable=response.status_code in {408, 429} or response.status_code >= 500,
@@ -261,8 +269,12 @@ class D365Service:
                     raise IntegrationError(
                         f"D365 {operation} failed (HTTP {response.status_code}). Reference: {correlation_id}",
                         retryable=response.status_code in {408, 429} or response.status_code >= 500,
-                        diagnostics={**diagnostics, "upstream_status_code": response.status_code,
-                                     "correlation_id": correlation_id},
+                        diagnostics={**{key: value for key, value in diagnostics.items() if key in {
+                            "issue_code", "hint", "provider_message", "activity_id", "table", "field", "max_length",
+                            "exception_type", "response_kind", "enum_symbol"}},
+                            "upstream_status_code": response.status_code, "correlation_id": correlation_id},
+                        log_diagnostics={**diagnostics, "upstream_status_code": response.status_code,
+                                         "correlation_id": correlation_id},
                     )
                 log_event("d365.http", "completed", operation=operation, correlation_id=correlation_id,
                           status_code=response.status_code, elapsed_ms=round((time.monotonic() - started) * 1000, 2))
@@ -284,11 +296,14 @@ class D365Service:
                 log_event("d365.http", "failed", level=logging.ERROR, operation=operation,
                           correlation_id=correlation_id, issue_code="d365_connection_failed",
                           elapsed_ms=round((time.monotonic() - started) * 1000, 2))
-                raise IntegrationError(f"D365 {operation} connection failed. Reference: {correlation_id}") from exc
+                raise IntegrationError(f"D365 {operation} connection failed. Reference: {correlation_id}",
+                        log_diagnostics={**exception_diagnostics(exc), "correlation_id": correlation_id, "operation": operation}) from exc
             except (json.JSONDecodeError, TypeError) as exc:
                 log_event("d365.response.decode", "failed", level=logging.ERROR, operation=operation,
                           correlation_id=correlation_id, issue_code="d365_response_json_invalid")
-                raise IntegrationError("D365 returned an invalid JSON response", retryable=False) from exc
+                raise IntegrationError("D365 returned an invalid JSON response", retryable=False,
+                        log_diagnostics={"issue_code": "d365_invalid_json", "correlation_id": correlation_id,
+                                         "hint": "The custom service did not return valid JSON; inspect its deployment and gateway response type."}) from exc
 
         if self.client is not None:
             return await perform(self.client)

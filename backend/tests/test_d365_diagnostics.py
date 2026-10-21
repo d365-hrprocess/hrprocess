@@ -97,7 +97,7 @@ def test_echoed_request_values_and_unknown_text_are_never_logged_even_when_repea
 ])
 def test_unknown_and_hostile_json_is_bounded_generic_metadata(body):
     result = diagnostic(body)
-    assert result["issue_code"] == "d365_unclassified"
+    assert result["issue_code"] in {"d365_unclassified", "server_enum_invalid"}
     assert "provider_message" not in result
     assert "candidate@example.test" not in json.dumps(result)
     assert "PRIVATE-TOKEN" not in json.dumps(result)
@@ -131,7 +131,8 @@ def test_oversized_response_and_message_are_not_parsed_or_emitted():
     assert result["issue_code"] == "d365_unclassified"
     result = diagnostic({"Message": COMPANY_MESSAGE + "PRIVATE-TOKEN" * 400})
     assert result["response_kind"] == "json"
-    assert result["issue_code"] == "d365_unclassified"
+    assert result["issue_code"] == "company_mismatch"
+    assert result["diagnostic_truncated"]
     assert "PRIVATE-TOKEN" not in json.dumps(result)
 
 
@@ -178,6 +179,18 @@ async def test_service_500_logs_reason_and_stage_without_exposing_body_or_changi
     assert error.value.diagnostics["activity_id"] == ACTIVITY_ID
     assert error.value.diagnostics["upstream_status_code"] == 500
     assert error.value.diagnostics["correlation_id"] == failure["correlation_id"]
+    assert "message_template" not in error.value.diagnostics
+    assert "error_fingerprint" not in error.value.diagnostics
+    assert error.value.log_diagnostics["message_template"]
+    assert error.value.log_diagnostics["error_fingerprint"]
+    shapes = [record.workflow_event for record in caplog.records
+              if hasattr(record, "workflow_event") and record.workflow_event["stage"] == "d365.request.shape"]
+    assert any(item["field"] == "Email" and item["value_type"] == "str" for item in shapes)
+    outer = next(record.workflow_event for record in caplog.records
+                 if hasattr(record, "workflow_event") and record.workflow_event["stage"] == "d365.operation"
+                 and record.workflow_event["outcome"] == "failed")
+    assert outer["activity_id"] == ACTIVITY_ID and outer["upstream_status_code"] == 500
+    assert outer["exception_type"] == "IntegrationError" and outer["root_exception_type"] == "ErrorException"
     assert "PRIVATE-CLIENT-SECRET" not in json.dumps(error.value.diagnostics)
     assert "candidate@example.test" not in json.dumps(error.value.diagnostics)
     output = caplog.text
@@ -240,3 +253,57 @@ async def test_401_retry_and_token_cache_are_logged_without_changing_retry_count
     assert "d365.auth.cache" in caplog.text
     assert "d365.response.normalize" in caplog.text
     assert "PRIVATE-ACCESS-TOKEN" not in caplog.text
+
+
+def test_unfamiliar_inner_failure_has_safe_template_classification_and_service_frame():
+    result = diagnostic({'Message': 'An exception occurred when invoking the operation.', 'ExceptionType': 'ErrorException',
+        'InnerException': {'ExceptionType': 'System.NullReferenceException',
+            'Message': 'Object reference not set to an instance of an object. Private Applicant private@example.test https://secret.test?token=PRIVATE-TOKEN',
+            'StackTrace': 'at Dynamics.Ax.Application.UBHRPortalService.submitApplication(Private Applicant) in C:\\Users\\Private\\service.xpp:line 123'}})
+    assert result['issue_code'] == 'server_null_reference'
+    assert result['root_exception_type'] == 'System.NullReferenceException'
+    assert result['provider_stack'] == 'UBHRPortalService.submitApplication'
+    assert result['inner_exception_count'] == 1 and result['message_count'] == 2
+    assert 'object reference not set' in result['message_template']
+    assert result['cause_available'] and len(result['error_fingerprint']) == 24
+    serialized = json.dumps(result)
+    for private in ['Private Applicant', 'private@example.test', 'secret.test', 'PRIVATE-TOKEN', 'Users', 'service.xpp']:
+        assert private not in serialized
+
+
+def test_odata_infolog_and_returned_values_are_bounded_and_value_free():
+    result = diagnostic({'error': {'message': {'lang': 'en', 'value': 'The record already exists for "Private Applicant".'},
+                                   'innererror': {'infolog': [{'text': 'Cannot create a record in "Private Table". Duplicate key.'}]}}})
+    assert result['issue_code'] == 'duplicate_record' and result['message_count'] == 2
+    assert '[redacted]' in result['message_template']
+    assert 'Private' not in json.dumps(result)
+
+
+def test_known_request_values_are_removed_even_when_they_are_technical_english_words():
+    response = httpx.Response(500, json={'Message': 'Error Exception could not create record. Contact Error Exception.'})
+    result = d365_error_diagnostics(response, sensitive_values=('Error', 'Exception', 'Error Exception'))
+    assert 'error' not in result['message_template'].split()
+    assert 'exception' not in result['message_template'].split()
+    assert 'could not create record' in result['message_template']
+
+
+@pytest.mark.parametrize('message,expected', [
+    ('Field must be filled in.', 'mandatory_field_missing'),
+    ('String or binary data would be truncated.', 'field_size_invalid'),
+    ('Unable to cast object to another type.', 'contract_type_mismatch'),
+    ('Access denied for this operation.', 'server_access_denied'),
+    ('Update conflict on this record.', 'server_concurrency'),
+    ('Execution timeout: operation timed out.', 'server_timeout'),
+    ('Cannot deserialize JSON request.', 'contract_serialization_failed'),
+])
+def test_standard_runtime_errors_are_classified_without_per_environment_message_whitelists(message, expected):
+    result = diagnostic({'Message': message})
+    assert result['issue_code'] == expected and result['cause_available']
+    assert result['error_fingerprint']
+
+
+def test_standard_required_field_uses_supplied_aot_inventory_without_value():
+    result = diagnostic({'Message': "Field 'RecruiterId' in UBJobRequirementTable must be filled in. Value 'Private Applicant'."})
+    assert result['issue_code'] == 'mandatory_field_missing'
+    assert result['field'] == 'RecruiterId' and result['table'] == 'UBJobRequirementTable'
+    assert 'Private Applicant' not in json.dumps(result)

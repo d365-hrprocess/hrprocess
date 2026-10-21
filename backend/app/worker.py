@@ -244,8 +244,8 @@ async def _evaluate_application(ctx, application_id, resume_ref, filename, requi
             state["error_code"] = "integration_error" if isinstance(exc, IntegrationError) else "processing_error"
             await persist(state)
             log_event("worker.evaluation_attempt", "failed", level=logging.WARNING,
-                      attempt=attempt, retryable=retryable, status=state["status"],
-                      error_code=state["error_code"], exception_type=type(exc).__name__)
+                      attempt=attempt, status=state["status"], error_code=state["error_code"],
+                      **{**error_fields(exc), "retryable": retryable})
             if retryable and attempt < settings.evaluation_max_attempts:
                 log_event("worker.evaluation_retry", "scheduled", attempt=attempt,
                           retry_in_seconds=min(300, 10 * 2 ** (attempt - 1)))

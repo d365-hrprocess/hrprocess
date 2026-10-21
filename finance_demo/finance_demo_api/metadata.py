@@ -21,6 +21,7 @@ import httpx
 from .d365 import D365Client
 from .errors import FinanceError
 from .settings import Settings
+from .observability import failure_fields, log_event
 
 EDM = {"http://docs.oasis-open.org/odata/ns/edm", "http://schemas.microsoft.com/ado/2009/11/edm"}
 NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
@@ -449,7 +450,8 @@ class MetadataManager:
                 last_error = exc
                 if not exc.retryable:
                     raise
-            except (httpx.HTTPError, OSError):
+            except (httpx.HTTPError, OSError) as error:
+                log_event("finance.metadata.download", "failed", exception_type=type(error).__name__)
                 last_error = FinanceError("metadata_download_failed", "D365 metadata could not be downloaded.", 503, True)
             finally:
                 if temporary is not None:
@@ -492,6 +494,7 @@ class MetadataManager:
             return
         async with self._refresh_lock:
             self._last_refresh_at = utcnow()
+            log_event("finance.metadata", "start")
             self._last_error = None
             if self._customers is None:
                 self._state = "warming"
@@ -514,12 +517,15 @@ class MetadataManager:
                 # The metadata total budget is separate from short live GET probes.
                 await self._probe_capabilities()
                 self._state = "ready" if self._customer_capability["state"] == "readable" else "unavailable"
+                log_event("finance.metadata", "completed", state=self._state, cache_source=self._source, entity_count=self._loaded["entity_count"] if self._loaded else 0, stale=self.status()["stale"])
             except FinanceError as exc:
+                log_event("finance.metadata", "failed", **failure_fields(exc))
                 self._last_error = exc.as_dict()
                 self._state = "unavailable"
                 if not self._customers:
                     self._customer_capability = {"state": "unavailable", "error": exc.as_dict()}
-            except (TimeoutError, OSError):
+            except (TimeoutError, OSError) as error:
+                log_event("finance.metadata", "failed", exception_type=type(error).__name__, issue_code="metadata_warmup_timeout")
                 exc = FinanceError("metadata_warmup_timeout", "Finance metadata warmup could not complete within its budget.", 503, True)
                 self._last_error = exc.as_dict()
                 if self._customers:

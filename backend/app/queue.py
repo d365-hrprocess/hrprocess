@@ -15,7 +15,7 @@ from fastapi import HTTPException
 
 from app.errors import IntegrationError
 from app.metadata import MetadataStore, encode
-from app.observability import log_context, log_event, stage, traced
+from app.observability import error_fields, log_context, log_event, stage, traced
 
 class SubmissionCoordinator:
     def __init__(self, settings, adapter, resumes, redis=None):
@@ -140,7 +140,12 @@ class SubmissionCoordinator:
                           state=record["stage"])
                 if record["fingerprint"] != fingerprint:
                     log_event("submission.idempotency", "rejected", level=logging.WARNING,
-                              reason="payload_mismatch")
+                              reason="payload_mismatch",
+                              resume_changed=record["payload"].get("resume_sha256") != hashlib.sha256(data).hexdigest(),
+                              contact_changed=any(record["payload"].get(field) != value for field, value in (
+                                  ("candidate_name", user.name), ("email", user.email),
+                                  ("phone", phone), ("linkedin_url", linkedin_url))),
+                              consent_changed=record["payload"].get("consent_version") != consent_version)
                     raise HTTPException(409, "Idempotency-Key was already used for a different application")
                 return await self.finish(key, record)
             log_event("submission.resume_store", "start", bytes_count=len(data))
@@ -273,7 +278,7 @@ class SubmissionCoordinator:
                 # Do not log candidate data or external responses. Keep
                 # durable state to permit a later recovery attempt.
                 log_event("submission.reconciliation_entry", "failed", level=logging.WARNING,
-                          reason="recovery_pending", exception_type=type(exc).__name__)
+                          reason="recovery_pending", **error_fields(exc))
             finally:
                 await lock.release()
         else:
