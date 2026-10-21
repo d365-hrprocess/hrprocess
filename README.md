@@ -41,6 +41,8 @@ See [complete Docker setup, transfer and troubleshooting](docs/docker-local.md).
 
 | Guide | Purpose |
 | --- | --- |
+| [Temporary finance demo](finance_demo/README.md) · [Copilot connector setup](finance_demo/copilot_customconnectorsetup.md) | Isolated Python 3.13.3 API under /finance, one new secret, Swagger 2.0 and rollback |
+| [ubticareers technical overview (PDF)](docs/reference/ubticareers-technical-overview.pdf) · [Word document](docs/reference/ubticareers-technical-overview.docx) | Concise technology stack, application flow, Azure hosting, GitHub CI/CD and access summary |
 | [Technical reference](docs/technical-reference.md) · [Word document](docs/reference/AI-Powered%20HR%20Recruitment%20Process%20Using%20D365%20-%20Technical%20Document.docx) | Architecture, processing flow, ERP mapping, AI validation, deployment, operations, limitations and roadmap |
 | [Business reference](docs/business-reference.md) · [Word document](docs/reference/AI-Powered%20HR%20Recruitment%20Process%20Using%20D365-%20Business%20Document.docx) | Phase 1 business journey, value, governance, responsibilities, pilot criteria and future phases |
 | [Local Docker handoff](docs/docker-local.md) | One-group startup, image export/import, certificates, recipient setup and data boundaries |

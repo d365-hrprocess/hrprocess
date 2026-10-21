@@ -1,0 +1,817 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ubticareers Finance Demo",
+    "version": "1.0.0",
+    "description": "Temporary D365 Finance customer demo scoped to USMF. Read customers and limited transaction history; modify only TEST-COPILOT- accounts. Confirm every write with the user. No posting, settlement or complete-balance calculation."
+  },
+  "host": "ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net",
+  "basePath": "/finance",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "FinanceDemoKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-Finance-Demo-Key",
+      "description": "Paste the privately derived connector key into the connection credential. Never supply the D365 client secret or make this an AI-filled tool parameter."
+    }
+  },
+  "security": [
+    {
+      "FinanceDemoKey": []
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "get": {
+        "operationId": "ListFinanceCustomers",
+        "summary": "List USMF customers",
+        "description": "Read a bounded set of USMF customers. Returned records are limited; no arbitrary filter or company input is accepted.",
+        "x-ms-summary": "List USMF customers",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 5,
+            "description": "Maximum number of records returned (1\u201320). Results are limited, not a full history or balance."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerListResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "CreateFinanceCustomer",
+        "summary": "Create a test USMF customer",
+        "description": "After explicit user confirmation, create an Organization customer only under TEST-COPILOT-. Uses USMF, customer group 20, currency INR and payment terms Net30. An uncertain outcome requires a read-back before any retry.",
+        "x-ms-summary": "Create a test USMF customer",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateCustomerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{account}": {
+      "get": {
+        "operationId": "GetFinanceCustomer",
+        "summary": "Get one USMF customer",
+        "description": "Read one exact customer account in USMF. A 404 means a successful exact lookup found no record; a timeout or permission error is not absence.",
+        "x-ms-summary": "Get one USMF customer",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._'-]{0,39}$",
+            "description": "Exact customer account in fixed legal entity USMF. Writes require the TEST-COPILOT- prefix."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "UpdateFinanceCustomer",
+        "summary": "Update a test customer name",
+        "description": "After explicit user confirmation, change only the organization name of an existing TEST-COPILOT- customer. No automatic write retries.",
+        "x-ms-summary": "Update a test customer name",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._'-]{0,39}$",
+            "description": "Exact customer account in fixed legal entity USMF. Writes require the TEST-COPILOT- prefix."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCustomerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CustomerResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteFinanceCustomer",
+        "summary": "Delete a test customer",
+        "description": "After explicit user confirmation, delete only an existing TEST-COPILOT- customer. ERP validation and related records may prevent deletion. Never force-delete related data.",
+        "x-ms-summary": "Delete a test customer",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._'-]{0,39}$",
+            "description": "Exact customer account in fixed legal entity USMF. Writes require the TEST-COPILOT- prefix."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DeleteCustomerResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{account}/transactions": {
+      "get": {
+        "operationId": "GetFinanceCustomerTransactions",
+        "summary": "Read recent customer transactions",
+        "description": "Read a bounded list of transactions for an exact USMF customer account. Amounts are decimal strings. The response is limited history, not a complete balance. Transaction capability can be unavailable independently of customer operations.",
+        "x-ms-summary": "Read recent customer transactions",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._'-]{0,39}$",
+            "description": "Exact customer account in fixed legal entity USMF. Writes require the TEST-COPILOT- prefix."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 10,
+            "description": "Maximum number of records returned (1\u201320). Results are limited, not a full history or balance."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TransactionListResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreateCustomerRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "customer_account",
+        "organization_name"
+      ],
+      "properties": {
+        "customer_account": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^TEST-COPILOT-[A-Za-z0-9._'-]+$",
+          "description": "Fresh demo account beginning with TEST-COPILOT-.",
+          "example": "TEST-COPILOT-001"
+        },
+        "organization_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "example": "Copilot Demo Customer"
+        }
+      }
+    },
+    "UpdateCustomerRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "organization_name"
+      ],
+      "properties": {
+        "organization_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "example": "Copilot Demo Customer Updated"
+        }
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "required": [
+        "customer_account",
+        "company"
+      ],
+      "properties": {
+        "customer_account": {
+          "type": "string"
+        },
+        "organization_name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "company": {
+          "type": "string",
+          "description": "Fixed USMF legal entity."
+        },
+        "currency": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "customer_group": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "payment_terms": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "CustomerTransaction": {
+      "type": "object",
+      "required": [
+        "customer_account",
+        "company"
+      ],
+      "properties": {
+        "customer_account": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "invoice": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "voucher": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "transaction_date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "due_date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "amount": {
+          "type": "string",
+          "x-nullable": true,
+          "description": "Exact decimal string from ERP, never a computed full balance.",
+          "example": "1250.00"
+        },
+        "currency": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "transaction_type": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "DeletedCustomer": {
+      "type": "object",
+      "required": [
+        "customer_account",
+        "company",
+        "deleted",
+        "verified"
+      ],
+      "properties": {
+        "customer_account": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ResultMetadata": {
+      "type": "object",
+      "required": [
+        "company"
+      ],
+      "properties": {
+        "company": {
+          "type": "string"
+        },
+        "limited": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "returned": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CustomerResponse": {
+      "type": "object",
+      "description": "Customer details or verified create/update result.",
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "data": {
+          "$ref": "#/definitions/Customer"
+        },
+        "meta": {
+          "$ref": "#/definitions/ResultMetadata"
+        }
+      }
+    },
+    "CustomerListResponse": {
+      "type": "object",
+      "description": "Limited customer records.",
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Customer"
+          }
+        },
+        "meta": {
+          "$ref": "#/definitions/ResultMetadata"
+        }
+      }
+    },
+    "TransactionListResponse": {
+      "type": "object",
+      "description": "Limited customer transaction records; no complete-balance claim.",
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomerTransaction"
+          }
+        },
+        "meta": {
+          "$ref": "#/definitions/ResultMetadata"
+        }
+      }
+    },
+    "DeleteCustomerResponse": {
+      "type": "object",
+      "description": "JSON confirmation after verified ERP deletion.",
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "data": {
+          "$ref": "#/definitions/DeletedCustomer"
+        },
+        "meta": {
+          "$ref": "#/definitions/ResultMetadata"
+        }
+      }
+    },
+    "FinanceError": {
+      "type": "object",
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "outcome_uncertain",
+        "verification_required"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "outcome_uncertain": {
+          "type": "boolean"
+        },
+        "verification_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "required": [
+        "success",
+        "error"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        },
+        "error": {
+          "$ref": "#/definitions/FinanceError"
+        }
+      }
+    }
+  }
+}

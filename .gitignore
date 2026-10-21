@@ -41,3 +41,7 @@ playwright-report/
 .DS_Store
 .idea/
 .vscode/
+
+# Private finance baseline captures and live-test reports
+finance-demo-baseline/
+finance_demo/.local/

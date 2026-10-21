@@ -65,3 +65,20 @@ jobs:
           done
           cd backend
           uv run --frozen --extra e2e python ../scripts/smoke.py
+
+  finance:
+    name: Verify isolated finance demo
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: finance_demo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.12.23'
+          python-version: '3.13.3'
+      - name: Install isolated locked dependencies
+        run: uv sync --frozen --extra dev --python 3.13.3
+      - name: Verify runtime, API, metadata and Swagger 2.0
+        run: uv run --frozen --extra dev pytest

@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
 # Azure App Service single-container image. Local Compose uses its own images.
+FROM python:3.13.3-slim-bookworm AS finance-python
+
 FROM node:22-bookworm-slim AS frontend-build
 WORKDIR /frontend
 COPY frontend/package.json frontend/package-lock.json ./
@@ -21,6 +23,21 @@ COPY backend/pyproject.toml backend/uv.lock ./
 RUN --mount=type=secret,id=build_ca_bundle \
     if [ -f /run/secrets/build_ca_bundle ]; then export SSL_CERT_FILE=/run/secrets/build_ca_bundle; fi; \
     uv sync --frozen --no-dev --no-install-project
+# The temporary finance API has its own exact interpreter and environment.
+# Copying its uniquely named shared library leaves the main Python 3.12 intact.
+RUN --mount=type=bind,from=finance-python,source=/usr/local,target=/finance-python,readonly \
+    --mount=type=bind,source=finance_demo,target=/finance-source,readonly \
+    --mount=type=secret,id=build_ca_bundle \
+    if [ -f /run/secrets/build_ca_bundle ]; then export SSL_CERT_FILE=/run/secrets/build_ca_bundle; fi; \
+    mkdir -p /opt/finance \
+    && cp -a /finance-python /opt/finance/python \
+    && cp /finance-python/lib/libpython3.13.so.1.0 /usr/local/lib/libpython3.13.so.1.0 \
+    && ldconfig \
+    && cp /finance-source/pyproject.toml /finance-source/uv.lock /opt/finance/ \
+    && cp -R /finance-source/finance_demo_api /finance-source/config /finance-source/connector /opt/finance/ \
+    && UV_PROJECT_ENVIRONMENT=/opt/finance/venv uv sync --project /opt/finance \
+      --python /opt/finance/python/bin/python3.13 --frozen --no-dev --no-install-project \
+    && /opt/finance/venv/bin/python -c "import sys; assert sys.version_info[:3] == (3, 13, 3)"
 COPY backend/app ./app
 COPY backend/docker ./docker
 COPY deploy/azure/entrypoint.sh deploy/azure/runtime.py deploy/azure/supervisord.conf deploy/azure/nginx.conf deploy/azure/redis.conf ./azure/
@@ -28,7 +45,7 @@ COPY --from=frontend-build /frontend/dist /var/www/frontend
 RUN useradd --uid 10001 --create-home talentmatch \
     && mkdir -p /tmp/talentmatch \
     && chown -R talentmatch:talentmatch /tmp/talentmatch \
-    && chmod -R a+rX /app /var/www/frontend \
+    && chmod -R a+rX /app /var/www/frontend /opt/finance \
     && sed -i 's/\r$//' /app/azure/entrypoint.sh \
     && chmod 755 /app/azure/entrypoint.sh
 ARG BUILD_REVISION=development
