@@ -32,6 +32,8 @@ Finance tests use mocked HTTP/ERP responses. They cover token caching/expiry ref
 
 Deprecation warnings come from upstream HTTPX/TestClient and JSON Schema resolver compatibility. No checks were disabled to turn a failure into a pass.
 
+CI follow-up: the original local finance run supplied `PYTHONPATH`, while CI's `uv run --frozen --extra dev pytest` did not. This caused four collection errors (`ModuleNotFoundError: finance_demo_api`). The finance pytest configuration now adds its own project directory with `pythonpath = ["."]`. The exact CI command was rerun successfully with `PYTHONPATH` explicitly unset: **85 passed** on Python 3.13.3. This changes test discovery only, not HR or finance runtime authentication/routing.
+
 ## Complete image and local HTTP regression checks
 
 The entire `Dockerfile.azure` built successfully, including the frontend, unchanged HR dependencies and isolated finance dependencies. The final local OCI image manifest is `sha256:6d0fc39d72c558cdf8628491e632afe378ceb89eef8ebf3678a6963ef446a5fa`; this is a local build reference, not an image pushed to ACR. An OCI image was exported locally. The default Docker VFS storage ran out of space, so a temporary separate BuildKit worker used `/tmp`; the existing daemon storage/default builder were not changed.
