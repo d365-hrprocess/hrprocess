@@ -4,7 +4,7 @@ No metadata or ERP credential is required by the HR application's health check.
 """
 import asyncio
 from contextlib import asynccontextmanager
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field as datafield
 from datetime import datetime, timezone
 import fcntl
 from hashlib import sha256
@@ -41,6 +41,7 @@ class EntitySchema:
     keys: tuple[str, ...]
     properties: dict[str, str]
     fields: dict[str, str]
+    enum_members: dict[str, list[str]] = datafield(default_factory=dict)
 
     def field(self, normalized: str) -> str:
         try:
@@ -64,7 +65,12 @@ class EntitySchema:
     def from_dict(cls, raw: dict) -> "EntitySchema":
         if not isinstance(raw, dict) or not isinstance(raw.get("properties"), dict) or not isinstance(raw.get("fields"), dict):
             raise ValueError("invalid schema")
-        result = cls(raw["entity_set"], raw["type_name"], tuple(raw["keys"]), raw["properties"], raw["fields"])
+        result = cls(raw["entity_set"], raw["type_name"], tuple(raw["keys"]), raw["properties"], raw["fields"], raw.get("enum_members", {}))
+        if not isinstance(result.enum_members, dict) or not all(
+            k in result.properties and isinstance(v, list) and all(isinstance(x, str) and NAME.fullmatch(x) for x in v)
+            for k, v in result.enum_members.items()
+        ):
+            raise ValueError("invalid enum members")
         if not NAME.fullmatch(result.entity_set) or not result.keys or not isinstance(result.type_name, str):
             raise ValueError("invalid entity")
         if not all(isinstance(k, str) and NAME.fullmatch(k) and isinstance(v, str) for k, v in result.properties.items()):
@@ -203,7 +209,9 @@ def parse_metadata(path: Path, settings: Settings) -> dict:
             raise FinanceError("metadata_entity_missing", f"The configured {name} entity set is absent.")
         props, keys = inherited(sets[name])
         mapping = _resolve_fields(props, choices)
-        return EntitySchema(name, qualified(sets[name]), tuple(keys), props, mapping)
+        props = {k: qualified(v) for k, v in props.items()}
+        return EntitySchema(name, qualified(sets[name]), tuple(keys), props, mapping,
+                            {k: enums[v] for k, v in props.items() if v in enums})
 
     customers = entity(settings.customers_entity, CUSTOMER_FIELDS)
     for label, property_name in customers.fields.items():

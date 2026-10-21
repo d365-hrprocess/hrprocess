@@ -109,9 +109,9 @@ Create/save the connector, then open **Test → New connection** and paste the p
 
 Test **GetFinanceCustomer** with account `AST-001`. A real JSON success is required; an HTML sign-in page, well-formed error or 503 is not a successful customer read. Test **GetFinanceCustomerTransactions** for `AST-001` with limit 10 separately.
 
-## 6. Add only the six business tools
+## 6. Add the business tools
 
-In Copilot Studio, open your agent → **Tools → Add a tool → Connector/custom connector**, select **Finance Demo USMF** and its connection. Add the operations below (the UI may show their friendly summaries):
+In Copilot Studio, open your agent → **Tools → Add a tool → Connector/custom connector**, select **Finance Demo USMF** and its connection. Add the baseline operations below (the UI may show their friendly summaries), then the eight v1.1.0 operations in section 11:
 
 | Operation ID | Purpose |
 |---|---|
@@ -166,3 +166,72 @@ Use the **Copilot Studio Test panel** for this controlled demo. Publishing/chann
 | D365 login failure | Verify client secret VALUE, not Secret ID, application authorization and actual secret validity. Do not paste D365 bearer tokens into Copilot. |
 
 Rotating `FINANCE_DEMO_CLIENT_SECRET` changes the derived connector key. Save only the new secret setting in App Service, restart/reload as required, privately run the CLI again and update/recreate the Copilot connection credential. Existing connector keys will stop working. Keep the new value out of logs and source control.
+
+## 11. Upgrade the existing connector for complete financial reports
+
+This add-on includes balances, open/overdue invoices, exact invoice remaining amounts, payment history and company reports. Chart functionality is excluded at your request. No new App Service setting, key, Azure service or deployment change is needed. Keep the current customer CRUD and recent-history tools.
+
+1. Build/deploy the new revision through the existing authorized ACR/App Service pipeline. Metadata parser/cache version 2 rewarms once to capture actual enum members. Original HR health is independent.
+2. Privately call the protected `/finance/ready`. Existing customer/transaction capabilities should remain readable. Inspect `data.reporting`: `schema_verified` means the required AmountCur/SettleAmountCur properties, keys and actual LedgerTransType members were resolved. This is not proof of live ERP amount reconciliation. Unsupported reporting fields/types disable only the add-on.
+3. Power Apps → Custom connectors → existing **FinanceDemoUSMF → Edit → Update from OpenAPI file**, upload the updated `finance_demo/connector/swagger2.json` (version **1.1.0**), save/update. Keep the existing host, `/finance` base path and API key connection. If your UI has no file-update command, import a versioned connector and switch tools only after testing; retain the old working connector until then.
+4. Refresh the connection and test the new actions. First complete-data request returns retryable `report_preparing` promptly. Wait five seconds and repeat the same request. Full scans prepare separately with a 120-second budget, at most 50,000 records per source and 2,000 pages. Bound violations and later-page failures return errors, never partial balances. Completed results are cached for 60 seconds with disclosed age/fetch window; at most two scopes are retained in the existing single finance worker. Output pagination up to 100 rows does not limit underlying calculations.
+5. Copilot Studio → your agent → Tools: refresh/select and add all seven new operations below. Backend deployment and connector updates do not automatically add agent tools. Select **Shared account → FinanceDemoUSMF** for the demo audience; operations use the backend application's permissions, not each user's D365 roles.
+
+| New operation ID | Inputs |
+|---|---|
+| GetCustomerBalance | account; optional currency |
+| GetCustomerOpenInvoices | account; optional currency, limit, offset |
+| GetCustomerOverdueInvoices | account; optional currency, as_of_date, limit, offset |
+| GetInvoiceRemainingAmount | account, invoice_number; optional currency |
+| GetCustomerPaymentHistory | account; optional currency, date_from, date_to, limit, offset |
+| ListCustomerBalances | optional currency, limit, offset; no account |
+| ListOverdueCustomers | optional currency, as_of_date, limit, offset; no account |
+
+6. Replace the old Instructions text with the updated **copilot_instructions.md**, save, and start a fresh test conversation. This removes the old blanket refusal for outstanding/overdue, while retaining the prohibition on calculating balances from the limited recent-history tool. Keep explicit confirmation enabled for all three existing CRUD write tools. New financial tools are read-only.
+7. Run these prompts and inspect actual tool traces:
+
+- “Show AST-001's outstanding balance and open invoices.” Expect GetCustomerBalance/GetCustomerOpenInvoices.
+- “How much does AST-001 owe?” Expect GetCustomerBalance, with separate currencies/net/invoice/credit totals.
+- “What remains on invoice FTI-00000022 for AST-001?” Expect GetInvoiceRemainingAmount. This example is not a claim the invoice exists; report absence/ambiguity honestly.
+- “Which AST-001 invoices are overdue as of 2026-10-21?” Expect GetCustomerOverdueInvoices.
+- “List overdue customers in USMF as of 2026-10-21.” Expect ListOverdueCustomers without forcing an account.
+- “Show customers' outstanding amounts in INR.” Expect ListCustomerBalances, positive-net display filter and separate all-source totals.
+- “Show AST-001 payment history in INR.” Expect GetCustomerPaymentHistory, not the limited recent preview.
+- Test missing account clarification for customer-specific requests, no account question for company reports, mixed currencies, empty results, exact invoice ambiguity, further output pages, preparing/failure and unknown dates/classifications.
+- Repeat fresh TEST-COPILOT- CRUD with confirmation and cancellation using section 9. Ordinary customer writes remain prohibited.
+
+Actual routes, all protected by the existing X-Finance-Demo-Key header (GET, no body):
+
+```text
+https://ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net/finance/customers/AST-001/balance?currency=INR
+https://ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net/finance/customers/AST-001/open-invoices?currency=INR
+https://ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net/finance/customers/AST-001/overdue-invoices?currency=INR&as_of_date=2026-10-21
+https://ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net/finance/customers/AST-001/invoices/FTI-00000022?currency=INR
+https://ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net/finance/customers/AST-001/payments?currency=INR
+https://ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net/finance/reports/customer-balances?currency=INR
+https://ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net/finance/reports/overdue-customers?currency=INR&as_of_date=2026-10-21
+```
+
+### Amount basis and reconciliation
+
+Original minus settled AmountCur gives signed remaining amounts in transaction currency. Gross positive invoice totals are separate from net customer balances and negative unapplied credits. All source pages are read; output pagination does not change totals. Invoice/overdue classification is restricted to metadata-verified named types. Unknown types/amounts/dates are never guessed; inspect classification flags and unknown counts/amounts. An incomplete classification is disclosed even if net balance scanning is complete.
+
+Due today is not overdue. Sentinel/missing dates are unknown. A past as_of_date changes date eligibility using **current** remaining values; it does not reconstruct historical settlement balances. Compare with the same posted D365 company/account/currency records and original/settled/remaining values, not an ERP screen showing accounting currency or a historical settlement reconstruction. Observe fetch window and 60-second cache age; OData pagination is not an ERP-wide point-in-time snapshot.
+
+Run the read-only deployed helper from finance_demo with the same secret available privately:
+
+```sh
+uv run --frozen python scripts/verify_reporting.py --account AST-001 --currency INR --as-of-date 2026-10-21
+```
+
+Optional `--invoice-number` must name an actual posted invoice. The helper does not create/update/delete customers or test Copilot. The original verify_deployed.py helper retains its explicit --allow-writes gate for fresh test-account CRUD.
+
+| Result | Meaning/action |
+|---|---|
+| report_preparing / report_busy | Complete scan preparing; repeat the same read after five seconds. Do not manufacture a total from recent history. |
+| report_scan_timeout / record/page/size limit | Full scan could not finish within bounds; no final totals are available. Review scope/volume, not a partial-source workaround. |
+| financial_fields_unverified / financial_enum_unverified | Monetary field/type/enum contract unsupported or unverified; inspect protected metadata diagnostics. Baseline tools remain separate. |
+| invoice_ambiguous | Inspect posted invoice rows and qualify currency/voucher/key; never pick the first. |
+| Old outstanding/overdue refusal | Update connector, add the seven new tools, replace instructions, save and start a fresh conversation. |
+
+Record mocked checks, live ERP reconciliation, deployed API checks and actual Copilot tests separately in VERIFICATION.md. Passing mocked arithmetic checks is not proof that the live environment's amounts or agent answers were verified.

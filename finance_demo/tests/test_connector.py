@@ -17,6 +17,9 @@ OPERATIONS = {
     "CreateFinanceCustomer",
     "UpdateFinanceCustomer",
     "DeleteFinanceCustomer",
+    "GetCustomerBalance", "GetCustomerOpenInvoices", "GetCustomerOverdueInvoices",
+    "GetInvoiceRemainingAmount", "GetCustomerPaymentHistory", "ListCustomerBalances",
+    "ListOverdueCustomers",
 }
 
 
@@ -45,12 +48,15 @@ def test_actual_target_and_single_prefix():
     assert all(not path.startswith("/finance") for path in SPEC["paths"])
 
 
-def test_only_six_named_business_operations():
+def test_only_thirteen_named_business_operations():
     ids = [operation["operationId"] for _, _, operation in operations()]
-    assert len(ids) == len(set(ids)) == 6
+    assert len(ids) == len(set(ids)) == 13
     assert set(ids) == OPERATIONS
     assert set(SPEC["paths"]) == {
-        "/customers", "/customers/{account}", "/customers/{account}/transactions"
+        "/customers", "/customers/{account}", "/customers/{account}/transactions",
+        "/customers/{account}/balance", "/customers/{account}/open-invoices",
+        "/customers/{account}/overdue-invoices", "/customers/{account}/invoices/{invoice_number}",
+        "/customers/{account}/payments", "/reports/customer-balances", "/reports/overdue-customers"
     }
     assert not any(word in path for path in SPEC["paths"] for word in ("health", "ready", "metadata", "swagger", "key"))
 
@@ -69,11 +75,11 @@ def test_key_is_connection_auth_not_ai_tool_input():
 
 def test_limits_are_bounded_and_no_arbitrary_query_inputs():
     for _, _, operation in operations():
-        assert all(p["name"] in {"account", "limit", "body"} for p in operation["parameters"])
+        assert all(p["name"] in {"account", "limit", "body", "currency", "as_of_date", "date_from", "date_to", "invoice_number", "offset"} for p in operation["parameters"])
         for parameter in operation["parameters"]:
             if parameter["name"] == "limit":
                 assert parameter["minimum"] == 1
-                assert parameter["maximum"] == 20
+                assert parameter["maximum"] == (20 if operation["operationId"] in {"ListFinanceCustomers", "GetFinanceCustomerTransactions"} else 100)
                 assert 1 <= parameter["default"] <= 20
 
 
@@ -122,7 +128,7 @@ def test_explicit_json_success_and_error_responses():
     assert SPEC["consumes"] == ["application/json"]
     assert SPEC["produces"] == ["application/json"]
     for _, method, operation in operations():
-        success_status = "201" if method == "post" else "200"
+        success_status = "201" if operation["operationId"] == "CreateFinanceCustomer" else "200"
         assert success_status in operation["responses"]
         for status in ["401", "403", "404", "409", "422", "503", "504", "default"]:
             assert operation["responses"][status]["schema"] == {"$ref": "#/definitions/ErrorResponse"}

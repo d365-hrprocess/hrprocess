@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "ubticareers Finance Demo",
-    "version": "1.0.0",
-    "description": "Temporary D365 Finance customer demo scoped to USMF. Read customers and limited transaction history; modify only TEST-COPILOT- accounts. Confirm every write with the user. No posting, settlement or complete-balance calculation."
+    "version": "1.1.0",
+    "description": "USMF customer demo: existing customer CRUD and limited recent history, plus separate complete-data posted receivables, invoice remaining amounts, overdue reports . Writes only to TEST-COPILOT- accounts with confirmation. No posting or settlement."
   },
   "host": "ubtihrprocess-egg3f7awbsbjdjd5.centralindia-01.azurewebsites.net",
   "basePath": "/finance",
@@ -503,6 +503,750 @@
           }
         }
       }
+    },
+    "/customers/{account}/balance": {
+      "get": {
+        "operationId": "GetCustomerBalance",
+        "summary": "Read complete current customer balance",
+        "x-ms-summary": "Read complete current customer balance",
+        "x-ms-visibility": "important",
+        "description": "Read-only D365 operation. Complete scans prepare in the background: report_preparing is retryable; repeat the same request after five seconds. Never infer final totals from partial scans or recent-history records. Inspect completeness, currency, unknown classification counts and fetch window. Read complete current customer balance",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Exact USMF customer account, for example AST-001."
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "Optional transaction currency. Omit to keep all currencies as separate totals."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified result, with explicit scope and completeness",
+            "schema": {
+              "$ref": "#/definitions/CustomerBalanceResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "Invalid or unsafe upstream reporting data",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{account}/open-invoices": {
+      "get": {
+        "operationId": "GetCustomerOpenInvoices",
+        "summary": "Read open posted invoice remaining amounts",
+        "x-ms-summary": "Read open posted invoice remaining amounts",
+        "x-ms-visibility": "important",
+        "description": "Read-only D365 operation. Complete scans prepare in the background: report_preparing is retryable; repeat the same request after five seconds. Never infer final totals from partial scans or recent-history records. Inspect completeness, currency, unknown classification counts and fetch window. Read open posted invoice remaining amounts",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Exact USMF customer account, for example AST-001."
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "Optional transaction currency. Omit to keep all currencies as separate totals."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Displayed rows only; complete source calculations are not limited."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100000,
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified result, with explicit scope and completeness",
+            "schema": {
+              "$ref": "#/definitions/PostedFinancialListResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "Invalid or unsafe upstream reporting data",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{account}/overdue-invoices": {
+      "get": {
+        "operationId": "GetCustomerOverdueInvoices",
+        "summary": "Read overdue customer invoices",
+        "x-ms-summary": "Read overdue customer invoices",
+        "x-ms-visibility": "important",
+        "description": "Read-only D365 operation. Complete scans prepare in the background: report_preparing is retryable; repeat the same request after five seconds. Never infer final totals from partial scans or recent-history records. Inspect completeness, currency, unknown classification counts and fetch window. Read overdue customer invoices",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Exact USMF customer account, for example AST-001."
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "Optional transaction currency. Omit to keep all currencies as separate totals."
+          },
+          {
+            "name": "as_of_date",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "description": "YYYY-MM-DD; defaults to business today in Asia/Kolkata. Past cutoff does not reconstruct historical settlements."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Displayed rows only; complete source calculations are not limited."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100000,
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified result, with explicit scope and completeness",
+            "schema": {
+              "$ref": "#/definitions/PostedFinancialListResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "Invalid or unsafe upstream reporting data",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{account}/invoices/{invoice_number}": {
+      "get": {
+        "operationId": "GetInvoiceRemainingAmount",
+        "summary": "Read exact posted invoice remaining amount",
+        "x-ms-summary": "Read exact posted invoice remaining amount",
+        "x-ms-visibility": "important",
+        "description": "Read-only D365 operation. Complete scans prepare in the background: report_preparing is retryable; repeat the same request after five seconds. Never infer final totals from partial scans or recent-history records. Inspect completeness, currency, unknown classification counts and fetch window. Read exact posted invoice remaining amount",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Exact USMF customer account, for example AST-001."
+          },
+          {
+            "name": "invoice_number",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "Optional transaction currency. Omit to keep all currencies as separate totals."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified result, with explicit scope and completeness",
+            "schema": {
+              "$ref": "#/definitions/PostedInvoiceResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "Invalid or unsafe upstream reporting data",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{account}/payments": {
+      "get": {
+        "operationId": "GetCustomerPaymentHistory",
+        "summary": "Read complete-source posted payment history",
+        "x-ms-summary": "Read complete-source posted payment history",
+        "x-ms-visibility": "important",
+        "description": "Read-only D365 operation. Complete scans prepare in the background: report_preparing is retryable; repeat the same request after five seconds. Never infer final totals from partial scans or recent-history records. Inspect completeness, currency, unknown classification counts and fetch window. Read complete-source posted payment history",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Exact USMF customer account, for example AST-001."
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "Optional transaction currency. Omit to keep all currencies as separate totals."
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Displayed rows only; complete source calculations are not limited."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100000,
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified result, with explicit scope and completeness",
+            "schema": {
+              "$ref": "#/definitions/PostedFinancialListResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "Invalid or unsafe upstream reporting data",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reports/customer-balances": {
+      "get": {
+        "operationId": "ListCustomerBalances",
+        "summary": "List USMF customer outstanding balances",
+        "x-ms-summary": "List USMF customer outstanding balances",
+        "x-ms-visibility": "important",
+        "description": "Read-only D365 operation. Complete scans prepare in the background: report_preparing is retryable; repeat the same request after five seconds. Never infer final totals from partial scans or recent-history records. Inspect completeness, currency, unknown classification counts and fetch window. List USMF customer outstanding balances",
+        "parameters": [
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "Optional transaction currency. Omit to keep all currencies as separate totals."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Displayed rows only; complete source calculations are not limited."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100000,
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified result, with explicit scope and completeness",
+            "schema": {
+              "$ref": "#/definitions/FinancialReportResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "Invalid or unsafe upstream reporting data",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reports/overdue-customers": {
+      "get": {
+        "operationId": "ListOverdueCustomers",
+        "summary": "List overdue customers across USMF",
+        "x-ms-summary": "List overdue customers across USMF",
+        "x-ms-visibility": "important",
+        "description": "Read-only D365 operation. Complete scans prepare in the background: report_preparing is retryable; repeat the same request after five seconds. Never infer final totals from partial scans or recent-history records. Inspect completeness, currency, unknown classification counts and fetch window. List overdue customers across USMF",
+        "parameters": [
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "Optional transaction currency. Omit to keep all currencies as separate totals."
+          },
+          {
+            "name": "as_of_date",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "description": "YYYY-MM-DD; defaults to business today in Asia/Kolkata. Past cutoff does not reconstruct historical settlements."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Displayed rows only; complete source calculations are not limited."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100000,
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified result, with explicit scope and completeness",
+            "schema": {
+              "$ref": "#/definitions/FinancialReportResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid connector credential",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Operation not permitted",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Exact customer not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Customer account already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Finance warming, disabled, unconfigured or upstream unavailable",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "504": {
+            "description": "Upstream request timed out; a write may have an uncertain outcome",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect the typed error before deciding next steps",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "Invalid or unsafe upstream reporting data",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -810,6 +1554,452 @@
         },
         "error": {
           "$ref": "#/definitions/FinanceError"
+        }
+      }
+    },
+    "FinancialSummary": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string"
+        },
+        "customer_account": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "net_balance": {
+          "type": "string"
+        },
+        "debit_open_total": {
+          "type": "string"
+        },
+        "credit_open_total": {
+          "type": "string"
+        },
+        "open_invoice_total": {
+          "type": "string"
+        },
+        "overdue_total": {
+          "type": "string"
+        },
+        "unknown_due_date_amount": {
+          "type": "string"
+        },
+        "unclassified_positive_open_amount": {
+          "type": "string"
+        },
+        "unknown_transaction_date_amount": {
+          "type": "string"
+        },
+        "organization_name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "oldest_due_date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "invoice_classification_complete": {
+          "type": "boolean"
+        },
+        "open_item_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "overdue_invoice_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "unknown_due_date_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "unclassified_positive_open_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "unknown_transaction_date_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "customer_count": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "currency",
+        "net_balance"
+      ]
+    },
+    "PostedFinancialRecord": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string"
+        },
+        "customer_account": {
+          "type": "string"
+        },
+        "organization_name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "currency": {
+          "type": "string"
+        },
+        "invoice": {
+          "type": "string"
+        },
+        "voucher": {
+          "type": "string"
+        },
+        "transaction_date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "due_date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "original_amount": {
+          "type": "string"
+        },
+        "settled_amount": {
+          "type": "string"
+        },
+        "remaining_amount": {
+          "type": "string"
+        },
+        "transaction_type": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "classification": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "payment_date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "received_amount": {
+          "type": "string"
+        },
+        "record_key": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "classification_verified": {
+          "type": "boolean"
+        },
+        "is_overdue": {
+          "type": "boolean"
+        },
+        "days_overdue": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "company",
+        "customer_account",
+        "currency",
+        "original_amount",
+        "settled_amount",
+        "remaining_amount",
+        "record_key"
+      ]
+    },
+    "PaymentPeriodTotal": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "received_amount": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "FinancialMetadata": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string"
+        },
+        "customer_account": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "currency_filter": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "source_entity": {
+          "type": "string"
+        },
+        "fetch_started_at": {
+          "type": "string"
+        },
+        "fetched_at": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "consistency_note": {
+          "type": "string"
+        },
+        "as_of_date": {
+          "type": "string"
+        },
+        "business_timezone": {
+          "type": "string"
+        },
+        "pagination_basis": {
+          "type": "string"
+        },
+        "display_filter": {
+          "type": "string"
+        },
+        "classification_note": {
+          "type": "string"
+        },
+        "date_from": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "date_to": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "payment_classification_note": {
+          "type": "string"
+        },
+        "source_record_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "source_customer_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "transaction_pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "customer_pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cache_ttl_seconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "total_rows": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "returned": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "next_offset": {
+          "type": "integer",
+          "format": "int32",
+          "x-nullable": true
+        },
+        "cache_age_seconds": {
+          "type": "number"
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "snapshot_isolation": {
+          "type": "boolean"
+        },
+        "invoice_classification_complete": {
+          "type": "boolean"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "source_key_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "totals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FinancialSummary"
+          }
+        },
+        "displayed_filter_totals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FinancialSummary"
+          }
+        },
+        "payment_period_totals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentPeriodTotal"
+          }
+        },
+        "payments_with_unknown_date": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentPeriodTotal"
+          }
+        },
+        "overdue_classification_complete": {
+          "type": "boolean"
+        },
+        "unclassified_transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnclassifiedTransaction"
+          }
+        },
+        "missing_customer_name_count": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "CustomerBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "balances": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FinancialSummary"
+              }
+            },
+            "totals": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FinancialSummary"
+              }
+            }
+          },
+          "required": [
+            "balances",
+            "totals"
+          ]
+        },
+        "meta": {
+          "$ref": "#/definitions/FinancialMetadata"
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ]
+    },
+    "FinancialReportResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FinancialSummary"
+          }
+        },
+        "meta": {
+          "$ref": "#/definitions/FinancialMetadata"
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ]
+    },
+    "PostedFinancialListResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostedFinancialRecord"
+          }
+        },
+        "meta": {
+          "$ref": "#/definitions/FinancialMetadata"
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ]
+    },
+    "PostedInvoiceResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/PostedFinancialRecord"
+        },
+        "meta": {
+          "$ref": "#/definitions/FinancialMetadata"
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ]
+    },
+    "UnclassifiedTransaction": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "original_amount": {
+          "type": "string"
         }
       }
     }

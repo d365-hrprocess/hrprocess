@@ -49,7 +49,7 @@ These source/mock/schema tests do not require a real finance secret and do not m
 
 ## Copilot and operations
 
-- Import `connector/swagger2.json` (six business operations only).
+- Import `connector/swagger2.json` (13 business operations: six original tools and seven financial reporting tools).
 - Follow [the exact custom connector setup](copilot_customconnectorsetup.md).
 - Paste [the final agent instructions](copilot_instructions.md).
 - Enable user confirmation for create, update and delete tools.
@@ -66,3 +66,13 @@ The public hostname is populated from the existing deployment configuration. See
 5. Verify the original `/healthz`, careers and HR routes, then follow the protected finance readiness and Copilot connection steps. A successful HR health check alone does not validate finance.
 
 For authorized live verification from a secure machine with the same secret privately set, run `uv run --frozen python scripts/verify_deployed.py` from `finance_demo/`. It performs only reads. To explicitly authorize a complete live demo CRUD sequence against an unused account, run `uv run --frozen python scripts/verify_deployed.py --allow-writes --account TEST-COPILOT-102101`. Use a fresh account and record any uncertain/surviving record; the script never retries writes or automatically cleans up after a failed sequence. Actual Copilot tool execution must still be checked separately in its Test panel.
+
+## Complete posted-financial reporting add-on (v1.1.0)
+
+Existing CRUD, recent-history routes, auth/key and HR runtime remain intact. New read-only tools cover per-customer signed balances, positive open invoices, overdue invoices, exact posted invoice remaining amounts (including settled invoices), complete-source payment history and company-wide outstanding/overdue customers. QuickChart and chart endpoints are excluded from this change at the user's request.
+
+Calculations use all accessible pages of CustTransBiEntities in USMF and metadata-verified AmountCur/SettleAmountCur, record keys and LedgerTransType members. Customer names join against paginated CustomersV3, without a 20-customer reporting cap. No total comes from the old limited history endpoint. Decimal arithmetic preserves signed credits/payments and separates currencies. Unknown classifications/dates are disclosed; malformed amounts or incomplete scans cannot produce final totals. Past cutoff dates use current remaining amounts and do not reconstruct historical settlements.
+
+The first reporting request starts a bounded background scan and returns retryable report_preparing; repeat after five seconds. Only completed results are published, cached for 60 seconds and labeled with source counts, fetch window, scope and cache age. Output pagination defaults to 10, maximum 100, independently of calculations. Source budgets and business timezone Asia/Kolkata are in the existing finance settings file; no extra App Service variable is needed.
+
+After normal image deployment, update the existing custom connector from connector/swagger2.json, select/add its seven new operations and replace the old agent instructions. See section 11 of copilot_customconnectorsetup.md. These Power Platform changes cannot be applied by backend deployment alone. Live financial reconciliation and actual Copilot tool tests must be performed separately; source tests are not proof of either.

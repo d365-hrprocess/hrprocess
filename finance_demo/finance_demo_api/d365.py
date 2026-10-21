@@ -4,7 +4,7 @@ from decimal import Decimal
 import json as jsonlib
 import math
 import time
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, urljoin, urlsplit
 
 import httpx
 
@@ -135,3 +135,66 @@ class D365Client:
     async def json_request(self, method: str, path: str, *, params=None, json=None):
         response = await self.request(method, path, params=params, json=json)
         return parse_json(response)
+
+    async def reporting_page(self, entity: str, original_params: dict, next_link: str | None = None):
+        """GET one bounded page. Never forward bearer tokens to a nextLink host.
+
+        Scope/select/order invariants are retained even if a server omits them
+        from its nextLink. An explicitly changed invariant fails closed.
+        """
+        target = self.url(entity)
+        params = dict(original_params)
+        if next_link is not None:
+            if not isinstance(next_link, str) or len(next_link) > 16384:
+                raise FinanceError("unsafe_pagination_link", "D365 returned an invalid pagination link.", 502)
+            candidate = urlsplit(urljoin(target, next_link))
+            expected = urlsplit(target)
+            try:
+                valid = (candidate.scheme == "https" and candidate.hostname == expected.hostname
+                         and candidate.port in (None, 443) and not candidate.username and not candidate.password
+                         and not candidate.fragment and candidate.path == expected.path)
+            except ValueError:
+                valid = False
+            pairs = parse_qsl(candidate.query, keep_blank_values=True)
+            query = dict(pairs)
+            allowed = set(original_params) | {"$skiptoken", "$skip"}
+            if (not valid or len(query) != len(pairs) or set(query) - allowed
+                    or any(k in query and query[k] != v for k, v in original_params.items())
+                    or not ({"$skiptoken", "$skip"} & query.keys())):
+                raise FinanceError("unsafe_pagination_link", "D365 pagination changed the approved entity, scope or query.", 502)
+            params.update(query)
+        try:
+            async with asyncio.timeout(self.settings.request_total_timeout_seconds):
+                for attempt in range(self.settings.read_retry_attempts):
+                    token = await self.access_token()
+                    try:
+                        async with self.http.stream("GET", target, params=params, headers={
+                            "Authorization": "Bearer " + token,
+                            "Accept": "application/json;IEEE754Compatible=true",
+                            "OData-Version": "4.0",
+                            "Prefer": f"odata.maxpagesize={self.settings.reporting_page_size}",
+                        }) as response:
+                            if response.status_code == 401 and attempt + 1 < self.settings.read_retry_attempts:
+                                self._token_deadline = 0
+                                continue
+                            if response.status_code in (429, 500, 502, 503, 504) and attempt + 1 < self.settings.read_retry_attempts:
+                                await asyncio.sleep(min(2 ** attempt, 2))
+                                continue
+                            if response.status_code != 200:
+                                raise self._error(response, write=False)
+                            content = bytearray()
+                            async for block in response.aiter_bytes():
+                                content.extend(block)
+                                if len(content) > self.settings.reporting_page_maximum_bytes:
+                                    raise FinanceError("report_page_size_limit", "A reporting page exceeded the configured size budget; no total is available.", 503)
+                            try:
+                                return jsonlib.loads(content, parse_float=Decimal)
+                            except (ValueError, UnicodeError):
+                                raise FinanceError("d365_invalid_response", "D365 returned invalid reporting JSON.", 502) from None
+                    except httpx.HTTPError:
+                        if attempt + 1 == self.settings.read_retry_attempts:
+                            raise FinanceError("d365_network_error", "The complete reporting scan could not finish; no total is available.", 503, True) from None
+                        await asyncio.sleep(min(2 ** attempt, 2))
+        except TimeoutError:
+            raise FinanceError("report_page_timeout", "A D365 reporting page timed out; no total is available.", 503, True) from None
+        raise FinanceError("d365_unavailable", "The complete reporting scan could not finish.", 503, True)

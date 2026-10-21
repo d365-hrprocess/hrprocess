@@ -29,7 +29,19 @@
   "token_timeout_seconds": 15,
   "cache_directory": "/tmp/ubticareers-finance-metadata",
   "prefer_persistent_cache": true,
-  "parser_config_version": 1,
+  "parser_config_version": 2,
   "business_operation_timeout_seconds": 25,
-  "schema_version": 1
+  "schema_version": 1,
+  "business_timezone": "Asia/Kolkata",
+  "reporting_scan_timeout_seconds": 120,
+  "reporting_cache_ttl_seconds": 60,
+  "reporting_retry_after_seconds": 5,
+  "reporting_maximum_records": 50000,
+  "reporting_maximum_pages": 2000,
+  "reporting_page_maximum_bytes": 4194304,
+  "reporting_maximum_cached_scopes": 2,
+  "reporting_page_size": 500,
+  "reporting_default_output_limit": 10,
+  "reporting_maximum_output_limit": 100,
+  "reporting_maximum_offset": 100000
 }

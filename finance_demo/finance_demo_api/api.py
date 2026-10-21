@@ -19,6 +19,7 @@ from .business import ACCOUNT_PATTERN, FinanceBusiness
 from .d365 import D365Client
 from .errors import FinanceError
 from .metadata import MetadataManager
+from .reporting import FinanceReporting
 from .settings import Settings
 
 
@@ -144,6 +145,7 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
     client = client or D365Client(settings)
     metadata = metadata or MetadataManager(settings, client)
     business = FinanceBusiness(settings, client, metadata)
+    reporting = FinanceReporting(settings, client, metadata)
 
     @asynccontextmanager
     async def lifespan(application):
@@ -152,6 +154,7 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
         if settings.enabled:
             metadata.start()
         yield
+        await reporting.close()
         await metadata.close()
         if not supplied_client:
             await client.close()
@@ -163,6 +166,7 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
     application.state.settings = settings
     application.state.metadata = metadata
     application.state.business = business
+    application.state.reporting = reporting
 
     @application.middleware("http")
     async def guard(request: Request, call_next):
@@ -227,11 +231,11 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
     @application.get("/ready", include_in_schema=False)
     async def ready():
         metadata.require_customers()
-        return success(metadata.status(), meta={"company": settings.company})
+        return success({**metadata.status(), "reporting": reporting.status()}, meta={"company": settings.company})
 
     @application.get("/metadata/status", include_in_schema=False)
     async def metadata_status():
-        return success(metadata.status(), meta={"company": settings.company})
+        return success({**metadata.status(), "reporting": reporting.status()}, meta={"company": settings.company})
 
     @application.get("/swagger2.json", include_in_schema=False)
     async def swagger():
@@ -251,6 +255,48 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
     async def transactions(account: str, limit: int = Query(default=10, ge=1, le=settings.maximum_list_limit)):
         data, meta = await operation(business.transactions(account, limit))
         return success(data, meta=meta, data_model=list[TransactionRecord])
+
+    async def financial(metric, **kwargs):
+        data, meta = await operation(reporting.report(metric, **kwargs))
+        return success(data, meta=meta)
+
+    @application.get("/customers/{account}/balance", operation_id="GetCustomerBalance", response_model=SuccessResponse)
+    async def balance(account: str, currency: str | None = None):
+        return await financial("balance", account=account, currency=currency)
+
+    @application.get("/customers/{account}/open-invoices", operation_id="GetCustomerOpenInvoices", response_model=SuccessResponse)
+    async def open_invoices(account: str, currency: str | None = None,
+            limit: int = Query(default=settings.reporting_default_output_limit, ge=1, le=settings.reporting_maximum_output_limit),
+            offset: int = Query(default=0, ge=0, le=settings.reporting_maximum_offset)):
+        return await financial("open_invoices", account=account, currency=currency, limit=limit, offset=offset)
+
+    @application.get("/customers/{account}/overdue-invoices", operation_id="GetCustomerOverdueInvoices", response_model=SuccessResponse)
+    async def overdue_invoices(account: str, currency: str | None = None, as_of_date: str | None = None,
+            limit: int = Query(default=settings.reporting_default_output_limit, ge=1, le=settings.reporting_maximum_output_limit),
+            offset: int = Query(default=0, ge=0, le=settings.reporting_maximum_offset)):
+        return await financial("overdue_invoices", account=account, currency=currency, as_of_date=as_of_date, limit=limit, offset=offset)
+
+    @application.get("/customers/{account}/invoices/{invoice_number}", operation_id="GetInvoiceRemainingAmount", response_model=SuccessResponse)
+    async def invoice(account: str, invoice_number: str, currency: str | None = None):
+        return await financial("invoice", account=account, invoice_number=invoice_number, currency=currency)
+
+    @application.get("/customers/{account}/payments", operation_id="GetCustomerPaymentHistory", response_model=SuccessResponse)
+    async def payments(account: str, currency: str | None = None, date_from: str | None = None, date_to: str | None = None,
+            limit: int = Query(default=settings.reporting_default_output_limit, ge=1, le=settings.reporting_maximum_output_limit),
+            offset: int = Query(default=0, ge=0, le=settings.reporting_maximum_offset)):
+        return await financial("payments", account=account, currency=currency, date_from=date_from, date_to=date_to, limit=limit, offset=offset)
+
+    @application.get("/reports/customer-balances", operation_id="ListCustomerBalances", response_model=SuccessResponse)
+    async def customer_balances(currency: str | None = None,
+            limit: int = Query(default=settings.reporting_default_output_limit, ge=1, le=settings.reporting_maximum_output_limit),
+            offset: int = Query(default=0, ge=0, le=settings.reporting_maximum_offset)):
+        return await financial("customer_balances", currency=currency, limit=limit, offset=offset)
+
+    @application.get("/reports/overdue-customers", operation_id="ListOverdueCustomers", response_model=SuccessResponse)
+    async def overdue_customers(currency: str | None = None, as_of_date: str | None = None,
+            limit: int = Query(default=settings.reporting_default_output_limit, ge=1, le=settings.reporting_maximum_output_limit),
+            offset: int = Query(default=0, ge=0, le=settings.reporting_maximum_offset)):
+        return await financial("overdue_customers", currency=currency, as_of_date=as_of_date, limit=limit, offset=offset)
 
     @application.get("/customers/{account}", operation_id="GetFinanceCustomer", response_model=CustomerResponse)
     async def customer(account: str):

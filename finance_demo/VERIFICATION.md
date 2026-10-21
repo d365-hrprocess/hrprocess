@@ -69,3 +69,20 @@ Run the explicit `scripts/verify_deployed.py` check only after deploying and con
 ## Rollback
 
 Follow `ROLLBACK.md`: restore the privately captured original image/configuration, remove only finance hooks/config and the new secret setting, and disable/remove only the demo connector. Source/image removal does not delete ERP data or shared infrastructure.
+
+## Reporting add-on, 21 October 2026 (charts excluded)
+
+The user explicitly deferred QuickChart; this revision adds only seven financial GET routes and expands the existing connector to 13 operations. No chart service calls, chart routes or extra credentials are included. All changes are confined to finance_demo; Dockerfile, dependency locks, original HR source, frontend, deployment pipeline and nginx/supervisor configuration are unchanged by this add-on.
+
+Executed in this cloud environment:
+
+- Exact CI-style finance command, with PYTHONPATH unset, Python 3.13.3: **103 passed**. This includes the original CRUD/auth/metadata suite, valid Swagger 2.0 and 18 additional financial checks (parameterized where applicable).
+- Original HR backend regression command on Python 3.12: **352 passed, 20 skipped** because their external test services are not configured.
+- Basic Ruff E4/E7/E9/F checks on finance runtime, new tests and helper scripts: passed. Git whitespace/diff checks: passed.
+- Synthetic arithmetic: 75,000−25,000 plus 35,000−0 gives 85,000 invoice open total; a fully settled payment contributes zero; −10,000 unapplied payment gives **75,000 signed net balance**, without double-subtraction. Decimal precision is preserved.
+- Synthetic cases cover due-today exclusion, missing/1900/0001 dates, future transactions, past cutoffs, fully settled invoices/payments, reversals, mixed currencies, invalid original/settled amounts, unknown/numeric transaction classifications, duplicate invoice ambiguity, full master/transaction pagination beyond 20 customers, failed later pages, duplicate record keys, source limits, scoped short-lived single-flight caching, authenticated prefix routes and fast preparing responses.
+- Transport tests verify IEEE754Compatible Accept, fixed company filters, stable exact-key ordering and rejection of changed entity/host/filter/currency scope in next links. No real D365 credentials are used.
+
+Not performed for this new revision: a new complete Docker image build, Azure deployment/public reporting calls, live posted-amount reconciliation, current finance write permissions, custom connector update/import or actual Copilot tool execution. The existing baseline container checks above were performed for the earlier finance implementation, not this extension. The user supplied a successful prior live metadata/readiness output, which confirms baseline customer/transaction readability, not the new reporting calculations or enum strategy.
+
+Remaining live checks: deploy the verified commit using the existing pipeline, confirm original HR health and baseline tools, inspect protected readiness.reporting for the actual monetary/enum contract, run scripts/verify_reporting.py with privately configured credentials, compare original/settled/remaining transaction-currency amounts against D365, then update connector/instructions and run section 11 prompts in Copilot. An error or report_preparing is not a successful financial report. Do not treat current remaining values with a past date cutoff as historical settlement reconstruction.

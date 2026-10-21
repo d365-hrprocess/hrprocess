@@ -41,9 +41,21 @@ class Settings:
     token_timeout_seconds: float = 15
     prefer_persistent_cache: bool = True
     cache_directory: str = "/tmp/ubticareers-finance-metadata"
-    parser_config_version: int = 1
+    parser_config_version: int = 2
     schema_version: int = 1
     public_hostname: str = ""
+    business_timezone: str = "Asia/Kolkata"
+    reporting_scan_timeout_seconds: float = 120
+    reporting_cache_ttl_seconds: int = 60
+    reporting_retry_after_seconds: int = 5
+    reporting_maximum_records: int = 100000
+    reporting_maximum_pages: int = 2000
+    reporting_page_maximum_bytes: int = 4194304
+    reporting_maximum_cached_scopes: int = 4
+    reporting_page_size: int = 500
+    reporting_default_output_limit: int = 10
+    reporting_maximum_output_limit: int = 100
+    reporting_maximum_offset: int = 100000
 
     @classmethod
     def load(cls, path: str | Path | None = None) -> "Settings":
@@ -87,6 +99,17 @@ class Settings:
             assert 0 <= self.metadata_retry_backoff_seconds <= 10
             assert 0 < self.token_timeout_seconds <= 30
             assert self.demo_customer_prefix == "TEST-COPILOT-"
+            assert self.business_timezone == "Asia/Kolkata"
+            assert 1 <= self.reporting_scan_timeout_seconds <= 180
+            assert 1 <= self.reporting_cache_ttl_seconds <= 300
+            assert 1 <= self.reporting_retry_after_seconds <= 60
+            assert 1 <= self.reporting_maximum_records <= 100000
+            assert 1 <= self.reporting_maximum_pages <= 2000
+            assert 1024 <= self.reporting_page_maximum_bytes <= 8388608
+            assert 1 <= self.reporting_maximum_cached_scopes <= 8
+            assert 1 <= self.reporting_page_size <= 1000
+            assert 1 <= self.reporting_default_output_limit <= self.reporting_maximum_output_limit <= 100
+            assert 0 <= self.reporting_maximum_offset <= 100000
         except (AssertionError, ValueError, TypeError):
             raise FinanceError("finance_configuration_invalid", "Finance configuration is invalid.") from None
 

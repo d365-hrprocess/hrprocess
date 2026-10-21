@@ -42,3 +42,9 @@ No rollback script automatically deletes D365 data. Keep a separate record of te
 ## Verification boundary
 
 Record which checks were actually completed: original-app baseline, isolated tests, complete-container tests, live D365 metadata/read/CRUD, deployed HTTPS/ingress and actual Copilot connection. If credentials, deployment identity, public network access or a captured baseline are missing, report that specific blocker instead of claiming the rollback or demo is verified.
+
+## Roll back only the reporting add-on
+
+Restore the recorded pre-add-on image digest using the same existing sitecontainer main/port 8080 deployment procedure. Keep the original finance secret setting and original six connector actions. Alternatively revert only the reporting add-on commit in source and deploy its new immutable image. Refresh the connector with the previous six-action Swagger and restore the previous agent instructions; remove only the seven new reporting tools. No ERP transactions or customer data are altered by these reporting reads, and rollback must not delete any ERP record.
+
+Metadata parser version 2 uses a new cache scope; old and new cache files are separate. An earlier image can reuse its original scoped cache or warm again. No database migration, storage setting, new dependency or main application's configuration is involved in this add-on.

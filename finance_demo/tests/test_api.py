@@ -32,6 +32,9 @@ class Metadata:
             raise FinanceError("metadata_warming", "Finance metadata is warming. Try again shortly.", 503, True)
         return object()
 
+    def require_transactions(self):
+        raise FinanceError("finance_transactions_unavailable", "Transactions unavailable.")
+
     def status(self):
         return {"state": "ready" if self.ready else "warming", "ready": self.ready,
                 "capabilities": {"customers": "available", "transactions": "unavailable"}}
