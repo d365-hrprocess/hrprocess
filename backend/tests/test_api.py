@@ -450,3 +450,42 @@ def test_demo_upserts_one_candidate_but_preserves_each_job_application_contact_s
     assert current["requirement_id"] == "REQ-2026-005" and previous["resume_ref"] != current["resume_ref"]
     own = client.get(f"/api/applications/{first_id}").json()
     assert own["candidate_name"] == "First Confirmed Name" and own["email"] == "first-confirmed@example.test"
+
+
+def test_erp_failure_keeps_resume_and_rejects_changed_retry_without_creating_another_application(client, pdf_bytes, monkeypatch):
+    from app.errors import IntegrationError
+
+    csrf = login(client)
+    adapter = client.app.state.adapter
+    original_submit = adapter.submit_application
+    attempts = 0
+
+    async def erp_submit(payload):
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise IntegrationError(
+                "D365 submit_application failed (HTTP 500). Reference: fixture-reference",
+                diagnostics={"issue_code": "d365_unclassified", "upstream_status_code": 500,
+                             "activity_id": "cb035259-4dd8-0000-ec66-bed5d84ddd01"},
+            )
+        return await original_submit(payload)
+
+    monkeypatch.setattr(adapter, "submit_application", erp_submit)
+    stored = AsyncMock(wraps=client.app.state.resumes.store)
+    monkeypatch.setattr(client.app.state.resumes, "store", stored)
+    first = submit(client, csrf, pdf_bytes)
+    assert first.status_code == 502
+    assert first.json()["diagnostics"]["activity_id"] == "cb035259-4dd8-0000-ec66-bed5d84ddd01"
+    assert first.json()["diagnostics"]["upstream_status_code"] == 500
+    changed = submit(client, csrf, pdf_bytes, email="changed@example.test")
+    assert changed.status_code == 409
+    assert attempts == 1
+    original = submit(client, csrf, pdf_bytes)
+    assert original.status_code == 200
+    assert attempts == 2
+    stored.assert_awaited_once()
+    repeated = submit(client, csrf, pdf_bytes)
+    assert repeated.status_code == 200 and repeated.json()["application_id"] == original.json()["application_id"]
+    assert attempts == 2
+    stored.assert_awaited_once()

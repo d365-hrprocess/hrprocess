@@ -174,6 +174,12 @@ async def test_service_500_logs_reason_and_stage_without_exposing_body_or_changi
     assert failure["status_code"] == 500
     assert failure["correlation_id"] in str(error.value)
     assert failure["exception_type"] == "ErrorException"
+    assert error.value.diagnostics["issue_code"] == "company_mismatch"
+    assert error.value.diagnostics["activity_id"] == ACTIVITY_ID
+    assert error.value.diagnostics["upstream_status_code"] == 500
+    assert error.value.diagnostics["correlation_id"] == failure["correlation_id"]
+    assert "PRIVATE-CLIENT-SECRET" not in json.dumps(error.value.diagnostics)
+    assert "candidate@example.test" not in json.dumps(error.value.diagnostics)
     output = caplog.text
     assert "d365.auth.acquire" in output
     assert "d365.request.prepare" in output

@@ -235,3 +235,21 @@ Optional `--invoice-number` must name an actual posted invoice. The helper does 
 | Old outstanding/overdue refusal | Update connector, add the seven new tools, replace instructions, save and start a fresh conversation. |
 
 Record mocked checks, live ERP reconciliation, deployed API checks and actual Copilot tests separately in VERIFICATION.md. Passing mocked arithmetic checks is not proof that the live environment's amounts or agent answers were verified.
+
+## Diagnosing an unconfirmed write
+
+The top-level `write_outcome_uncertain` remains intentionally non-retryable. Safe optional fields now identify the underlying cause without returning ERP bodies, credentials or customer data:
+
+| Diagnostic | Meaning |
+|---|---|
+| stage=d365_write, cause_code=d365_read_timeout | D365 did not provide the write response within the existing upstream read timeout (15 seconds). It may have accepted the write; verify the exact account. |
+| cause_code=d365_access_denied, upstream_status_code=401/403 | D365 denied the operation; check the mapped application's D365 user and create/update/delete privileges in USMF. Reads alone do not prove write access. |
+| cause_code=d365_unavailable, upstream_status_code=500/503 | D365 returned an actual server error. The public connector 503 alone did not establish that. |
+| cause_code=d365_throttled, upstream_status_code=429 | D365 throttled the write. Do not automatically retry it. |
+| cause_code=d365_connect_timeout/d365_send_timeout/d365_pool_timeout | Transport phase timeout. No actual HTTP status is available. |
+| stage=write_readback, code=write_verification_failed | D365 accepted the request, but the subsequent exact record verification failed. |
+| stage=finance_operation, cause_code=finance_operation_timeout | Overall operation budget elapsed; do not infer final ERP state. |
+
+Use Copy error info in the failed Copilot action to inspect these fields. Deploy this diagnostic revision before expecting them; the old generic response cannot reveal its discarded cause retroactively. No new App Service setting or change to authentication/permissions/timeouts is made. Update connector schema to surface the optional fields if desired; existing actions remain compatible.
+
+A later exact lookup returning customer_not_found proves absence when read, not that an earlier timed-out write could never finish. Before a user-confirmed retry, recheck the account and obtain fresh confirmation; if the original operation may still be running, have its D365 execution reviewed first. Do not repeatedly create just to diagnose the service.

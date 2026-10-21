@@ -1,7 +1,7 @@
 import {act, fireEvent, screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
-import {api} from '../lib/api';
+import {api, ApiError} from '../lib/api';
 import type {AuthSession, Job, SubmissionResult} from '../lib/types';
 import {AppShell} from '../components/app-shell';
 import {ApplicationDetailPage, ApplicationsPage, ApplyPage, JobDetailsPage, JobsPage} from '../pages/candidate';
@@ -303,10 +303,58 @@ describe('candidate application submission', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Document storage temporarily unavailable');
     expect(screen.getByText('sample.pdf')).toBeVisible();
     expect(screen.getByTestId('submit-application')).toBeEnabled();
-    await userEvent.click(screen.getByRole('button', {name: 'Submit application'}));
+    expect(screen.getByRole('textbox', {name: 'Full name'})).toBeDisabled();
+    expect(screen.getByRole('textbox', {name: 'Email address'})).toBeDisabled();
+    expect(screen.getByRole('textbox', {name: /Phone number/})).toBeDisabled();
+    expect(screen.getByRole('textbox', {name: /LinkedIn profile/})).toBeDisabled();
+    expect(screen.getByLabelText('Upload resume')).toBeDisabled();
+    expect(screen.getByRole('checkbox')).toBeDisabled();
+    expect(screen.getByRole('button', {name: 'Remove selected resume'})).toBeDisabled();
+    expect(screen.getByText(/Your original details and resume are kept/)).toBeVisible();
+    await userEvent.click(screen.getByRole('button', {name: 'Retry original application'}));
     expect(await screen.findByTestId('application-success')).toBeVisible();
     expect(api.submit).toHaveBeenCalledTimes(2);
     expect(vi.mocked(api.submit).mock.calls[1][1]).toBe(vi.mocked(api.submit).mock.calls[0][1]);
+    expect(vi.mocked(api.submit).mock.calls[1][0]).toBe(vi.mocked(api.submit).mock.calls[0][0]);
+  });
+
+  it('allows correcting a request rejected before reservation without reusing stale form data', async () => {
+    vi.mocked(api.submit).mockRejectedValueOnce(new ApiError('Enter a valid contact email', 422));
+    renderApply(); await readyForm(); await attachResume();
+    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('button', {name: 'Submit application'}));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Enter a valid contact email');
+    expect(screen.getByRole('textbox', {name: 'Email address'})).toBeEnabled();
+    expect(screen.getByLabelText('Upload resume')).toBeEnabled();
+    await userEvent.clear(screen.getByRole('textbox', {name: 'Email address'}));
+    await userEvent.type(screen.getByRole('textbox', {name: 'Email address'}), 'corrected@example.test');
+    await userEvent.click(screen.getByRole('button', {name: 'Submit application'}));
+    expect(await screen.findByTestId('application-success')).toBeVisible();
+    const [original, retry] = vi.mocked(api.submit).mock.calls;
+    expect(retry[0]).not.toBe(original[0]);
+    expect(retry[0].get('email')).toBe('corrected@example.test');
+    expect(retry[1]).toBe(original[1]);
+  });
+
+  it('keeps a failed ERP attempt intact and shows its sanitized support activity', async () => {
+    vi.mocked(api.submit).mockRejectedValueOnce(new ApiError('D365 submit_application failed (HTTP 500).', 502, {
+      issue_code: 'd365_unclassified', hint: 'Inspect the F&O exception using this activity.',
+      activity_id: 'cb035259-4dd8-0000-ec66-bed5d84ddd01',
+    }));
+    renderApply(); await readyForm(); await attachResume();
+    await userEvent.type(screen.getByRole('textbox', {name: /Phone number/}), '+91 9876543210');
+    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('button', {name: 'Submit application'}));
+    expect(await screen.findByRole('alert')).toHaveTextContent('cb035259-4dd8-0000-ec66-bed5d84ddd01');
+    expect(screen.getByRole('alert')).not.toHaveTextContent('Inspect the F&O exception');
+    fireEvent.change(screen.getByRole('textbox', {name: /Phone number/}), {target: {value: '12345'}});
+    fireEvent.change(screen.getByLabelText('Upload resume'), {target: {files: [new File(['changed'], 'changed.pdf', {type: 'application/pdf'})]}});
+    await userEvent.click(screen.getByRole('button', {name: 'Retry original application'}));
+    expect(await screen.findByTestId('application-success')).toBeVisible();
+    const [original, retry] = vi.mocked(api.submit).mock.calls;
+    expect(retry[1]).toBe(original[1]);
+    expect(retry[0].get('phone')).toBe('+91 9876543210');
+    expect((retry[0].get('resume') as File).name).toBe('sample.pdf');
   });
 
   it('shows and submits the consent version supplied by the authenticated session', async () => {

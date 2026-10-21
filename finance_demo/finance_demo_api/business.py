@@ -151,14 +151,18 @@ class FinanceBusiness:
             if error.status_code == 409:
                 raise FinanceError("customer_conflict", "D365 rejected a conflicting customer write. Read the exact account before any further write.", status_code=409) from None
             if error.uncertain or error.status_code in {401, 403, 408, 429} or error.status_code >= 500:
-                raise FinanceError("write_outcome_uncertain", "The write outcome could not be confirmed. Read the exact customer account before attempting another write.", status_code=503, uncertain=True) from None
+                raise FinanceError("write_outcome_uncertain", "The write outcome could not be confirmed. Read the exact customer account before attempting another write.",
+                    status_code=503, uncertain=True, cause_code=error.cause_code or error.code,
+                    upstream_status_code=error.upstream_status_code, stage="d365_write") from None
             raise
 
     async def _verify(self, schema, account: str, *, expected: dict | None = None, deleted: bool = False):
         try:
             row = await self._find(schema, account)
-        except FinanceError:
-            raise FinanceError("write_verification_failed", "D365 accepted a write request but its final state could not be verified. Read the exact account before another write.", status_code=503, uncertain=True) from None
+        except FinanceError as error:
+            raise FinanceError("write_verification_failed", "D365 accepted a write request but its final state could not be verified. Read the exact account before another write.",
+                status_code=503, uncertain=True, cause_code=error.cause_code or error.code,
+                upstream_status_code=error.upstream_status_code, stage="write_readback") from None
         if deleted:
             if row is not None:
                 raise FinanceError("write_verification_failed", "The customer is still present after the delete request. Do not report deletion or retry automatically.", status_code=503, uncertain=True)

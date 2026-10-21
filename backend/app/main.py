@@ -175,7 +175,9 @@ def create_app(settings: Settings | None = None):
     async def integration_error(request, exc):
         log_event("http.integration", "failed", level=logging.ERROR, exception_type=type(exc).__name__,
                   status_code=exc.status_code, retryable=exc.retryable)
-        return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+        return JSONResponse({"detail": exc.detail,
+                             **({"diagnostics": exc.diagnostics} if exc.diagnostics else {})},
+                            status_code=exc.status_code)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):

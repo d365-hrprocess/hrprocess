@@ -252,14 +252,17 @@ class D365Service:
                               status_code=response.status_code, attempt=2, response_bytes=len(response.content),
                               elapsed_ms=round((time.monotonic() - started) * 1000, 2))
                 if response.is_error:
+                    diagnostics = d365_error_diagnostics(response)
                     log_event("d365.http", "failed", level=logging.ERROR, operation=operation,
                               status_code=response.status_code, correlation_id=correlation_id,
                               retryable=response.status_code in {408, 429} or response.status_code >= 500,
                               elapsed_ms=round((time.monotonic() - started) * 1000, 2),
-                              **d365_error_diagnostics(response))
+                              **diagnostics)
                     raise IntegrationError(
                         f"D365 {operation} failed (HTTP {response.status_code}). Reference: {correlation_id}",
                         retryable=response.status_code in {408, 429} or response.status_code >= 500,
+                        diagnostics={**diagnostics, "upstream_status_code": response.status_code,
+                                     "correlation_id": correlation_id},
                     )
                 log_event("d365.http", "completed", operation=operation, correlation_id=correlation_id,
                           status_code=response.status_code, elapsed_ms=round((time.monotonic() - started) * 1000, 2))

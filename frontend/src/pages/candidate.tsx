@@ -35,7 +35,7 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
-import { api } from "../lib/api";
+import { api, ApiError } from "../lib/api";
 import { useAuth } from "../lib/auth";
 import { returnPath, signInHref } from "../lib/sign-in";
 import { contactEmail } from "../lib/profile";
@@ -886,12 +886,15 @@ export function ApplyPage() {
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitDiagnostics, setSubmitDiagnostics] = useState<ApiError["diagnostics"]>();
   const [dragging, setDragging] = useState(false);
   const [result, setResult] = useState<{
     application_id: string;
     message: string;
   } | null>(null);
   const [submissionKey] = useState(() => crypto.randomUUID());
+  const submittedForm = useRef<FormData | null>(null);
+  const [submissionFrozen, setSubmissionFrozen] = useState(false);
   const contactEdited = useRef({ candidate_name: false, email: false });
   const {
     register,
@@ -910,6 +913,7 @@ export function ApplyPage() {
     },
   });
   useEffect(() => {
+    if (submissionFrozen) return;
     const profile = { candidate_name: profileName, email: profileEmail };
     for (const key of ["candidate_name", "email"] as const) {
       const state = getFieldState(key);
@@ -922,38 +926,53 @@ export function ApplyPage() {
         setValue(key, profile[key]);
       }
     }
-  }, [profileName, profileEmail, getFieldState, setValue]);
+  }, [profileName, profileEmail, getFieldState, setValue, submissionFrozen]);
   const nameField = register("candidate_name");
   const emailField = register("email");
   function selectFile(value: File | null) {
+    if (submissionFrozen || isSubmitting) return;
     setFileError(validateResume(value));
     setFile(value);
   }
   function drop(event: DragEvent<HTMLLabelElement>) {
     event.preventDefault();
     setDragging(false);
-    if (!isSubmitting) selectFile(event.dataTransfer.files[0] || null);
+    if (!isSubmitting && !submissionFrozen) selectFile(event.dataTransfer.files[0] || null);
   }
   async function submit(values: ApplicationFields) {
     const error = validateResume(file);
     setFileError(error);
     if (error || !file) return;
     setSubmitError(null);
-    const data = new FormData();
-    data.set("requirement_id", requirementId);
-    data.set("candidate_name", values.candidate_name);
-    data.set("email", values.email);
-    data.set("resume", file);
-    data.set("phone", values.phone);
-    data.set("linkedin_url", values.linkedin_url);
-    data.set("consent_accepted", "true");
-    data.set("consent_version", session?.consent_version || "v1");
+    setSubmitDiagnostics(undefined);
+    // A lost response or ERP 5xx can leave a durable pending application.
+    // Retry that exact multipart payload/key instead of rebuilding from edits.
+    const data = submittedForm.current || new FormData();
+    if (!submittedForm.current) {
+      data.set("requirement_id", requirementId);
+      data.set("candidate_name", values.candidate_name);
+      data.set("email", values.email);
+      data.set("resume", file);
+      data.set("phone", values.phone);
+      data.set("linkedin_url", values.linkedin_url);
+      data.set("consent_accepted", "true");
+      data.set("consent_version", session?.consent_version || "v1");
+      submittedForm.current = data;
+    }
+    setSubmissionFrozen(true);
     try {
       const response = await api.submit(data, submissionKey);
       setResult(response);
       void client.invalidateQueries({ queryKey: ["applications"] });
       toast.success("Your application is on its way.");
     } catch (value) {
+      setSubmitDiagnostics(value instanceof ApiError ? value.diagnostics : undefined);
+      // These local request/auth/validation responses occur before reservation.
+      // ERP failures are surfaced as 5xx and must retain the frozen attempt.
+      if (value instanceof ApiError && [400, 401, 403, 413, 415, 422, 429].includes(value.status)) {
+        submittedForm.current = null;
+        setSubmissionFrozen(false);
+      }
       setSubmitError(
         value instanceof Error
           ? value.message
@@ -1034,7 +1053,7 @@ export function ApplyPage() {
       <div className="details-grid application-grid">
         <form
           className="card application-form"
-          onSubmit={handleSubmit(submit)}
+          onSubmit={(event) => { void handleSubmit(submit)(event); }}
           noValidate
         >
           {user?.linkedin_profile && (
@@ -1053,7 +1072,7 @@ export function ApplyPage() {
               <input
                 id="candidate-name"
                 autoComplete="name"
-                disabled={isSubmitting}
+                disabled={isSubmitting || submissionFrozen}
                 {...nameField}
                 onChange={(event) => {
                   contactEdited.current.candidate_name = true;
@@ -1073,7 +1092,7 @@ export function ApplyPage() {
                 id="candidate-email"
                 type="email"
                 autoComplete="email"
-                disabled={isSubmitting}
+                disabled={isSubmitting || submissionFrozen}
                 {...emailField}
                 onChange={(event) => {
                   contactEdited.current.email = true;
@@ -1092,6 +1111,7 @@ export function ApplyPage() {
               <input
                 id="phone"
                 type="tel"
+                disabled={isSubmitting || submissionFrozen}
                 autoComplete="tel"
                 placeholder="Your contact number"
                 {...register("phone")}
@@ -1108,6 +1128,7 @@ export function ApplyPage() {
               <input
                 id="linkedin-url"
                 type="url"
+                disabled={isSubmitting || submissionFrozen}
                 placeholder="https://linkedin.com/in/your-name"
                 {...register("linkedin_url")}
                 aria-invalid={Boolean(errors.linkedin_url)}
@@ -1155,7 +1176,7 @@ export function ApplyPage() {
               name="resume"
               type="file"
               accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              disabled={isSubmitting}
+              disabled={isSubmitting || submissionFrozen}
               onChange={(event) => selectFile(event.target.files?.[0] || null)}
             />
           </label>
@@ -1173,7 +1194,7 @@ export function ApplyPage() {
               <button
                 type="button"
                 aria-label="Remove selected resume"
-                disabled={isSubmitting}
+                disabled={isSubmitting || submissionFrozen}
                 onClick={() => {
                   setFile(null);
                   setFileError(null);
@@ -1193,6 +1214,7 @@ export function ApplyPage() {
               <input
                 data-testid="application-consent"
                 type="checkbox"
+                disabled={isSubmitting || submissionFrozen}
                 {...register("consent")}
                 aria-invalid={Boolean(errors.consent)}
               />
@@ -1226,7 +1248,18 @@ export function ApplyPage() {
           {submitError && (
             <div className="submit-error" role="alert">
               {submitError}
+              {submitDiagnostics?.activity_id && (
+                <p>Support activity: {submitDiagnostics.activity_id}</p>
+              )}
             </div>
+          )}
+          {submitError && submissionFrozen && (
+            <p role="status">
+              Your original details and resume are kept for this attempt. Retry
+              sends that same application. Please contact HR before starting a
+              separate application or replacing these details while confirmation
+              is pending.
+            </p>
           )}
           <div className="form-actions">
             <Link to={`/jobs/${requirementId}`} className="text-link">
@@ -1242,7 +1275,7 @@ export function ApplyPage() {
                 <Spinner label="Submitting your application…" />
               ) : (
                 <>
-                  Submit application
+                  {submissionFrozen ? "Retry original application" : "Submit application"}
                   <ArrowRight size={16} />
                 </>
               )}

@@ -29,6 +29,9 @@ class ErrorDetail(BaseModel):
     retryable: bool = False
     outcome_uncertain: bool = False
     verification_required: bool = False
+    cause_code: str | None = None
+    upstream_status_code: int | None = None
+    stage: str | None = None
 
 
 class ErrorResponse(BaseModel):
@@ -121,8 +124,9 @@ def error_response(error: FinanceError) -> JSONResponse:
     detail = ErrorDetail(
         code=error.code, message=error.message, retryable=error.retryable,
         outcome_uncertain=error.uncertain, verification_required=error.uncertain,
+        cause_code=error.cause_code, upstream_status_code=error.upstream_status_code, stage=error.stage,
     )
-    response = JSONResponse(ErrorResponse(error=detail).model_dump(), status_code=error.status_code)
+    response = JSONResponse(ErrorResponse(error=detail).model_dump(exclude_none=True), status_code=error.status_code)
     if error.retryable:
         response.headers["Retry-After"] = "5"
     response.headers["Cache-Control"] = "no-store"
@@ -222,6 +226,7 @@ def create_app(settings: Settings | None = None, client=None, metadata=None) -> 
                 "The write outcome could not be confirmed. Read the exact account before another write." if write else
                 "The finance request exceeded its time budget. Try the read again later.",
                 status_code=504, retryable=not write, uncertain=write,
+                cause_code="finance_operation_timeout", stage="finance_operation",
             ) from None
 
     @application.get("/health", include_in_schema=False)

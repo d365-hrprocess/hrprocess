@@ -82,19 +82,22 @@ class D365Client:
 
     def _error(self, response: httpx.Response, *, write: bool) -> FinanceError:
         status = response.status_code
+        def upstream_error(*args):
+            # Only the HTTP status is retained, never the ERP error body/headers.
+            return FinanceError(*args, upstream_status_code=status)
         if status == 404:
-            return FinanceError("d365_not_found", "The requested D365 resource was not found.", 404)
+            return upstream_error("d365_not_found", "The requested D365 resource was not found.", 404)
         if status in (401, 403):
-            return FinanceError("d365_access_denied", "D365 denied access to this operation. Verify the application's mapped D365 user and permissions.", 403)
+            return upstream_error("d365_access_denied", "D365 denied access to this operation. Verify the application's mapped D365 user and permissions.", 403)
         if status == 409:
-            return FinanceError("d365_conflict", "D365 rejected the write because the record conflicts with existing data.", 409)
+            return upstream_error("d365_conflict", "D365 rejected the write because the record conflicts with existing data.", 409)
         if status in (400, 422):
-            return FinanceError("d365_validation_failed", "D365 rejected the request. Verify the customer values, configured group, currency, terms and related-record rules.", 422)
+            return upstream_error("d365_validation_failed", "D365 rejected the request. Verify the customer values, configured group, currency, terms and related-record rules.", 422)
         if status == 429:
-            return FinanceError("d365_throttled", "D365 temporarily throttled this operation.", 503, not write, write)
+            return upstream_error("d365_throttled", "D365 temporarily throttled this operation.", 503, not write, write)
         if 300 <= status < 400:
-            return FinanceError("d365_login_redirect", "D365 returned a redirect instead of API data. Verify the environment URL and application authorization.", 502)
-        return FinanceError("d365_unavailable", "D365 could not complete this operation.", 503, not write, write)
+            return upstream_error("d365_login_redirect", "D365 returned a redirect instead of API data. Verify the environment URL and application authorization.", 502)
+        return upstream_error("d365_unavailable", "D365 could not complete this operation.", 503, not write, write)
 
     async def request(self, method: str, path: str, *, params=None, json=None) -> httpx.Response:
         method = method.upper()
@@ -112,11 +115,16 @@ class D365Client:
                             method, url, params=params, json=json,
                             headers={"Authorization": "Bearer " + token, "Accept": "application/json", "OData-Version": "4.0"},
                         )
-                    except httpx.HTTPError:
+                    except httpx.HTTPError as error:
                         if not write and attempt + 1 < attempts:
                             await asyncio.sleep(min(2 ** attempt, 2))
                             continue
-                        raise FinanceError("d365_network_error", "The D365 request could not be completed. Verify the exact record before retrying a write.", 503, not write, write) from None
+                        cause = next((code for kind, code in (
+                            (httpx.ReadTimeout, "d365_read_timeout"), (httpx.ConnectTimeout, "d365_connect_timeout"),
+                            (httpx.WriteTimeout, "d365_send_timeout"), (httpx.PoolTimeout, "d365_pool_timeout"),
+                        ) if isinstance(error, kind)), "d365_network_error")
+                        raise FinanceError("d365_network_error", "The D365 request could not be completed. Verify the exact record before retrying a write.",
+                            503, not write, write, cause_code=cause) from None
                     if not write and response.status_code == 401 and attempt + 1 < attempts:
                         self._token_deadline = 0
                         await response.aclose()

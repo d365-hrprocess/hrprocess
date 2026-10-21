@@ -11,6 +11,7 @@ export class ApiError extends Error {
   constructor(
     message: string,
     public status: number,
+    public diagnostics?: {issue_code?: string; hint?: string; activity_id?: string},
   ) {
     super(message);
     this.name = "ApiError";
@@ -37,13 +38,20 @@ export async function request<T>(
   });
   if (!response.ok) {
     let message = `Request failed (${response.status}). Please try again.`;
+    let diagnostics: ApiError["diagnostics"];
     try {
       const body = await response.json();
       if (typeof body.detail === "string") message = body.detail;
+      if (body.diagnostics && typeof body.diagnostics === "object") {
+        diagnostics = {};
+        for (const key of ["issue_code", "hint", "activity_id"] as const) {
+          if (typeof body.diagnostics[key] === "string") diagnostics[key] = body.diagnostics[key];
+        }
+      }
     } catch {
       /* A gateway can return HTML. */
     }
-    throw new ApiError(message, response.status);
+    throw new ApiError(message, response.status, diagnostics);
   }
   return response.json() as Promise<T>;
 }

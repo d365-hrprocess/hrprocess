@@ -8,7 +8,7 @@ path = ROOT / "connector/swagger2.json"
 spec = json.loads(path.read_text())
 spec["info"]["version"] = "1.1.0"
 spec["info"]["description"] = (
-    "USMF customer demo: existing customer CRUD and limited recent history, plus separate complete-data posted receivables, invoice remaining amounts, overdue reports . Writes only to TEST-COPILOT- accounts with confirmation. No posting or settlement."
+    "USMF customer demo: existing customer CRUD and limited recent history, plus separate complete-data posted receivables, invoice remaining amounts, overdue reports and payment history. Writes only to TEST-COPILOT- accounts with confirmation. No posting or settlement."
 )
 
 
@@ -37,6 +37,23 @@ def string_array():
 
 
 d = spec["definitions"]
+d["FinanceError"]["properties"].update(
+    {
+        "cause_code": {
+            "type": "string",
+            "description": "Sanitized internal cause code; no upstream error body or credentials.",
+        },
+        "upstream_status_code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Actual D365 HTTP status, when a response was received. Omitted for a transport timeout.",
+        },
+        "stage": {
+            "type": "string",
+            "description": "d365_write, write_readback or finance_operation.",
+        },
+    }
+)
 amounts = (
     "net_balance",
     "debit_open_total",

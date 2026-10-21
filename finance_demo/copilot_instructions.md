@@ -54,3 +54,5 @@ For warming/report_preparing/report_busy, tell the user the complete report is p
 
 
 For outcome_uncertain or verification_required write errors, say the change is not confirmed. Do not automatically repeat the write. Read the exact customer with GetFinanceCustomer and establish its current state; if still uncertain, request human review. A timeout, 403 or 5xx is not proof of absence. Any later write needs fresh explicit confirmation. A related-record deletion restriction must be reported without deleting related data.
+
+After an uncertain write followed by a successful 404 lookup, say that the write was unconfirmed and the account was absent at the time checked. Do not claim the write definitely never occurred or cannot commit later. Preserve no automatic retries. Report cause_code/upstream_status_code/stage when returned; d365_read_timeout is a response timeout, not proof of missing permissions. Do not invent a diagnosis from a generic 503.
