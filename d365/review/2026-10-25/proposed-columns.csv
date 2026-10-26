@@ -1,0 +1,47 @@
+scope,table,proposed_column,proposed_type,purpose
+Extend existing table,UBJobApplicationTable,FinalDecisionBy,UserId,Authorized final HR decision maker
+Extend existing table,UBJobApplicationTable,FinalDecisionDateTime,UtcDateTime,When final HR decision was committed
+Extend existing table,UBJobApplicationTable,FinalDecisionReason,Memo string,Final HR selection/rejection reason
+Extend existing table,UBCandidateScreeningTable,ReviewerEmployeeId,UBEmployeeId / FK UBEmployeeTable,Assigned screening reviewer
+Extend existing table,UBCandidateScreeningTable,ReviewedBy,UserId,Actual reviewing user
+Extend existing table,UBCandidateScreeningTable,ReviewedDateTime,UtcDateTime,When review was committed
+Extend existing table,UBInterviewTable,AttemptNo,Integer,Repeat interview attempt within the same round
+Extend existing table,UBInterviewTable,ScheduleStatus,Enum,NotScheduled / Scheduled / Completed / Cancelled / RescheduleRequired
+Extend existing table,UBInterviewTable,DurationMinutes,Integer,Scheduled meeting duration
+Extend existing table,UBInterviewTable,MeetingLocationOrUrl,Bounded string,Physical location or validated meeting URL
+Extend existing table,UBInterviewTable,CompletedDateTime,UtcDateTime,Actual interview completion
+Extend existing table,UBInterviewFeedbackTable,InterviewerEmployeeId,UBEmployeeId / FK UBEmployeeTable,Linked interviewer; retain legacy text during migration
+Recommended new table,UBScreeningSkillTable,ScreeningId,UBScreeningId / FK,Parent screening
+Recommended new table,UBScreeningSkillTable,LineNum,Integer,Line identity within parent
+Recommended new table,UBScreeningSkillTable,SkillId,Aligned skill-key EDT / optional FK,Catalog skill if applicable
+Recommended new table,UBScreeningSkillTable,SkillDescription,Memo string,Free-text screening criterion
+Recommended new table,UBScreeningSkillTable,MatchStatus,Enum,NotEvaluated / Meets / PartiallyMeets / Gap
+Recommended new table,UBScreeningSkillTable,ExperienceYears,Real,Assessed experience
+Recommended new table,UBScreeningSkillTable,ReviewerComment,Memo string,Screening assessment notes
+Recommended new table,UBRecruitmentDecisionHistoryTable,ApplicationId,UBApplicationId / FK,Application being decided
+Recommended new table,UBRecruitmentDecisionHistoryTable,Stage,Enum,ApplicationReview / Screening / Round1 / Round2 / Round3 / HR
+Recommended new table,UBRecruitmentDecisionHistoryTable,FromStatus,Bounded string,Previous stable business-status symbol
+Recommended new table,UBRecruitmentDecisionHistoryTable,ToStatus,Bounded string,New stable business-status symbol
+Recommended new table,UBRecruitmentDecisionHistoryTable,Reason,Memo string,Decision rationale
+Recommended new table,UBRecruitmentDecisionHistoryTable,ChangedBy,UserId,Acting user
+Recommended new table,UBRecruitmentDecisionHistoryTable,ChangedDateTime,UtcDateTime,Committed decision time
+Recommended new table,UBRecruitmentDecisionHistoryTable,ScreeningId,UBScreeningId / optional FK,Screening context
+Recommended new table,UBRecruitmentDecisionHistoryTable,InterviewId,UBInterviewId / optional FK,Interview context
+Optional new table,UBInterviewPanelMemberTable,InterviewId,UBInterviewId / FK,Interview session
+Optional new table,UBInterviewPanelMemberTable,InterviewerEmployeeId,UBEmployeeId / FK,Panel member
+Optional new table,UBInterviewPanelMemberTable,PanelRole,Enum or bounded string,Lead / Member / Observer
+Optional new table,UBInterviewRoundSetupTable,RequirementId,UBRequirementId / FK,Job-specific round configuration
+Optional new table,UBInterviewRoundSetupTable,RoundNo,Integer,Round identity
+Optional new table,UBInterviewRoundSetupTable,RoundName,Bounded string,Human-readable round label
+Optional new table,UBInterviewRoundSetupTable,IsHRRound,NoYes,Final HR round flag
+Optional new table,UBInterviewRoundSetupTable,IsMandatory,NoYes,Whether progression requires passing
+Optional new table,UBInterviewRoundSetupTable,DefaultInterviewerEmployeeId,UBEmployeeId / optional FK,Default assignment
+Optional new table,UBInterviewRoundSetupTable,SequenceOrder,Integer,Progression order
+Optional after final HR selection,UBOnboardingTaskTable,OnboardingId,UBOnboardingId / FK,Parent onboarding
+Optional after final HR selection,UBOnboardingTaskTable,TaskId,Bounded string,Task identity
+Optional after final HR selection,UBOnboardingTaskTable,TaskType,Enum,Document / Background / Account / Other
+Optional after final HR selection,UBOnboardingTaskTable,AssignedUserId,UserId,Task owner
+Optional after final HR selection,UBOnboardingTaskTable,DueDateTime,UtcDateTime,Deadline
+Optional after final HR selection,UBOnboardingTaskTable,CompletedDateTime,UtcDateTime,Actual completion
+Optional after final HR selection,UBOnboardingTaskTable,Status,Enum,Pending / InProgress / Completed / Cancelled
+Optional after final HR selection,UBOnboardingTaskTable,Remarks,Memo string,Task notes

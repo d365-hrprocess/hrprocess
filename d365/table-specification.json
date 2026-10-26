@@ -1,8 +1,8 @@
 {
   "model": "UBHR_Nive",
   "existing_tables": true,
-  "purpose": "Inventory of the user-provided existing AOT screenshots; no new D365 tables, fields, EDTs or enums are proposed.",
-  "field_types": "Existing EDT, enum, length and index properties were not provided. Inspect AOT Properties before build; do not infer enum ordinals from screenshots.",
+  "purpose": "Existing integration tables, updated against HRRecruitmentProjectFile.axpp supplied 25 October 2026. The name fix uses existing CandidateName fields; future schema proposals are documented separately.",
+  "field_types": "The AXPP export supplies field/EDT metadata. Runtime sequence assignments, deployed SQL indexes, company scope defaults and live permissions still require target-environment verification.",
   "service": {
     "class": "UBHRPortalService",
     "aot_service": "UBHRPortalService",
@@ -261,6 +261,14 @@
         {
           "name": "ConsentDateTime",
           "used_by_lean_service": false
+        },
+        {
+          "name": "CandidateName",
+          "used_by_lean_service": true
+        },
+        {
+          "name": "CandidateNumber",
+          "used_by_lean_service": false
         }
       ],
       "lean_fields": [
@@ -333,6 +341,26 @@
         {
           "name": "AIStatus",
           "used_by_lean_service": true
+        },
+        {
+          "name": "CandidateName",
+          "used_by_lean_service": true
+        },
+        {
+          "name": "ApplicationNumber",
+          "used_by_lean_service": false
+        },
+        {
+          "name": "Summary",
+          "used_by_lean_service": false
+        },
+        {
+          "name": "UBScreeningRecommendation",
+          "used_by_lean_service": false
+        },
+        {
+          "name": "CandidateNumber",
+          "used_by_lean_service": false
         }
       ],
       "lean_fields": [
@@ -401,6 +429,14 @@
         },
         {
           "name": "EvaluatedDateTime",
+          "used_by_lean_service": false
+        },
+        {
+          "name": "EvaluationNumber",
+          "used_by_lean_service": false
+        },
+        {
+          "name": "ScreeningStatus",
           "used_by_lean_service": false
         }
       ],

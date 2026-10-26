@@ -1,0 +1,1260 @@
+{
+  "source_sha256": "36b203e80af1cc3351abade417fa98abfa9c6dd7ae4db36f0c0a35dac15d435e",
+  "counts": {
+    "AxClass": 42,
+    "AxEdt": 66,
+    "AxEnum": 19,
+    "AxEnumExtension": 1,
+    "AxForm": 14,
+    "AxLabelFile": 2,
+    "AxMenu": 1,
+    "AxMenuExtension": 1,
+    "AxMenuItemAction": 40,
+    "AxMenuItemDisplay": 14,
+    "AxQuery": 5,
+    "AxService": 3,
+    "AxServiceGroup": 2,
+    "AxTable": 14,
+    "AxTile": 9,
+    "AxWorkflowApproval": 5,
+    "AxWorkflowCategory": 1,
+    "AxWorkflowTemplate": 5
+  },
+  "components": [
+    {
+      "path": "BA6BECB9-70B9-4E31-BD29-1A3725A0BA4F.xml",
+      "kind": "package/project",
+      "sha256": "699d264fd730ab770e210a166bf039c2b0bbe53b37b5934a2ede8e399afd3014"
+    },
+    {
+      "path": "Model/UBHR_Nive.xml",
+      "kind": "package/project",
+      "sha256": "f39445ec1b3775343f8248cb33c3231a8e573442545f8213a8f64be8093f9804"
+    },
+    {
+      "path": "Project/UBHRProcess_Nivetha.rnrproj",
+      "kind": "package/project",
+      "sha256": "d691282d0b77503c3597eb02c1d60f0e3f1eb73addf364041ad2ceb11f9d3039"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBCandidateScreeningApprovalEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "e959336155e955b01a50bdd1ea2d95145a543bd453a92b59e9175eba5204c87e"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBCandidateScreeningApprovalResubmitActionMgr.xml",
+      "kind": "AxClass",
+      "sha256": "18a0358e61bf9cab095b46e668e7b37f1b5db03351ab9cbf729baf967b666a58"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBCandidateScreeningAutoCreateHandler.xml",
+      "kind": "AxClass",
+      "sha256": "a59b02b770e3b8a8d60bcaf79a37e025e286dd1180068ec13849923b78247047"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBCandidateScreeningWorkflowDocument.xml",
+      "kind": "AxClass",
+      "sha256": "6b93b72d732ad703d5be11384468c5252629f8ba2ef6c0d95e14737dda12f313"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBCandidateScreeningWorkflowEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "ebeebc538d767f26781c2087270188009f7e9be397a2bebb5831793ba3dd1696"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBCandidateScreeningWorkflowSubmitManager.xml",
+      "kind": "AxClass",
+      "sha256": "cde174a85fc4e2bab747d21d9c255aebee4f508d0b2ef39c557a3edfaa2e535f"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRApplicationRequest.xml",
+      "kind": "AxClass",
+      "sha256": "8503a95d68ff1d33cf15864bcc26c0efaba1e2207e43d69f9a458fdf64280eba"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRApplicationService.xml",
+      "kind": "AxClass",
+      "sha256": "ff7800c7121b9aacc1dea2354d7c3ccf310d6bea3af54bff47018ee7d2ea4bb0"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRJobRequirementContract.xml",
+      "kind": "AxClass",
+      "sha256": "97d7f00ea1ee3b14161a0811aa4463af93c977fa903592fcd47266c6eed4da35"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRMatchEvaluationRequest.xml",
+      "kind": "AxClass",
+      "sha256": "017d5cad18120a629bdce5321bc848e1a208319df80b4b3b4e2c9eace5257639"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRMatchEvaluationService.xml",
+      "kind": "AxClass",
+      "sha256": "062047f9a6930cfe03c194be064a6ead8374752232901e7ac03f158be8420126"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRPortalApplicationRequestContract.xml",
+      "kind": "AxClass",
+      "sha256": "4a987e21b6a7eff36133f562968b513a103884cbdb1c037865c2e2927f19db0a"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRPortalEvaluationRequestContract.xml",
+      "kind": "AxClass",
+      "sha256": "9e7d3e3f2a77ce79b2221b81508e38d15c95e91704fe7245ddd0b47035d86d16"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRPortalRequirementContract.xml",
+      "kind": "AxClass",
+      "sha256": "1a3808721237955b326f4a84abcafda14cd86b1fce325a75386d4b608c2745f0"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRPortalRequirementsContract.xml",
+      "kind": "AxClass",
+      "sha256": "84f41247770066fe459fe08fe8a373f8c3f519c5bd47d921bed0e67bc83b8b78"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRPortalResultContract.xml",
+      "kind": "AxClass",
+      "sha256": "932943134e0a39e6d006194f94c0b0ac5739453e429237905807758cb974e00b"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBHRPortalService.xml",
+      "kind": "AxClass",
+      "sha256": "ee9cfc8862fd59593b25cb615dfb30a6ab9f271e2e840791b3669e0fcdf154af"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBInterviewFeedbackApprovalEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "881a3dde0cd44bf15f4dd2f920daf89d69c00e30489c168e17e48e6ec0c59696"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBInterviewFeedbackApprovalResubmitActionMgr.xml",
+      "kind": "AxClass",
+      "sha256": "906fc74c6e4f31c8c136c5d4b6719578a23c2d3be444c5fdf7289a0b75e12dc6"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBInterviewFeedbackWorkflowDocument.xml",
+      "kind": "AxClass",
+      "sha256": "067fd5c7e0b6a0fcb164d87112fab68f41c119376ed5f63923bf0ca9ee6cd5b3"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBInterviewFeedbackWorkflowEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "c15a41d7a937ec85bcba9a22513337434960057eddc91efc3a6dd1029ebc25fc"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBInterviewFeedbackWorkflowSubmitManager.xml",
+      "kind": "AxClass",
+      "sha256": "e010fe3b15953006786ba7a8e3e30a70230531f2327134019b9a7728300cf88f"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBJobApplicationSubmitHandler.xml",
+      "kind": "AxClass",
+      "sha256": "8d5d20f91fc6b4df7e1bcfcb96bed879763febe78a201350517d12482fa74d89"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBJobRequirementApprovalWorkflowEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "2c0818891dcc8a5a0d68527f2ad35412e3f1a405977925559a53fc2d464ee504"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBJobRequirementApprovalWorkflowResubmitActionMgr.xml",
+      "kind": "AxClass",
+      "sha256": "af87468a74cfaa0cbe60a6ae667fcb3c2320ad490873d15e698f44998700001e"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBJobRequirementWorkflowCancelManager.xml",
+      "kind": "AxClass",
+      "sha256": "a4cdde3583c0e9b53fef1de7ef37777ca64fa94ac6381b3b84c24acbf7f5b369"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBJobRequirementWorkflowDocument.xml",
+      "kind": "AxClass",
+      "sha256": "12c58e10779d25a80d90fb683ad4b9fe846d458748e5793e1b82785b82f6f3e0"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBJobRequirementWorkflowEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "e82ee09a01e73d7527d067eb8ae5c728b44981a8b2afca5cff7b1286b82dc6e6"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBJobRequirementWorkflowSubmitManager.xml",
+      "kind": "AxClass",
+      "sha256": "af60fb51ef5d76f25b8fd763b4d6e4bd7badd5432104f511b6708b5ef02a28d3"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOfferWorkflowApprovalEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "ddf0393452ea1458f6781150ecde66aebb59fc6205044bea5e63ff4213034a15"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOfferWorkflowApprovalResubmitActionMgr.xml",
+      "kind": "AxClass",
+      "sha256": "fb723e00865cd0a70d84c8fde20acb397688aebdbe8db9a05da8ec4ab9db8617"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOfferWorkflowDocument.xml",
+      "kind": "AxClass",
+      "sha256": "764a05e3bec11dbebf5d0bcd40c36daa8f1474bc70200725b9a3fa59584ffe8d"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOfferWorkflowEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "eeef6e105c66a4b9f35a8cd0747690790199b328dd06b441724a77aa000c86eb"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOfferWorkflowSubmitManager.xml",
+      "kind": "AxClass",
+      "sha256": "ab35192b8b319b5dc3d8f108c39be807b2ad580f866c62325d9ca40cf09d1e7f"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOnboardingWorkflowApprovalEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "5d1cdb05e153407d0e554472ff9c56df2023c449526c5417af45ba3c58ebca60"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOnboardingWorkflowApprovalResubmitActionMgr.xml",
+      "kind": "AxClass",
+      "sha256": "012e14ce31b817843d6bc8aa8997ea0da520f48d7cefc2305a37b59fa41e4d76"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOnboardingWorkflowDocument.xml",
+      "kind": "AxClass",
+      "sha256": "c7ab21c5cea65d827955e6c63e12c4646c66c1bf541fc3039c1c22e6957663d1"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOnboardingWorkflowEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "696265f213f48f8ce8d4d7e70eef2d511c1846465e743774f74402bb6175cdc9"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBOnboardingWorkflowSubmitManager.xml",
+      "kind": "AxClass",
+      "sha256": "e79b7f1717546109b7a547b089d71620d029bd0a3000b3f8bd11f5edd7bc24e7"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBScreeningNumberSeqLoad.xml",
+      "kind": "AxClass",
+      "sha256": "3e948f9330e37e9f621d75eb3d4791e1887129be8be44677ea815e62f6f127d1"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBScreeningNumberSeqModule.xml",
+      "kind": "AxClass",
+      "sha256": "a24cb2ceae566cb02bee7e24a462edd56d9f1d349defdd2cfbcf4e2e32a62490"
+    },
+    {
+      "path": "ProjectItem/AxClass/UBSkillButtonEventHandler.xml",
+      "kind": "AxClass",
+      "sha256": "5429b5c1f09c5a3cd1935611f6717d1ad22aba9097c5918b2e40cbe0d9064dbb"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBAcceptanceDate.xml",
+      "kind": "AxEdt",
+      "sha256": "ff504370636612ce15528d14e0b9c6c16751ec4203d04716c5c064fb0537f735"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBApplicationDate.xml",
+      "kind": "AxEdt",
+      "sha256": "7c259471ee08115f6bc8b68e0d9a1ea20872fa1bfe0a9eb19a9113c779c21fc2"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBApplicationId.xml",
+      "kind": "AxEdt",
+      "sha256": "ea3c78bcda24cfa6cf8344a9bd7687cb998d30654f318e10c29f4618772bf1b7"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBApplicationNumber.xml",
+      "kind": "AxEdt",
+      "sha256": "e47be6a32b0e95fffb8512617579606698e93bc94e61c53cbc2b1d37fb80fb77"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCandidateId.xml",
+      "kind": "AxEdt",
+      "sha256": "8fd8355e4af85154f54735efac13f2b83e362e4fc85782cd1127cf0c70a01f28"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCandidateName.xml",
+      "kind": "AxEdt",
+      "sha256": "8595b2edda9349d8e4e0e2652e0c6f476032503f7f65fee4ac6c9d03e23d1c1e"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCandidateNumber.xml",
+      "kind": "AxEdt",
+      "sha256": "c67e6a702d67938827f7dd96c7b301ccf2c4f645a2289feb535671dbe2646a35"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCloseDate.xml",
+      "kind": "AxEdt",
+      "sha256": "010b85dd0f7d12876925c57733a919bcec83749f1828dc192a47f75b1ced76b5"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCommunicationScore.xml",
+      "kind": "AxEdt",
+      "sha256": "77b2fec45ffe324ee342a313b85173a938b1d9153fbd477b8c42692c1ebb12fe"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCompanyName.xml",
+      "kind": "AxEdt",
+      "sha256": "092a64e26919247000cac376b5dd07f4e976c43881840424096e69b4a7b8d2c9"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCriteria.xml",
+      "kind": "AxEdt",
+      "sha256": "ef3ae75f6818af91974f4c5ae88ef6ac71bd3371d0cf1cc8d2d35e33e22de111"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBCurrencyCode.xml",
+      "kind": "AxEdt",
+      "sha256": "00513dce8dbf90dcfc7b27df1f1f7660176678c5c0a9441f0eed8bf5008453ca"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBDepartmentId.xml",
+      "kind": "AxEdt",
+      "sha256": "bb4f6ff862723b56321d2884dc2437bd086622352a415a17e831e43adb1f7803"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBDepartmentName.xml",
+      "kind": "AxEdt",
+      "sha256": "8f1d4c51b06ad5447c9795596208c95b17833c91056b40893c33c16fda714dec"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBDescription.xml",
+      "kind": "AxEdt",
+      "sha256": "f027c570623e27132eaec218cd7e9044bebe35d115feba2e52f37013d2b0f01d"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBDesignation.xml",
+      "kind": "AxEdt",
+      "sha256": "cb94f46ddf0513575dc6fea6321cb54541a63eeda06b2a74f4e34939a90000af"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBEmail.xml",
+      "kind": "AxEdt",
+      "sha256": "e003bdc05d1b48e71cb3a34b4fef0e1cc41282875089c08734315a68df60e50e"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBEmployeeId.xml",
+      "kind": "AxEdt",
+      "sha256": "5d35abc6ac58655ced42e97472536feff4c83a6cbaf11911bd827ebce62ec8cb"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBEvidenceSummary.xml",
+      "kind": "AxEdt",
+      "sha256": "efde30d4f0c79b00d111570df7993b7288f34afcefb1dc332cec1d8959c83f19"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBExpectedJoiningDate.xml",
+      "kind": "AxEdt",
+      "sha256": "fa29eac66e7aeeeb1426a199e7c3431b1af33ab3b36f312c27d72ec97247c3c6"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBExperienceMatch.xml",
+      "kind": "AxEdt",
+      "sha256": "6b3479e34bcdca7eeaa6194ad39cabd6db3c3a9a1e286c7bd422c1f851e32340"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBExperienceYears.xml",
+      "kind": "AxEdt",
+      "sha256": "82c673f3efc5b1be1c69b0b07392db748dd1558ae06afc56236acf9f42615618"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBExternalRequirementId.xml",
+      "kind": "AxEdt",
+      "sha256": "665927f191e19a8ab135188fd57d4161c7c0d1e6f17284b182e0c12bbbfb2b94"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBFirstName.xml",
+      "kind": "AxEdt",
+      "sha256": "ec254bfba74125446d9a83dcb4802025323afd7a26cc876028caed9f670a9f95"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBFunctionalScore.xml",
+      "kind": "AxEdt",
+      "sha256": "c668b2dcb00dd1a8215103ed7e918fc586a8f8bfeaf987f6a1876c76cdde334c"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBHRApplicationNumberEDT.xml",
+      "kind": "AxEdt",
+      "sha256": "d823da85e04e0148ab0b01b599d49ab6f1c5d6e3b56f60078e1e14e5f334f34d"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBHRCandidateNumberEDT.xml",
+      "kind": "AxEdt",
+      "sha256": "25c1c5b71349e69420eb6985da570298f71611feea4ea97b62225bc44d8f0a5a"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBHREvaluationNumberEDT.xml",
+      "kind": "AxEdt",
+      "sha256": "7440bf51c7f43af4fb70f3c4ce8f6500de42ff6666ae24fc948183a008dba7c9"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBHRHash.xml",
+      "kind": "AxEdt",
+      "sha256": "a4b3315d7e20ce5e0fc2de52b225e25ca6ca5929ba5176115a0360c3f4c64601"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBInterviewDateTime.xml",
+      "kind": "AxEdt",
+      "sha256": "6dc74d837d27f657a65bbb555ac07344fc8a610abe26c4b9c72c01031bb1685a"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBInterviewFeedbackId.xml",
+      "kind": "AxEdt",
+      "sha256": "a817ce136b2d30597c1db45a4271057012cccadd6c1afc1b29bb33df9d0b66fb"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBInterviewId.xml",
+      "kind": "AxEdt",
+      "sha256": "ee08f580c2e608e0c774ef5fbabb951f6109adf896e998443dfd1917c551bfa6"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBInterviewRound.xml",
+      "kind": "AxEdt",
+      "sha256": "709a0fa87e0f8dd32aa87f6ea2e2ccefa80240d2b8930b26e60a9704ac799772"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBInterviewScore.xml",
+      "kind": "AxEdt",
+      "sha256": "a2a726ee9a45b9f90974d8cc4b294f7e695d9133acd59fece6f324f2b3168cff"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBJobApplication.xml",
+      "kind": "AxEdt",
+      "sha256": "6231c346288891ba52f5efa45a127506f78c340c332e35193305e153a2b02940"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBJobTitle.xml",
+      "kind": "AxEdt",
+      "sha256": "846718918bb3e294918ca5688507f95b2219f8cbd1deeac87d1a624b21a65ad5"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBJoiningDate.xml",
+      "kind": "AxEdt",
+      "sha256": "5dcb0fcef523048ac0c235b7372633e4a7bf7ae83336fcd1c7adbc8cf1b9ba03"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBLastName.xml",
+      "kind": "AxEdt",
+      "sha256": "9380f7fbb74710124a77949be461fa1ab12915498c321564f94119513f0320df"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBLinkedInProfileUrl.xml",
+      "kind": "AxEdt",
+      "sha256": "27cf02c95b9914f51bf53c465183ea36dfbfcf365af4a70dc82cdbff42e0dcd5"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBLocationName.xml",
+      "kind": "AxEdt",
+      "sha256": "608d4d513a9269f13b6d7d858d58baccf0cf0dcf60f24f0c92b4d1857596b7c7"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBNaukriProfileId.xml",
+      "kind": "AxEdt",
+      "sha256": "192d7c285194431103460de149dfb445f265511473f057f9087e01f5e63fa240"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBNoticePeriodDays.xml",
+      "kind": "AxEdt",
+      "sha256": "9e875522af18e6b3752bb7f3badfe962d21722ed95baa9a86924f595990501f4"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBNumberOfPositions.xml",
+      "kind": "AxEdt",
+      "sha256": "76587005a93c361c38b2bfc8ad3cfe9fdcd35c09f8d2813635877c43a10b3e30"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBOfferDate.xml",
+      "kind": "AxEdt",
+      "sha256": "515a425cc1227a1ff795e910e184dcc8dcc0cce13c947ee493edaa023ed7fdba"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBOfferId.xml",
+      "kind": "AxEdt",
+      "sha256": "e61ea6713cfd2664e2eb8a9a3231440dca7904cc8b57fc2b783ffd2a77bbd31b"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBOfferedSalary.xml",
+      "kind": "AxEdt",
+      "sha256": "cbbb541dc246d2464206cb004e6fa8b04669642a1406799ed601da9d4e3dff7e"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBOnboardingId.xml",
+      "kind": "AxEdt",
+      "sha256": "3259c95dbbfc9fd04e39c24b33cbf351b8378132940dab68eefb7a5b26d1ffbd"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBOpenDate.xml",
+      "kind": "AxEdt",
+      "sha256": "94bf1f03253211428b0b90f2e8babfe66e4fed652e65550f5c078500f1834243"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBPhone.xml",
+      "kind": "AxEdt",
+      "sha256": "f80bfacf2a37535bd559af6213d8e120ccccdc21179eb5fa5d2378f4b1a5446d"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBPositionId.xml",
+      "kind": "AxEdt",
+      "sha256": "038105e178a82659d1861454d7f9d3af88ade5656a03865bce82a89397ad63e0"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBProblemSolvingScore.xml",
+      "kind": "AxEdt",
+      "sha256": "4a5598bc4389f31680373804e46ef558887d13217f57e1be217eb5d82472830a"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBQualification.xml",
+      "kind": "AxEdt",
+      "sha256": "0ea83085a9dae3c72437e4f0fd21c3c6eba9a427ece50a83e482fd1212b98029"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBRecruiterId.xml",
+      "kind": "AxEdt",
+      "sha256": "09fbbd31a045d6fa5936ae74f878852ed098e2711135b18242cfd38fda19dd54"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBRelevantExperienceYears.xml",
+      "kind": "AxEdt",
+      "sha256": "3ba778ad0a9bb74d268dfe634f8c4466e7a745b476a621cbf74648fabea519dd"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBRemarks.xml",
+      "kind": "AxEdt",
+      "sha256": "abfdf5a28ea64218cbca477e4ba0ba0698ccff1f2cad5a5fad3a46dae10b32c0"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBRequirementId.xml",
+      "kind": "AxEdt",
+      "sha256": "8046c1e1c50904e337cdde1325dbaca95a6dc9217799130bd99a3712a694c374"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBReviewerComment.xml",
+      "kind": "AxEdt",
+      "sha256": "b0929213566f47b92eb297eb6401c43441431020bfc66bbf2d440d2df70c7484"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBScreeningId.xml",
+      "kind": "AxEdt",
+      "sha256": "ec6fe9ae11efd74d18a704cb23c7293c46acd40ee30aebf850f6d335274cda6d"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBSkillArea.xml",
+      "kind": "AxEdt",
+      "sha256": "efa82d893aee18e9ecf3f796305e1a367b7cad938783e2612f5c07a81ccefc43"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBSkillExperienceYears.xml",
+      "kind": "AxEdt",
+      "sha256": "0632f3ac5fea7fd71ab9c0d1982f866f4f041b3548be6bdc21097263ce97bfdf"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBSkillId.xml",
+      "kind": "AxEdt",
+      "sha256": "5a5a3fbbb54d31f714406326a7b75b1b394d95d8610c975336a56deab2a6d616"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBSkillName.xml",
+      "kind": "AxEdt",
+      "sha256": "27cd086255afe513b66f67fc1a5d94e2f47ac7de581902cf8c22aabaeeb478cf"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBSkillsMatch.xml",
+      "kind": "AxEdt",
+      "sha256": "7344a806a223402b5a1936337a8eb363a6003eed9fb558e714830a83b9fdf11e"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBTechnicalScore.xml",
+      "kind": "AxEdt",
+      "sha256": "363393ebb1d387731484a197bf6b76d97ae6114376ba345e7f6c56e848a32de7"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBValidFrom.xml",
+      "kind": "AxEdt",
+      "sha256": "807446894b160299cceed646c34232932da7cb6b613fd720b57a080040a06407"
+    },
+    {
+      "path": "ProjectItem/AxEdt/UBValidTo.xml",
+      "kind": "AxEdt",
+      "sha256": "5ce8e474eb622f8af13aec758a5507c64ed7779b67369ddf8a849bcacb124236"
+    },
+    {
+      "path": "ProjectItem/AxEnum/AIStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "3bd33f4d8c6e7e434c2d6a49b53878ac3961b5dfdc7a713f9f14c63c989d21c4"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBApplicationStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "80e8d15cc35027807a5a396e445e1ab9fac9d1d98b304fdbe305901e726cea32"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBCandidateSource.xml",
+      "kind": "AxEnum",
+      "sha256": "f97a141e8e6ecc60384f38a793fbe868f692f2e01a769784b3f8b8e2af55be0f"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBCandidateStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "d20282ee6e22d21c9e20ca58db8987c2943920726d48eeb713c0ed2b47b50092"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBEmploymentType.xml",
+      "kind": "AxEnum",
+      "sha256": "31f67e6f1ef3baf1607afc1d84a60704782a4f77dbdac3c32083351bc8e20d06"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBHRHRStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "4b297e10a619283dd355bb8ce11472e2d5230eb935584c8e2158a42a905d9c4a"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBHRJobStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "477d1c0e1699aba6c5e4feb1c13faa1c6874a4ff154752400a53a166819fd8a0"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBInterviewFeedbackWorkflowStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "1368c39f08b85e35410f8b156b4ad9ae9ddb33cb5aef1a10d3a8db317a4772b2"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBInterviewRecommendation.xml",
+      "kind": "AxEnum",
+      "sha256": "94ec3b15a1019ac3d47478b8217381b5ba39145308b4cf56493eb9dbe699fc98"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBInterviewResult.xml",
+      "kind": "AxEnum",
+      "sha256": "9b04b2ac820145ad63e8f26b0130a0077752275c5f6af0876f0ead0be15ff161"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBJobRequirementWorkflowStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "9a975038221065975957e7892bf1f74a84e02dde4fb3c66ee3814ccf6c783465"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBOfferWorkflowStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "2cf51801e0082016bdf562b4f61e9d3998000a4589ec4085d479cccd407a4890"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBOnboardingWorkflowStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "d8a5b8bb7a657d21557609929c413cef121f23817cdcc91ad95bd0b1b767a8e0"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBRequirementStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "18af42691182b2d8eba2b498ebc46b3f77ebacf8e2617f8f6c4f124fe684e6ec"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBScreeningDecision.xml",
+      "kind": "AxEnum",
+      "sha256": "871f921417ce681c610a0845298d9ca05a781f957dc4d8a504c6830c28d63444"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBScreeningRecommendation.xml",
+      "kind": "AxEnum",
+      "sha256": "ed6f9a990cf7b54fbb41f0b5e06767f600c049e2f458002e96f420b5a07c2035"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBScreeningWorkflowStatus.xml",
+      "kind": "AxEnum",
+      "sha256": "7da3d624d007662f9f62316e333f755fab99b462bf5fe74cef1612e9a393b081"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBSkillLevel.xml",
+      "kind": "AxEnum",
+      "sha256": "6872b574702eca51163219d22a7b9d57421e966c0f031c891259dfdad28fe34b"
+    },
+    {
+      "path": "ProjectItem/AxEnum/UBWorkMode.xml",
+      "kind": "AxEnum",
+      "sha256": "1ed4e9720f06e1fd7d72663f119694fe46c4f509be4c36c0e060e5f5bafe478f"
+    },
+    {
+      "path": "ProjectItem/AxEnumExtension/NumberSeqModule.UBHRExtension.xml",
+      "kind": "AxEnumExtension",
+      "sha256": "1ff0e20410f1aea244a7eafb2fb6a39213f4cf36a040e465b21df3a843aa2480"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBCandidateForm.xml",
+      "kind": "AxForm",
+      "sha256": "7736da631a18c265a2f62ad4c4e188e7ca712b97a8230a48b0d65b5319b37b56"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBCandidateScreeningForm.xml",
+      "kind": "AxForm",
+      "sha256": "6a7c67de514cec889a34acc514a1235b6abd4aefb6adc6b5ccacc76a81638854"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBDepartmentForm.xml",
+      "kind": "AxForm",
+      "sha256": "3817c3e6669f37034464ba66e50073376d177de45daad6cc4a90dd33d8116c7c"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBEmployeeForm.xml",
+      "kind": "AxForm",
+      "sha256": "58c92932f00e067ae4acd1bec693dd6d1619aeda7c6b81a952868ce8cd38d2cc"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBHRMatchEvaluationForm.xml",
+      "kind": "AxForm",
+      "sha256": "332bc2131568e880419c0e41f42345608d170f4ae5c2c0bec2256a4d167daa7c"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBHRWorkspace.xml",
+      "kind": "AxForm",
+      "sha256": "ae27865105fe34b9abfc8684dc073cfc1b5828a521db8b7a030625e7afc03a44"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBInterviewFeedbackForm.xml",
+      "kind": "AxForm",
+      "sha256": "505f2a2e6f3b045ce9d408c2393ca9bcc7650fdaca613762abc4138711ef4c54"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBInterviewForm.xml",
+      "kind": "AxForm",
+      "sha256": "a22845fa65a812f27662e5930e20a8006f3c70405d4e319039bbfa8906857076"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBJobApplicationForm.xml",
+      "kind": "AxForm",
+      "sha256": "bf6a712f0828277577a5d47d45d7ae0afcc6664dd83349b9d93c8c5d99f3ba96"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBJobRequirementForm.xml",
+      "kind": "AxForm",
+      "sha256": "24da4b5945a5c191a9ed7cc5e072e6fcaf944b3ba90f68f65dd0224154aa567d"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBOfferForm.xml",
+      "kind": "AxForm",
+      "sha256": "ae68dce03c32849fffa9686c491e6c012bfd79cb68ebed2abc6c53d0dcf17630"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBOnboardingForm.xml",
+      "kind": "AxForm",
+      "sha256": "74f2789d87dfbce38cba4afebb4637f3df94d07724df263b9cf8f76fa11da9ae"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBPositionForm.xml",
+      "kind": "AxForm",
+      "sha256": "8a274fb7e6af921973c0594ceb3f910af22777503c80c4e722d4a26d5fd9d54a"
+    },
+    {
+      "path": "ProjectItem/AxForm/UBSkillForm.xml",
+      "kind": "AxForm",
+      "sha256": "b52b2765f0c0083a23d3b35bb03c8d71f685b51760f6d30571cccc3552707953"
+    },
+    {
+      "path": "ProjectItem/AxLabelFile/LabelResources/en-US/UBHR.en-US.label.txt",
+      "kind": "AxLabelFile",
+      "sha256": "663f25722ca016cdb0985a337144cb04d402d5264b5c06b999195bf20c9d4bd2"
+    },
+    {
+      "path": "ProjectItem/AxLabelFile/UBHR_en-US.xml",
+      "kind": "AxLabelFile",
+      "sha256": "f60a2dc6c1485cc7b3a1cfeaf1e55eaf505f62ee1da6a7e441e4f39e3d2c553c"
+    },
+    {
+      "path": "ProjectItem/AxMenu/UBHRMenu.xml",
+      "kind": "AxMenu",
+      "sha256": "e654b6f7e84e9583a34a5bcc08d14d46d45ca6ef7819ed823aa29e8ba9767629"
+    },
+    {
+      "path": "ProjectItem/AxMenuExtension/MainMenu.UBHR_Nive.xml",
+      "kind": "AxMenuExtension",
+      "sha256": "959e645865071d62614126ffd8815f4ebf11f80048f92565fd310bf96ebd089a"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningApprovalApprove.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "a00a37b58b0e4d9cdee8687d37db13007f5b0a35f66cdb7c897a9d6ac6d00592"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningApprovalDelegateMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "7b979e79b28b5948a203e26c58526847775074ea228b79365aea2cf3191db69a"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningApprovalDeny.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "f3a1e5456792404c8fb5f1f9b893b7d680e580fb5839ef5a84c8268bd50bc342"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningApprovalReject.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "70dbdc33c137165f78eedeadb5c710e53fa47e96b3eaab3c03e9e829f069cc7c"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningApprovalRequestChange.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "6bb014fa9714c9889b7e8d84d0efdec2d173940ce395019901a2e4ca83f66d21"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningApprovalResubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "ed59ee54ecd16bc84b3e69dd3043ec1bf5f0880f76707bda22c69d657f883e95"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningWorkflowCancelMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "49f9c38f5799508c464737bad62a9a43f907ed88663156cbc0ea7c6751cd4bb1"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBCandidateScreeningWorkflowSubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "76e93ae9c37c531330df181793d067e3b0fa2d245a7187283332364e54d96a69"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackApprovalApprove.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "5ea3fbcd2753772ca459c13f7495053821269b690674b17d8e26171dbd4fb2d6"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackApprovalDelegateMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "15d33ff63e27a64dd6c8f9e2df73a7669aee58637edb7fdb602584a18036b61e"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackApprovalDeny.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "36d54fc37147b92853e28cd2a7294d57053051a42d726d5370da4d0c40ee5ae6"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackApprovalReject.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "05a07f138f539d60f1d1c7c1e81eddccd71c1ae796e27a7f952ce725ef70c138"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackApprovalRequestChange.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "8a57d8ee41519fe7dce737243d55a16692b9f92d03c1f3316d02f7b9ed73e39a"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackApprovalResubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "b8493277f6917a02965c89bb4204b13c2f499cb80e08a0ae576884d221a45f11"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackWorkflowCancelMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "495f67662c2d85a59ae3892bc759fb3738ee34fb8ceed92254978c5dbac17278"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBInterviewFeedbackWorkflowSubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "4d4c69964ad87f2970cc92923845089e5451e0cf077f8f04c4a2ff3cd4cd5015"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementApprovalWorkflowApprove.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "b86b6544e551d7a37861ae0e655dff477288e0596c250ed46012072dfe1c9467"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementApprovalWorkflowDelegateMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "fcab683ef9820b402cdc95530eeccb7b3f1c4972e68dff599c21040af599565a"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementApprovalWorkflowDeny.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "2d4d6393705a448ce45e1ba081156b53f1dfa76a739be896d9e453af3d208041"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementApprovalWorkflowReject.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "2f520ec1c387caa5fbb2f57ffc10aafc84548bbb51027f28a75ed51f309e0a0b"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementApprovalWorkflowRequestChange.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "26b16d6f15f3513c33b5f752ccb85e034ac12de395090292d5b3680628926ab8"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementApprovalWorkflowResubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "215f8588955e80eb5a090d2cd813554535be2e085bb3df26f667647895621842"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementWorkflowCancelMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "02e3795c23b9735af24c8a5538c238cde0595a510586ca9bfd41ea8bd27f13d2"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBJobRequirementWorkflowSubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "34734c59dfd9e3d0d35fc5db4110af4d1fd850147662acf6444fa32a48b65973"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowApprovalApprove.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "58c6176db1bfcc21f4ce5fdb0aa6fa82c3d5cc94fe4ff85ecf7c2a6bc0ff4d33"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowApprovalDelegateMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "03bbf8682c0db4cc50856ae2546693e4d92c0003ad1186ab6da20972c8c695be"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowApprovalDeny.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "03e5407e9d39ca6008119b51f582983bfb472134093f5469b755adde5f803d56"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowApprovalReject.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "c4bdfc9be3f32a0e7a0c22fc0cbeab3fc0f8455e70d6fa82546511e7d1ba8a0f"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowApprovalRequestChange.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "d0c154b0e909dd710bcfca8742978daec8c95b35d56bc641ade173fb6b0eeece"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowApprovalResubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "f1ab24a829acc014ebe1111efc200384ab9c600b7945ce984669292e945e1e84"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowCancelMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "47660a479a18a1cfada8b375ca961de490edb48e69982463f2fc8e3b9e646007"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOfferWorkflowSubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "c35319989cd9ae792b9d6896a5628edb8a730b31cb75709f4df9b27bfdcd9577"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowApprovalApprove.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "8fbd60b2dc2392039ab694f97f25f990affddba3ac1f05882fcc0446793ee3c4"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowApprovalDelegateMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "bdc53b5d68e8bd405d1189bc2084ba82dc68155193c2bb6d58f16c333936f21f"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowApprovalDeny.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "2dcec38a94de03c79d895a329323ff8774b9540619d86c71a7e4739ca1ee2d62"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowApprovalReject.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "4ec797d96592485ec734db512ce95faecd425b58c71a957fd2858c2d0256b573"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowApprovalRequestChange.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "9fb84ad338bdff5b92a4328bde9f7d6b9153c707f0855ca6c5a4dec129cb50fe"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowApprovalResubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "8f42c26069aebb0aa1c3fca56f70f1d0dc1fe05c3412fbfcf36b2be53817aeb7"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowCancelMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "5e9f8e9663662836a822f5dacb53c7c54878d959ab9b37ef27929540589dd3d7"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemAction/UBOnboardingWorkflowSubmitMenuItem.xml",
+      "kind": "AxMenuItemAction",
+      "sha256": "08b5b9ebbee3f20a3a68cc499fda0a17902b230c3afb82ffee2da9254459e5d8"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBCandidate.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "1344bce5881ecaff1b674d95afd5f09b228b6e0875d4ed278c6f1ea4bcd9278a"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBCandidateScreeningDisplayMenuItem.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "da334c4c81769251f3c6717af0ed914cd5a11a51c3a332e0dc4027fed2f9a504"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBDepartment.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "03a974d87f01d59d758e7a33127e8fd2c01a34679314ce85e2a9a44a49813d96"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBEmployee.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "b319d9f234422e70ebcfb8ce6fc043c9bdbba4b9bcd1a13cbcce2b6e2f8206c1"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBHRMatchEvaluationMenuItem.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "11a2c477760d473646565b5ce1092f0e67fc02548de062f924e5a8479ba162a2"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBHRWorkspaceDisplayMenuItem.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "a59571b17c26d9869d40de6eff589c9faed6bf78f7d4a05416e9970696f9e1aa"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBInterview.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "78b393f8ce939971b23fae85921a1c339a29de6601829e66d4cb5bcce7c35174"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBInterviewFeedbackMenuItem.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "44680d2a1aae39a8570ee5419aab95ab47d5d842a4e853857dabf60ad4ade80a"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBJobApplication.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "97506efbaf2801b99347903167807fb96807bee018e372f54026b98d68246fe5"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBJobRequirementDocumentMenuItem.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "6a70d1afe8fb1aa96bc2c5a2fa004dfebac8aab294a60465de3fb001426968b0"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBOfferMenuItem.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "01e67fa7a1d62b07f383f32e563f829e84a38fbc045c4aa6f834d47b9ef08175"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBOnboarding.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "180912503395457cd0e0a9bb7078e2b258b238f4483728c40a8c934fdd7bcae1"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBPosition.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "c9a28d1d8bbdaca33112d1131833a737a4fede2d9b3692b9d35e9f31f0c64a6d"
+    },
+    {
+      "path": "ProjectItem/AxMenuItemDisplay/UBSkill.xml",
+      "kind": "AxMenuItemDisplay",
+      "sha256": "0dc1d929b1d845a2e277197a18fe14b319360bb42173a3ea4aa5d47655710af8"
+    },
+    {
+      "path": "ProjectItem/AxQuery/UBCandidateScreeningWorkflowQuery.xml",
+      "kind": "AxQuery",
+      "sha256": "206acc94097aefb327cb4496aef98dcd596f5707cbe8606454bca8618a410b48"
+    },
+    {
+      "path": "ProjectItem/AxQuery/UBInterviewFeedbackWorkflowQuery.xml",
+      "kind": "AxQuery",
+      "sha256": "6632ad747f6dcb921198744656b50e888beee0f1e261648d26bfb7c100449e63"
+    },
+    {
+      "path": "ProjectItem/AxQuery/UBJobRequirementWorkflowQuery.xml",
+      "kind": "AxQuery",
+      "sha256": "f92798e2108f6563e2b828dc887cd02c2a92991ecea140a4a589c913ce28c0ce"
+    },
+    {
+      "path": "ProjectItem/AxQuery/UBOfferWorkflowQuery.xml",
+      "kind": "AxQuery",
+      "sha256": "2bbd1631302112c181cd8d9c05eef9f0909b9ac61d0b415b546c8b9c49de88c7"
+    },
+    {
+      "path": "ProjectItem/AxQuery/UBOnboardingWorkflowQuery.xml",
+      "kind": "AxQuery",
+      "sha256": "b5e5e134a9e9ae74cbf7e615da5a9322007524a5c7cbbee37a7a49a0cec7c187"
+    },
+    {
+      "path": "ProjectItem/AxService/UBHRApplicationService.xml",
+      "kind": "AxService",
+      "sha256": "4279d4d489131b81819fdaa8ca8362de6b76652f25223f0539de250333b83f2b"
+    },
+    {
+      "path": "ProjectItem/AxService/UBHRMatchEvaluationService.xml",
+      "kind": "AxService",
+      "sha256": "4e72d9aa9559ea4baef0a9f0dd54c7a01a8770f0c79c9a7d46495cdd239d859e"
+    },
+    {
+      "path": "ProjectItem/AxService/UBHRPortalService.xml",
+      "kind": "AxService",
+      "sha256": "62f64b1b245a10c71096b18e784f6fdc5c829932a7bd9d11610aee4f9304f8bc"
+    },
+    {
+      "path": "ProjectItem/AxServiceGroup/UBHRApplicationServiceGroup.xml",
+      "kind": "AxServiceGroup",
+      "sha256": "44df393cba1dfdd7e4863073484a8a364b2ab1f375ade17ad886bdd7d23da942"
+    },
+    {
+      "path": "ProjectItem/AxServiceGroup/UBHRPortalServiceGroup.xml",
+      "kind": "AxServiceGroup",
+      "sha256": "1056981e840206512e5f96a564e069b3a66cf9ce3861bfd34b152550db0ceb25"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBCandidateScreeningTable.xml",
+      "kind": "AxTable",
+      "sha256": "39d54f8310da024e9eb57dd17d5a28eaf9c30e72ec505889a802215fb006cfa9"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBCandidateSkillTable.xml",
+      "kind": "AxTable",
+      "sha256": "27e340e90c2396d9e3e7f64ff80b00fd93e85e41b1fa27d0017f9e66405d4c56"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBCandidateTable.xml",
+      "kind": "AxTable",
+      "sha256": "323e71f496f49e1595e0fcdaf261cc9447334dfd8db51c7e47d004cc1630d8a8"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBDepartmentTable.xml",
+      "kind": "AxTable",
+      "sha256": "7536504e31c473e3498aa3f4ab013798ac31045dc276d8bcee9d62a2976d960e"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBEmployeeTable.xml",
+      "kind": "AxTable",
+      "sha256": "b700dac00a632dd96ea338e54107c3bed7e5ae1e637f7919022b81030c9f5582"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBHRMatchEvaluationTable.xml",
+      "kind": "AxTable",
+      "sha256": "1805b3950d85c157efdc1ed65785de25e167e7564ac10e4c6c1b216d7bd4a782"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBInterviewFeedbackTable.xml",
+      "kind": "AxTable",
+      "sha256": "cf598546755c03eeb195041292bcae29ea9a4524bef952e68aa9b16544f0a4f6"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBInterviewTable.xml",
+      "kind": "AxTable",
+      "sha256": "e32d008981644b044efe7e65eb2dc5d04dfa2a2485f47d14bba5c13fc162fb23"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBJobApplicationTable.xml",
+      "kind": "AxTable",
+      "sha256": "63bc72fe1462fe2f3edaad834bc7b5aadaa97ded0fe3b005a2469cd5991f2f6f"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBJobRequirementTable.xml",
+      "kind": "AxTable",
+      "sha256": "6e81be0d3938372e49b9801f03c7762d6b7e4f9cafca6ff3f0f9e7efbdef5271"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBOfferTable.xml",
+      "kind": "AxTable",
+      "sha256": "4e4d03f48332a7ff98aafc5eb2ec160f24e1990ce60cf205500065ce31a64016"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBOnboardingTable.xml",
+      "kind": "AxTable",
+      "sha256": "1d97fdf34852b12ea4d24f2325e8f8b6589b9250b6bf835ed3e6873df7370cfe"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBPositionTable.xml",
+      "kind": "AxTable",
+      "sha256": "c13be89036e37dd26e36f9f0ba23679ce91f61f27a8dd45337a53d7eadc7876d"
+    },
+    {
+      "path": "ProjectItem/AxTable/UBSkillTable.xml",
+      "kind": "AxTable",
+      "sha256": "6c1bc7e1a2417202347671e695f1f80122c9a1526fddc6a526dfa194664cb82a"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBDepartmentTile.xml",
+      "kind": "AxTile",
+      "sha256": "eb59f06c2eff79eba8bc8918d598358780613440127e94a8e2bca4d98babf119"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBEmployeeTile.xml",
+      "kind": "AxTile",
+      "sha256": "337e3daedce7d138435b4f80250be126a98df4621f4ebe768e68730b38d066fd"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBInterviewsTile.xml",
+      "kind": "AxTile",
+      "sha256": "2ce2cee8ab4013f9248ec78949fcf073a2e7c3e09aac72772b95734e9c69d2c8"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBJobApplicationsTile.xml",
+      "kind": "AxTile",
+      "sha256": "4ebed493ec569ee088faf9cd6d83afbaf069590229de24de9cfe179411afe4af"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBJobRequirementsTile.xml",
+      "kind": "AxTile",
+      "sha256": "55a3aaf13566b96070696c14de49289ac9ea34528498516983d267f6c56e1994"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBOffersTile.xml",
+      "kind": "AxTile",
+      "sha256": "e534c749ceb5559831f36cb3d122746789b958b053db560df1226c4714e216f0"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBOnboardingTile.xml",
+      "kind": "AxTile",
+      "sha256": "a12ec27f46d61dc60c60bd901ae0ca2b2da4767ac7473ef614693838c22a8a6c"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBPositionTile.xml",
+      "kind": "AxTile",
+      "sha256": "96b2ddaf48d37ec3a5b13735c3e57dd272daaa1c37115ac938c756fe988efccf"
+    },
+    {
+      "path": "ProjectItem/AxTile/UBSkillTile.xml",
+      "kind": "AxTile",
+      "sha256": "e551ddfc0cbfa1a61c612804086daf9f0f7428c5a19f33c66b7789823393f784"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowApproval/UBCandidateScreeningApproval.xml",
+      "kind": "AxWorkflowApproval",
+      "sha256": "eb261be5b92ba7dabf260d000f66670e6d37865c18af3fd56d1be06acab2a4cd"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowApproval/UBInterviewFeedbackApproval.xml",
+      "kind": "AxWorkflowApproval",
+      "sha256": "66414171cb1eae0a5f6043e741ace50da7d4fb81c5a57b24537fa4ad9ef3d330"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowApproval/UBJobRequirementApprovalWorkflow.xml",
+      "kind": "AxWorkflowApproval",
+      "sha256": "d220259ec7696d7e733c31b9925c116da81126664dffe2ad7bf18dd0469cc024"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowApproval/UBOfferWorkflowApproval.xml",
+      "kind": "AxWorkflowApproval",
+      "sha256": "2f7ec1f1e0c91c1b5ce482f52ad023d4e9afa18ccb5b592750c0b7be8e904d49"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowApproval/UBOnboardingWorkflowApproval.xml",
+      "kind": "AxWorkflowApproval",
+      "sha256": "abb46a958a3a6e32237e42c0f59cc817513d2ac42935f0c52134621a861d8e6c"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowCategory/UBHRWorkflowCategory.xml",
+      "kind": "AxWorkflowCategory",
+      "sha256": "eb787e92b38813ad30d2dea4121c754ab46f565eba610ff0a3749d4d6dd6e117"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowTemplate/UBCandidateScreeningWorkflow.xml",
+      "kind": "AxWorkflowTemplate",
+      "sha256": "bfe52d66b5c0da5f1ef95f36c8b9cb58bb666752a839ecf0bc56f1345977d707"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowTemplate/UBInterviewFeedbackWorkflow.xml",
+      "kind": "AxWorkflowTemplate",
+      "sha256": "44d205dc27dff07c03d8fdef402f42c90f378591826d1dcc532defe32ae4053a"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowTemplate/UBJobRequirementWorkflow.xml",
+      "kind": "AxWorkflowTemplate",
+      "sha256": "2eddbc8dde52cbcca62d838b90e0fd5ccf3aa26f83f4fb27e9399ac9922a2223"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowTemplate/UBOfferWorkflow.xml",
+      "kind": "AxWorkflowTemplate",
+      "sha256": "58104d741978c113fd5828cde9599f9a4172e1f96563c85838570fef223f5bb4"
+    },
+    {
+      "path": "ProjectItem/AxWorkflowTemplate/UBOnboardingWorkflow.xml",
+      "kind": "AxWorkflowTemplate",
+      "sha256": "76fbd72189ab90141212e2028ece8e7c06325741028b6e2fb3ff8b17b820dc20"
+    }
+  ]
+}

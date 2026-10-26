@@ -1,5 +1,7 @@
 # Paste guide: existing F&O tables with SQLite portal metadata
 
+The [25 October AXPP review](review/2026-10-25/README.md) inventories the full 14-table project and documents the coordinated full-name fix. New application requests use the existing `CandidateName` field. Deploy the expanded F&O contract first; its optional first/last-name members keep the old backend compatible during rollout. The name fix requires no new tables, fields or App Service settings. Future ERP schema proposals in that review are separate from this change.
+
 Use your existing model **`UBHR_Nive`** and these exact existing tables:
 
 - `UBJobRequirementTable`

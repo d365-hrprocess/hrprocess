@@ -5,6 +5,8 @@ public final class UBHRPortalApplicationRequestContract
     str company;
     str applicationId;
     str requirementId;
+    str candidateName;
+    // Optional legacy members allow the existing portal to run during rollout.
     str firstName;
     str lastName;
     str email;
@@ -32,6 +34,13 @@ public final class UBHRPortalApplicationRequestContract
     {
         requirementId = _requirementId;
         return requirementId;
+    }
+
+    [DataMemberAttribute("CandidateName")]
+    public str parmCandidateName(str _candidateName = candidateName)
+    {
+        candidateName = _candidateName;
+        return candidateName;
     }
 
     [DataMemberAttribute("FirstName")]

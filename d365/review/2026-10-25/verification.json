@@ -1,0 +1,29 @@
+{
+  "source_archive_sha256": "36b203e80af1cc3351abade417fa98abfa9c6dd7ae4db36f0c0a35dac15d435e",
+  "archive_entries": 247,
+  "existing_tables": 14,
+  "existing_declared_business_fields": 203,
+  "backend_tests": {
+    "passed": 390,
+    "skipped": 20
+  },
+  "frontend_tests": {
+    "passed": 78
+  },
+  "lint": "passed",
+  "frontend_typecheck": "passed",
+  "frontend_build": "passed",
+  "mocked_contract_bundle": "passed",
+  "prepared_axpp_changed_objects": 6,
+  "prepared_axpp_unchanged_objects": 241,
+  "xpp_compiled": false,
+  "visual_studio_import_tested": false,
+  "live_d365_tested": false,
+  "azure_deployed": false,
+  "production_settings_changed": false,
+  "future_schema_changes_applied": false,
+  "release_order": [
+    "Import/review/build/test and deploy F&O source changes",
+    "Deploy backend through existing company pipeline"
+  ]
+}

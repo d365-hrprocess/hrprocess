@@ -1,0 +1,64 @@
+/// <summary>
+/// Optional one-company maintenance for existing blank CandidateName values.
+/// Default is preview. Explicit Args.parm("APPLY") enables updates.
+/// Does not overwrite names or update historical application snapshots.
+/// Add to the existing model and build; execute through an authorized admin
+/// entry point in the intended environment/company, not automatically at startup.
+/// </summary>
+public final class UBBackfillCandidateNames
+{
+    public static void main(Args _args)
+    {
+        UBCandidateTable candidate;
+        UBCandidateTable upperBound;
+        RecId lastRecId;
+        RecId maximumRecId;
+        str recoveredName;
+        boolean applyChanges = _args && _args.parm() == "APPLY";
+        int recoverableCount;
+        int updatedCount;
+
+        select maxof(RecId) from upperBound;
+        maximumRecId = upperBound.RecId;
+
+        while (lastRecId < maximumRecId)
+        {
+            // A short transaction per row; a concurrent name edit is protected.
+            ttsBegin;
+            select firstOnly forUpdate candidate
+                order by RecId
+                where candidate.RecId > lastRecId
+                    && candidate.RecId <= maximumRecId;
+
+            if (!candidate.RecId)
+            {
+                ttsCommit;
+                break;
+            }
+            lastRecId = candidate.RecId;
+
+            if (!strLen(strLRTrim(candidate.CandidateName)))
+            {
+                recoveredName = strLRTrim(strFmt("%1 %2", candidate.FirstName, candidate.LastName));
+                if (strLen(recoveredName))
+                {
+                    recoverableCount++;
+                    if (applyChanges)
+                    {
+                        candidate.CandidateName = recoveredName;
+                        if (!candidate.validateWrite())
+                        {
+                            throw error("Candidate name repair failed table validation. Review the record privately before continuing.");
+                        }
+                        candidate.update();
+                        updatedCount++;
+                    }
+                }
+            }
+            ttsCommit;
+        }
+
+        info(strFmt("Candidate name repair: company=%1; apply=%2; recoverable=%3; updated=%4. No existing nonblank names were overwritten.",
+            curext(), applyChanges, recoverableCount, updatedCount));
+    }
+}

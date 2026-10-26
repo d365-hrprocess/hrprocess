@@ -1,19 +1,21 @@
 # Existing F&O tables and selected fields
 
-Use your existing model **`UBHR_Nive`** and the exact four tables from your screenshots. Do not create the earlier baseline tables, new columns, EDTs or enums. The inventory below includes all supplied fields; the service uses only the selected business fields. Existing technical fields remain unchanged and are not assigned by this service.
+Use your existing model **`UBHR_Nive`** and the four portal integration tables. The name fix uses their existing `CandidateName` columns and needs no new field. The [AXPP review](review/2026-10-25/README.md) inventories all 14 project tables and documents future proposals separately. Existing technical fields remain unchanged and are not assigned by the lean service.
 
 ## Fields used by the three-operation service
 
 | Existing table | Selected fields |
 | --- | --- |
 | `UBJobRequirementTable` | `RequirementId`, `JobTitle`, `JobDescription`, `Responsibilities`, `RequiredSkills`, `PreferredSkills`, `RequiredQualifications`, `RequiredCertifications`, `Department`, `JobLocation`, `WorkMode`, `EmploymentType`, `MinimumExperienceYears`, `MaximumExperienceYears`, `NumberOfOpenings`, `RequirementStatus`, `OpenDate`, `CloseDate`, `EvaluationCriteriaJson`, `RubricVersion` |
-| `UBCandidateTable` | `CandidateId`, `FirstName`, `LastName`, `Email`, `Phone`, `LinkedInProfileUrl`, `LinkedInIssuer`, `LinkedInSub`, `IdentityKey` |
-| `UBJobApplicationTable` | `ApplicationId`, `CandidateId`, `RequirementId`, `ApplicationStatus`, `AIStatus`, `OverallScore` |
+| `UBCandidateTable` | `CandidateId`, `CandidateName`, `Email`, `Phone`, `LinkedInProfileUrl`, `LinkedInIssuer`, `LinkedInSub`, `IdentityKey`; optional legacy first/last name input |
+| `UBJobApplicationTable` | `ApplicationId`, `CandidateId`, `RequirementId`, `CandidateName`, `ApplicationStatus`, `AIStatus`, `OverallScore` |
 | `UBHRMatchEvaluationTable` | `EvaluationId`, `ApplicationId`, `RequirementId`, `Score`, `MeetsMinimumCriteria`, `MatchLabel`, `Summary`, `MatchedSkillsJson`, `MissingSkillsJson`, `EvidenceJson` |
 
 `ApplicationStatus` retains the value supplied by the existing table's `initValue()` implementation. The service does not invent an enum element for human review. `AIStatus` starts at the configured `Pending` symbol and becomes `Completed` only when the evaluation transaction commits. `OverallScore` receives the same validated score as the evaluation. AI does not alter human review status.
 
-## Complete screenshot inventory
+## Integration-table inventory
+
+The original screenshot inventory below is supplemented by the current AXPP's new display/number fields. The complete 203-column project inventory, including declared types and sizes, is [existing-columns.csv](review/2026-10-25/existing-columns.csv).
 
 ### `UBJobRequirementTable`
 
@@ -21,11 +23,11 @@ Use your existing model **`UBHR_Nive`** and the exact four tables from your scre
 
 ### `UBCandidateTable`
 
-`CandidateId`, `FirstName`, `LastName`, `LocationName`, `Qualification`, `CurrentCompany`, `Designation`, `ExperienceYears`, `CandidateStatus`, `Remarks`, `Email`, `Phone`, `NoticePeriodDays`, `RelevantExperienceYears`, `LinkedInProfileUrl`, `NaukriProfileId`, `SourceId`, `CandidateSource`, `LinkedInIssuer`, `LinkedInSub`, `IdentityKey`, `LinkedInProfileJson`, `ConsentVersion`, `ConsentDateTime`.
+`CandidateId`, `FirstName`, `LastName`, `LocationName`, `Qualification`, `CurrentCompany`, `Designation`, `ExperienceYears`, `CandidateStatus`, `Remarks`, `Email`, `Phone`, `NoticePeriodDays`, `RelevantExperienceYears`, `LinkedInProfileUrl`, `NaukriProfileId`, `SourceId`, `CandidateSource`, `LinkedInIssuer`, `LinkedInSub`, `IdentityKey`, `LinkedInProfileJson`, `ConsentVersion`, `ConsentDateTime`, `CandidateNumber`, `CandidateName`.
 
 ### `UBJobApplicationTable`
 
-`ApplicationId`, `CandidateId`, `RequirementId`, `ApplicationDate`, `ApplicationStatus`, `RecruiterId`, `Remarks`, `OverallScore`, `ResumeFileName`, `ResumeBlobKey`, `ResumeSha256`, `ConsentVersion`, `JDHash`, `AIStatus`.
+`ApplicationId`, `CandidateId`, `RequirementId`, `ApplicationDate`, `ApplicationStatus`, `RecruiterId`, `Remarks`, `OverallScore`, `ResumeFileName`, `ResumeBlobKey`, `ResumeSha256`, `ConsentVersion`, `JDHash`, `AIStatus`, `ApplicationNumber`, `CandidateName`, `Summary`, `UBScreeningRecommendation`, `CandidateNumber`.
 
 ### `UBHRMatchEvaluationTable`
 
@@ -39,7 +41,7 @@ These existing F&O fields are deliberately unused by the lean source: candidate 
 
 ## Important checks before build
 
-Your screenshots show names, but not EDT lengths, enum symbols or index uniqueness. Inspect the existing AOT Properties; make these checks on the existing definitions:
+The original screenshots omitted many properties; the AXPP now supplies the declared EDT/enum/index metadata listed in the review. Target database contents, assignments and live constraints still require inspection. Make these checks on the existing definitions:
 
 - `CandidateId`, `ApplicationId`, `EvaluationId`: at least **40 characters**, with compatible reference fields. The portal sends `APP-` plus a 36-character GUID; evaluation IDs are stable `EVA-` IDs derived from that application. Existing requirement IDs keep their actual values.
 - `IdentityKey`: **64 characters** for the SHA-256 digest of the validated issuer/subject pair. Never identify candidates solely by email or name.

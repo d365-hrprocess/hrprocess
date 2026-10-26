@@ -1,5 +1,5 @@
 {
-  "format_version": 2,
+  "format_version": 3,
   "description": "Lean X++ service DTOs for the existing screenshot tables. No new tables, EDTs, enums or columns are required. Technical portal metadata is stored in backend SQLite.",
   "model": "UBHR_Nive",
   "service_class": "UBHRPortalService",
@@ -56,6 +56,7 @@
         "Company": "str",
         "ApplicationId": "str",
         "RequirementId": "str",
+        "CandidateName": "str",
         "FirstName": "str",
         "LastName": "str",
         "Email": "str",
@@ -63,7 +64,8 @@
         "LinkedInProfileUrl": "str",
         "LinkedInIssuer": "str",
         "LinkedInSub": "str"
-      }
+      },
+      "optional_members": ["FirstName", "LastName"]
     },
     "UBHRPortalEvaluationRequestContract": {
       "source": "d365/xpp/UBHRPortalEvaluationRequestContract.xpp",
@@ -132,7 +134,7 @@
     "EvaluationCriteriaJson and RubricVersion are existing job business criteria and are read from UBJobRequirementTable. Per-run evaluation provenance remains in SQLite.",
     "Company must equal the integration user current legal entity. getOpenRequirements is parameterless and reads that same legal entity.",
     "The backend generates stable ApplicationId and EvaluationId before retryable writes; F&O must preserve those exact identifiers.",
-    "The request carries FirstName and LastName separately. LinkedInProfileUrl uses the actual UBCandidateTable field name.",
+    "The portal sends the confirmed full name as CandidateName. FirstName and LastName remain optional input-only compatibility members for the previous client during an F&O-first rollout. LinkedInProfileUrl uses the actual UBCandidateTable field name.",
     "MeetsMinimumCriteria and Success are JSON booleans, independent of table enum storage.",
     "MatchedSkillsJson, MissingSkillsJson and EvidenceJson are JSON-array strings; they are not nested DTO arrays.",
     "The full job description and resume comparison evidence must not be truncated by EDT lengths.",

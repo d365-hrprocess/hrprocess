@@ -1,12 +1,12 @@
 # F&O business records and portal metadata
 
-Use model `UBHR_Nive` with the existing four screenshot tables. [TABLES.md](../d365/TABLES.md) lists every supplied field and the smaller set read/written by the service. No new D365 tables, columns, EDTs or enums are proposed.
+Use model `UBHR_Nive` with the existing four portal integration tables. [TABLES.md](../d365/TABLES.md) lists their selected fields. The [25 October AXPP review](../d365/review/2026-10-25/README.md) inventories all 14 supplied tables and separates future ERP proposals from the name fix, which requires no new fields.
 
 | Store | Information |
 | --- | --- |
 | `UBJobRequirementTable` | Authoritative full JD, advertised conditions, skills/qualifications, dates/status and job evaluation criteria |
-| `UBCandidateTable` | Current confirmed first/last name, email, phone, profile URL and validated issuer/subject identity |
-| `UBJobApplicationTable` | Stable application ID, candidate/job IDs, existing human status, AI status and overall score |
+| `UBCandidateTable` | Current confirmed full `CandidateName`, email, phone, profile URL and validated issuer/subject identity; first/last fields retained for legacy callers |
+| `UBJobApplicationTable` | Stable application ID, candidate/job IDs, submitted `CandidateName` snapshot, existing human status, AI status and overall score |
 | `UBHRMatchEvaluationTable` | Stable evaluation/application/job IDs, score, criteria flag, label, summary and core evidence/gaps JSON |
 | SQLite or PostgreSQL | Frozen application contacts and JD snapshot, timestamps, private resume reference/name/hashes, consent, allowlisted LinkedIn profile, retry/acknowledgement state and full AI result/provenance |
 | Private Azure Blob | Actual validated PDF/DOCX documents |

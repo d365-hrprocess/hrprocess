@@ -1,0 +1,204 @@
+table,column,type,EDT,enum,string_size,size_source,mandatory_explicit
+UBCandidateScreeningTable,ScreeningId,AxTableFieldString,UBScreeningId,,500,UBScreeningId,not explicit
+UBCandidateScreeningTable,Criteria,AxTableFieldString,UBCriteria,,,not explicit; verify metadata default,not explicit
+UBCandidateScreeningTable,EvidenceSummary,AxTableFieldString,UBEvidenceSummary,,,not explicit; verify metadata default,not explicit
+UBCandidateScreeningTable,SkillsMatch,AxTableFieldString,UBSkillsMatch,,,not explicit; verify metadata default,not explicit
+UBCandidateScreeningTable,ExperienceMatch,AxTableFieldString,UBExperienceMatch,,,not explicit; verify metadata default,not explicit
+UBCandidateScreeningTable,UBScreeningRecommendation,AxTableFieldEnum,,UBScreeningRecommendation,,not a string,not explicit
+UBCandidateScreeningTable,UBScreeningDecision,AxTableFieldEnum,,UBScreeningDecision,,not a string,not explicit
+UBCandidateScreeningTable,UBScreeningWorkflowStatus,AxTableFieldEnum,,UBScreeningWorkflowStatus,,not a string,not explicit
+UBCandidateScreeningTable,ReviewerComment,AxTableFieldString,UBReviewerComment,,,not explicit; verify metadata default,not explicit
+UBCandidateScreeningTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBCandidateScreeningTable,RequirementId,AxTableFieldString,UBRequirementId,,40,UBRequirementId,not explicit
+UBCandidateScreeningTable,ApplicationId,AxTableFieldString,UBApplicationId,,40,UBApplicationId,not explicit
+UBCandidateScreeningTable,CandidateName,AxTableFieldString,,,500,field,not explicit
+UBCandidateScreeningTable,CandidateNumber,AxTableFieldString,UBCandidateNumber,,40,UBCandidateNumber,not explicit
+UBCandidateScreeningTable,ApplicationNumber,AxTableFieldString,UBApplicationNumber,,40,UBApplicationNumber,not explicit
+UBCandidateSkillTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBCandidateSkillTable,SkillId,AxTableFieldString,UBSkillId,,20,UBSkillId,not explicit
+UBCandidateSkillTable,SkillExperienceYears,AxTableFieldReal,UBSkillExperienceYears,,,not a string,not explicit
+UBCandidateSkillTable,SkillLevel,AxTableFieldEnum,,UBSkillLevel,,not a string,not explicit
+UBCandidateSkillTable,IsPrimarySkill,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBCandidateSkillTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBCandidateTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBCandidateTable,FirstName,AxTableFieldString,UBFirstName,,100,UBFirstName,not explicit
+UBCandidateTable,LastName,AxTableFieldString,UBLastName,,100,UBLastName,not explicit
+UBCandidateTable,LocationName,AxTableFieldString,UBLocationName,,500,UBLocationName,not explicit
+UBCandidateTable,Qualification,AxTableFieldString,UBQualification,,500,UBQualification,not explicit
+UBCandidateTable,CurrentCompany,AxTableFieldString,UBCompanyName,,150,UBCompanyName,not explicit
+UBCandidateTable,Designation,AxTableFieldString,UBDesignation,,100,UBDesignation,not explicit
+UBCandidateTable,ExperienceYears,AxTableFieldReal,UBExperienceYears,,,not a string,not explicit
+UBCandidateTable,CandidateStatus,AxTableFieldEnum,,UBCandidateStatus,,not a string,not explicit
+UBCandidateTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBCandidateTable,Email,AxTableFieldString,UBEmail,,500,UBEmail,not explicit
+UBCandidateTable,Phone,AxTableFieldString,UBPhone,,20,UBPhone,not explicit
+UBCandidateTable,NoticePeriodDays,AxTableFieldInt,UBNoticePeriodDays,,,not a string,not explicit
+UBCandidateTable,RelevantExperienceYears,AxTableFieldReal,UBRelevantExperienceYears,,,not a string,not explicit
+UBCandidateTable,LinkedInProfileUrl,AxTableFieldString,UBLinkedInProfileUrl,,500,UBLinkedInProfileUrl,not explicit
+UBCandidateTable,NaukriProfileId,AxTableFieldString,UBNaukriProfileId,,100,UBNaukriProfileId,not explicit
+UBCandidateTable,SourceId,AxTableFieldString,,,100,field,not explicit
+UBCandidateTable,CandidateSource,AxTableFieldEnum,,UBCandidateSource,,not a string,not explicit
+UBCandidateTable,LinkedInIssuer,AxTableFieldString,,,500,field,not explicit
+UBCandidateTable,LinkedInSub,AxTableFieldString,,,500,field,not explicit
+UBCandidateTable,IdentityKey,AxTableFieldString,,,500,field,not explicit
+UBCandidateTable,LinkedInProfileJson,AxTableFieldString,,,500,field,not explicit
+UBCandidateTable,ConsentVersion,AxTableFieldString,,,500,field,not explicit
+UBCandidateTable,ConsentDateTime,AxTableFieldUtcDateTime,,,,not a string,not explicit
+UBCandidateTable,CandidateNumber,AxTableFieldString,,,500,field,not explicit
+UBCandidateTable,CandidateName,AxTableFieldString,,,500,field,not explicit
+UBDepartmentTable,DepartmentId,AxTableFieldString,UBDepartmentId,,20,UBDepartmentId,not explicit
+UBDepartmentTable,DepartmentName,AxTableFieldString,UBDepartmentName,,100,UBDepartmentName,not explicit
+UBDepartmentTable,Description,AxTableFieldString,UBDescription,,50,UBDescription,not explicit
+UBDepartmentTable,ManagerEmployeeId,AxTableFieldString,UBEmployeeId,,20,UBEmployeeId,not explicit
+UBDepartmentTable,IsActive,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBDepartmentTable,ValidFrom,AxTableFieldDate,UBValidFrom,,,not a string,not explicit
+UBDepartmentTable,ValidTo,AxTableFieldDate,UBValidTo,,,not a string,not explicit
+UBEmployeeTable,EmployeeId,AxTableFieldString,UBEmployeeId,,20,UBEmployeeId,not explicit
+UBEmployeeTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBEmployeeTable,FirstName,AxTableFieldString,UBFirstName,,100,UBFirstName,not explicit
+UBEmployeeTable,LastName,AxTableFieldString,UBLastName,,100,UBLastName,not explicit
+UBEmployeeTable,DepartmentId,AxTableFieldString,UBDepartmentId,,20,UBDepartmentId,not explicit
+UBEmployeeTable,PositionId,AxTableFieldString,UBPositionId,,20,UBPositionId,not explicit
+UBEmployeeTable,Designation,AxTableFieldString,UBDesignation,,100,UBDesignation,not explicit
+UBEmployeeTable,Email,AxTableFieldString,UBEmail,,500,UBEmail,not explicit
+UBEmployeeTable,Phone,AxTableFieldString,UBPhone,,20,UBPhone,not explicit
+UBEmployeeTable,JoiningDate,AxTableFieldDate,UBJoiningDate,,,not a string,not explicit
+UBEmployeeTable,EmploymentType,AxTableFieldEnum,,UBEmploymentType,,not a string,not explicit
+UBEmployeeTable,WorkMode,AxTableFieldEnum,,UBWorkMode,,not a string,not explicit
+UBEmployeeTable,LocationName,AxTableFieldString,UBLocationName,,500,UBLocationName,not explicit
+UBEmployeeTable,ManagerEmployeeId,AxTableFieldString,UBEmployeeId,,20,UBEmployeeId,not explicit
+UBEmployeeTable,IsActive,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBEmployeeTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBHRMatchEvaluationTable,EvaluationId,AxTableFieldString,,,100,field,not explicit
+UBHRMatchEvaluationTable,ApplicationId,AxTableFieldString,,,100,field,not explicit
+UBHRMatchEvaluationTable,RequirementId,AxTableFieldString,,,100,field,not explicit
+UBHRMatchEvaluationTable,Score,AxTableFieldInt,,,,not a string,not explicit
+UBHRMatchEvaluationTable,MeetsMinimumCriteria,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBHRMatchEvaluationTable,MatchLabel,AxTableFieldString,,,500,field,not explicit
+UBHRMatchEvaluationTable,Summary,AxTableFieldString,,,-1,field,not explicit
+UBHRMatchEvaluationTable,MatchedSkillsJson,AxTableFieldString,,,-1,field,not explicit
+UBHRMatchEvaluationTable,MissingSkillsJson,AxTableFieldString,,,-1,field,not explicit
+UBHRMatchEvaluationTable,EvidenceJson,AxTableFieldString,,,-1,field,not explicit
+UBHRMatchEvaluationTable,ModelDeployment,AxTableFieldString,,,100,field,not explicit
+UBHRMatchEvaluationTable,PromptVersion,AxTableFieldString,,,30,field,not explicit
+UBHRMatchEvaluationTable,RubricVersion,AxTableFieldString,,,30,field,not explicit
+UBHRMatchEvaluationTable,EvaluatedDateTime,AxTableFieldUtcDateTime,,,,not a string,not explicit
+UBHRMatchEvaluationTable,EvaluationNumber,AxTableFieldString,,,500,field,not explicit
+UBHRMatchEvaluationTable,ScreeningStatus,AxTableFieldEnum,,UBHRJobStatus,,not a string,not explicit
+UBInterviewFeedbackTable,FeedbackId,AxTableFieldString,UBInterviewFeedbackId,,20,UBInterviewFeedbackId,not explicit
+UBInterviewFeedbackTable,InterviewId,AxTableFieldString,UBInterviewId,,100,UBInterviewId,not explicit
+UBInterviewFeedbackTable,Interviewer,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBInterviewFeedbackTable,SkillArea,AxTableFieldString,UBSkillArea,,60,UBSkillArea,not explicit
+UBInterviewFeedbackTable,TechnicalScore,AxTableFieldInt,UBTechnicalScore,,,not a string,not explicit
+UBInterviewFeedbackTable,ProblemSolvingScore,AxTableFieldInt,UBProblemSolvingScore,,,not a string,not explicit
+UBInterviewFeedbackTable,CommunicationScore,AxTableFieldInt,UBCommunicationScore,,,not a string,not explicit
+UBInterviewFeedbackTable,EvidenceNotes,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBInterviewFeedbackTable,ReviewerComment,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBInterviewFeedbackTable,WorkflowStatus,AxTableFieldEnum,,UBInterviewFeedbackWorkflowStatus,,not a string,not explicit
+UBInterviewFeedbackTable,Round,AxTableFieldInt,UBInterviewRound,,,not a string,not explicit
+UBInterviewFeedbackTable,Recommendation,AxTableFieldEnum,,UBInterviewRecommendation,,not a string,not explicit
+UBInterviewTable,InterviewId,AxTableFieldString,UBInterviewId,,100,UBInterviewId,not explicit
+UBInterviewTable,ApplicationId,AxTableFieldString,UBApplicationId,,40,UBApplicationId,not explicit
+UBInterviewTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBInterviewTable,RequirementId,AxTableFieldString,UBRequirementId,,40,UBRequirementId,not explicit
+UBInterviewTable,InterviewDateTime,AxTableFieldUtcDateTime,UBInterviewDateTime,,,not a string,not explicit
+UBInterviewTable,InterviewRound,AxTableFieldInt,UBInterviewRound,,,not a string,not explicit
+UBInterviewTable,TechnicalScore,AxTableFieldInt,UBTechnicalScore,,,not a string,not explicit
+UBInterviewTable,FunctionalScore,AxTableFieldInt,UBFunctionalScore,,,not a string,not explicit
+UBInterviewTable,CommunicationScore,AxTableFieldInt,UBCommunicationScore,,,not a string,not explicit
+UBInterviewTable,InterviewScore,AxTableFieldInt,UBInterviewScore,,,not a string,not explicit
+UBInterviewTable,InterviewResult,AxTableFieldEnum,,UBInterviewResult,,not a string,not explicit
+UBInterviewTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBInterviewTable,InterviewerEmployeeId,AxTableFieldString,UBEmployeeId,,20,UBEmployeeId,not explicit
+UBJobApplicationTable,ApplicationId,AxTableFieldString,UBApplicationId,,40,UBApplicationId,not explicit
+UBJobApplicationTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBJobApplicationTable,RequirementId,AxTableFieldString,UBRequirementId,,40,UBRequirementId,not explicit
+UBJobApplicationTable,ApplicationDate,AxTableFieldDate,UBApplicationDate,,,not a string,not explicit
+UBJobApplicationTable,ApplicationStatus,AxTableFieldEnum,,UBApplicationStatus,,not a string,not explicit
+UBJobApplicationTable,RecruiterId,AxTableFieldString,UBRecruiterId,,20,UBRecruiterId,not explicit
+UBJobApplicationTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBJobApplicationTable,OverallScore,AxTableFieldInt,,,,not a string,not explicit
+UBJobApplicationTable,ResumeFileName,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBJobApplicationTable,ResumeBlobKey,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBJobApplicationTable,ResumeSha256,AxTableFieldString,,,64,field,not explicit
+UBJobApplicationTable,ConsentVersion,AxTableFieldString,,,20,field,not explicit
+UBJobApplicationTable,JDHash,AxTableFieldString,,,64,field,not explicit
+UBJobApplicationTable,AIStatus,AxTableFieldEnum,,AIStatus,,not a string,not explicit
+UBJobApplicationTable,ApplicationNumber,AxTableFieldString,UBApplicationNumber,,40,UBApplicationNumber,not explicit
+UBJobApplicationTable,CandidateName,AxTableFieldString,UBCandidateName,,500,UBCandidateName,not explicit
+UBJobApplicationTable,Summary,AxTableFieldString,,,-1,field,not explicit
+UBJobApplicationTable,UBScreeningRecommendation,AxTableFieldEnum,,UBScreeningRecommendation,,not a string,not explicit
+UBJobApplicationTable,CandidateNumber,AxTableFieldString,UBCandidateNumber,,40,UBCandidateNumber,not explicit
+UBJobRequirementTable,PositionId,AxTableFieldString,UBPositionId,,20,UBPositionId,not explicit
+UBJobRequirementTable,DepartmentId,AxTableFieldString,UBDepartmentId,,20,UBDepartmentId,not explicit
+UBJobRequirementTable,JobTitle,AxTableFieldString,UBJobTitle,,200,UBJobTitle,not explicit
+UBJobRequirementTable,JobLocation,AxTableFieldString,UBLocationName,,500,UBLocationName,not explicit
+UBJobRequirementTable,EmploymentType,AxTableFieldEnum,,UBEmploymentType,,not a string,not explicit
+UBJobRequirementTable,WorkMode,AxTableFieldEnum,,UBWorkMode,,not a string,not explicit
+UBJobRequirementTable,RequirementStatus,AxTableFieldEnum,,UBRequirementStatus,,not a string,not explicit
+UBJobRequirementTable,RecruiterId,AxTableFieldString,UBRecruiterId,,20,UBRecruiterId,not explicit
+UBJobRequirementTable,OpenDate,AxTableFieldDate,UBOpenDate,,,not a string,not explicit
+UBJobRequirementTable,CloseDate,AxTableFieldDate,UBCloseDate,,,not a string,not explicit
+UBJobRequirementTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBJobRequirementTable,MinimumExperienceYears,AxTableFieldReal,UBExperienceYears,,,not a string,not explicit
+UBJobRequirementTable,RequirementId,AxTableFieldString,UBRequirementId,,40,UBRequirementId,not explicit
+UBJobRequirementTable,ExternalRequirementId,AxTableFieldString,UBExternalRequirementId,,100,UBExternalRequirementId,not explicit
+UBJobRequirementTable,RequiredQualifications,AxTableFieldString,UBQualification,,500,UBQualification,not explicit
+UBJobRequirementTable,NumberOfOpenings,AxTableFieldInt,UBNumberOfPositions,,,not a string,not explicit
+UBJobRequirementTable,WorkflowStatus,AxTableFieldEnum,,UBJobRequirementWorkflowStatus,,not a string,not explicit
+UBJobRequirementTable,JobDescription,AxTableFieldString,,,-1,field,not explicit
+UBJobRequirementTable,Responsibilities,AxTableFieldString,,,-1,field,not explicit
+UBJobRequirementTable,RequiredSkills,AxTableFieldString,,,-1,field,not explicit
+UBJobRequirementTable,PreferredSkills,AxTableFieldString,,,-1,field,not explicit
+UBJobRequirementTable,RequiredCertifications,AxTableFieldString,,,-1,field,not explicit
+UBJobRequirementTable,PublishedDateTime,AxTableFieldUtcDateTime,,,,not a string,not explicit
+UBJobRequirementTable,HiringManagerWorkerRecId,AxTableFieldInt64,,,,not a string,not explicit
+UBJobRequirementTable,EvaluationCriteriaJson,AxTableFieldString,,,-1,field,not explicit
+UBJobRequirementTable,RubricVersion,AxTableFieldString,,,20,field,not explicit
+UBJobRequirementTable,MaximumExperienceYears,AxTableFieldReal,,,,not a string,not explicit
+UBJobRequirementTable,Department,AxTableFieldString,,,500,field,not explicit
+UBJobRequirementTable,JobStatus,AxTableFieldEnum,,UBHRJobStatus,,not a string,not explicit
+UBJobRequirementTable,ClosingDateTime,AxTableFieldUtcDateTime,,,,not a string,not explicit
+UBOfferTable,OfferId,AxTableFieldString,UBOfferId,,20,UBOfferId,not explicit
+UBOfferTable,ApplicationId,AxTableFieldString,UBApplicationId,,40,UBApplicationId,not explicit
+UBOfferTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBOfferTable,RequirementId,AxTableFieldString,UBRequirementId,,40,UBRequirementId,not explicit
+UBOfferTable,PositionId,AxTableFieldString,UBPositionId,,20,UBPositionId,not explicit
+UBOfferTable,OfferDate,AxTableFieldDate,UBOfferDate,,,not a string,not explicit
+UBOfferTable,ExpectedJoiningDate,AxTableFieldDate,UBExpectedJoiningDate,,,not a string,not explicit
+UBOfferTable,OfferedSalary,AxTableFieldReal,UBOfferedSalary,,,not a string,not explicit
+UBOfferTable,CurrencyCode,AxTableFieldString,UBCurrencyCode,,,not explicit; verify metadata default,not explicit
+UBOfferTable,OfferAccepted,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBOfferTable,AcceptanceDate,AxTableFieldDate,UBAcceptanceDate,,,not a string,not explicit
+UBOfferTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBOfferTable,WorkflowStatus,AxTableFieldEnum,,UBOfferWorkflowStatus,,not a string,not explicit
+UBOnboardingTable,OnboardingId,AxTableFieldString,UBOnboardingId,,20,UBOnboardingId,not explicit
+UBOnboardingTable,OfferId,AxTableFieldString,UBOfferId,,20,UBOfferId,not explicit
+UBOnboardingTable,CandidateId,AxTableFieldString,UBCandidateId,,40,UBCandidateId,not explicit
+UBOnboardingTable,EmployeeId,AxTableFieldString,UBEmployeeId,,20,UBEmployeeId,not explicit
+UBOnboardingTable,JoiningDate,AxTableFieldDate,UBJoiningDate,,,not a string,not explicit
+UBOnboardingTable,DepartmentId,AxTableFieldString,UBDepartmentId,,20,UBDepartmentId,not explicit
+UBOnboardingTable,PositionId,AxTableFieldString,UBPositionId,,20,UBPositionId,not explicit
+UBOnboardingTable,DocumentsVerified,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBOnboardingTable,BackgroundCheckCompleted,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBOnboardingTable,AccountCreated,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBOnboardingTable,OnboardingCompleted,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBOnboardingTable,Remarks,AxTableFieldString,UBRemarks,,-1,UBRemarks,not explicit
+UBOnboardingTable,WorkflowStatus,AxTableFieldEnum,,UBOnboardingWorkflowStatus,,not a string,not explicit
+UBPositionTable,PositionId,AxTableFieldString,UBPositionId,,20,UBPositionId,not explicit
+UBPositionTable,JobTitle,AxTableFieldString,UBJobTitle,,200,UBJobTitle,not explicit
+UBPositionTable,DepartmentId,AxTableFieldString,UBDepartmentId,,20,UBDepartmentId,not explicit
+UBPositionTable,Description,AxTableFieldString,UBDescription,,50,UBDescription,not explicit
+UBPositionTable,IsActive,AxTableFieldEnum,,NoYes,,not a string,not explicit
+UBPositionTable,EmploymentType,AxTableFieldEnum,,UBEmploymentType,,not a string,not explicit
+UBPositionTable,WorkMode,AxTableFieldEnum,,UBWorkMode,,not a string,not explicit
+UBPositionTable,LocationName,AxTableFieldString,UBLocationName,,500,UBLocationName,not explicit
+UBSkillTable,SkillId,AxTableFieldString,,,500,field,not explicit
+UBSkillTable,ScreeningId,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBSkillTable,CandidateId,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBSkillTable,CandidateName,AxTableFieldString,,,1000,field,not explicit
+UBSkillTable,ApplicationId,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBSkillTable,RequirementId,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBSkillTable,Skillset,AxTableFieldString,,,1000,field,not explicit
+UBSkillTable,SkillsetMatch,AxTableFieldString,,,,not explicit; verify metadata default,not explicit
+UBSkillTable,SkillName,AxTableFieldString,,,500,field,not explicit

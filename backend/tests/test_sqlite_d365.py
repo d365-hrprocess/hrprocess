@@ -108,9 +108,9 @@ async def test_minimal_wire_private_metadata_and_stable_submission_survive_resta
     app_id = (await submit(ctx))["application_id"]
     assert len(app_id) == 40 and app_id.startswith("APP-")
     wire = ctx["calls"][0][1]["_request"]
-    assert set(wire) == {"Company", "ApplicationId", "RequirementId", "FirstName", "LastName", "Email", "Phone",
+    assert set(wire) == {"Company", "ApplicationId", "RequirementId", "CandidateName", "Email", "Phone",
         "LinkedInProfileUrl", "LinkedInIssuer", "LinkedInSub"}
-    assert wire["FirstName"] == "Confirmed" and wire["LastName"] == "Applicant"
+    assert wire["CandidateName"] == "Confirmed Applicant"
     ctx["redis"].values.clear()
     ctx["redis"].jobs.clear()
     ctx["adapter"].metadata = SQLiteMetadata(ctx["settings"].sqlite_database_path)
@@ -134,6 +134,22 @@ async def test_minimal_wire_private_metadata_and_stable_submission_survive_resta
     ctx["settings"].d365_company = "USMF"
     assert await ctx["adapter"].get_my_applications(ctx["user"]) == []
     assert ctx["coordinator"].key(ctx["user"], "submission-key") != old_key
+
+
+@pytest.mark.parametrize("full_name", [
+    "Cher", "María del Carmen García", "王 小明", "Alexandria " * 17 + "Applicant",
+])
+async def test_confirmed_full_name_reaches_candidate_name_without_splitting_or_profile_substitution(context, full_name, caplog):
+    ctx = context
+    ctx["user"] = ctx["user"].model_copy(update={"name": full_name})
+    result = await submit(ctx)
+    wire = ctx["calls"][0][1]["_request"]
+    assert wire["CandidateName"] == full_name
+    assert not {"FirstName", "LastName", "FullName"} & set(wire)
+    record = await ctx["adapter"].metadata.get_application(result["application_id"])
+    assert record["payload"]["candidate_name"] == full_name
+    assert record["payload"]["linkedin_profile"]["name"] == "Provider Applicant"
+    assert full_name not in caplog.text
 
 
 async def test_unknown_ack_retries_identical_application_id_after_redis_loss(context, monkeypatch):

@@ -1,0 +1,281 @@
+[
+  {
+    "Name": "UBCandidateScreeningApprovalApprove",
+    "HelpText": "UBCandidateScreeningApproval approve action",
+    "Label": "@UBHR:ApproveRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBCandidateScreeningApprovalDelegateMenuItem",
+    "HelpText": "UBCandidateScreeningApproval delegate action",
+    "Label": "UBCandidateScreeningApprovalDelegateMenuItemMenuItem",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBCandidateScreeningApprovalDeny",
+    "HelpText": "UBCandidateScreeningApproval deny action",
+    "Label": "UBCandidateScreeningApprovalDenyMenuItem",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBCandidateScreeningApprovalReject",
+    "HelpText": "UBCandidateScreeningApproval reject action",
+    "Label": "@UBHR:RejectRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBCandidateScreeningApprovalRequestChange",
+    "HelpText": "UBCandidateScreeningApproval request change action",
+    "Label": "UBCandidateScreeningApprovalRequestChangeMenuItem",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBCandidateScreeningApprovalResubmitMenuItem",
+    "HelpText": "UBCandidateScreeningApproval resubmit action",
+    "Label": "@UBHR:ResubmitRequest",
+    "Object": "@UBHR:Resubmit",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBCandidateScreeningWorkflowCancelMenuItem",
+    "HelpText": "UBCandidateScreeningWorkflow cancel action",
+    "Label": "UBCandidateScreeningWorkflowCancelMenuItemMenuItem",
+    "Object": "WorkflowCancelManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBCandidateScreeningWorkflowSubmitMenuItem",
+    "HelpText": "UBCandidateScreeningWorkflow submit action",
+    "Label": "UBCandidateScreeningWorkflowSubmitMenuItemMenuItem",
+    "Object": "UBCandidateScreeningWorkflowSubmitManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackApprovalApprove",
+    "HelpText": "UBInterviewFeedbackApproval approve action",
+    "Label": "@UBHR:ApproveRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackApprovalDelegateMenuItem",
+    "HelpText": "UBInterviewFeedbackApproval delegate action",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackApprovalDeny",
+    "HelpText": "UBInterviewFeedbackApproval deny action",
+    "Label": "UBInterviewFeedbackApprovalDenyMenuItem",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackApprovalReject",
+    "HelpText": "UBInterviewFeedbackApproval reject action",
+    "Label": "@UBHR:RejectRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackApprovalRequestChange",
+    "HelpText": "UBInterviewFeedbackApproval request change action",
+    "Label": "UBInterviewFeedbackApprovalRequestChangeMenuItem",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackApprovalResubmitMenuItem",
+    "HelpText": "UBInterviewFeedbackApproval resubmit action",
+    "Label": "@UBHR:ResubmitRequest",
+    "Object": "UBInterviewFeedbackApprovalResubmitActionMgr",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackWorkflowCancelMenuItem",
+    "HelpText": "UBInterviewFeedbackWorkflow cancel action",
+    "Label": "@UBHR:CancelRequest",
+    "Object": "WorkflowCancelManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBInterviewFeedbackWorkflowSubmitMenuItem",
+    "HelpText": "UBInterviewFeedbackWorkflow submit action",
+    "Label": "UBInterviewFeedbackWorkflowSubmitMenuItemMenuItem",
+    "Object": "UBInterviewFeedbackWorkflowSubmitManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementApprovalWorkflowApprove",
+    "HelpText": "Approve the Job Requirement request.",
+    "Label": "@UBHR:ApproveRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementApprovalWorkflowDelegateMenuItem",
+    "HelpText": "UBJobRequirementApprovalWorkflow delegate action",
+    "Label": "@UBHR:DelegateRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementApprovalWorkflowDeny",
+    "HelpText": "UBJobRequirementApprovalWorkflow deny action",
+    "Label": "@UBHR:DenyRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementApprovalWorkflowReject",
+    "HelpText": "Reject the Job Requirement request.",
+    "Label": "@UBHR:RejectRequest\n",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementApprovalWorkflowRequestChange",
+    "HelpText": "UBJobRequirementApprovalWorkflow request change action",
+    "Label": "@UBHR:RequestChange",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementApprovalWorkflowResubmitMenuItem",
+    "HelpText": "UBJobRequirementApprovalWorkflow resubmit action",
+    "Label": "@UBHR:ResubmitRequest",
+    "Object": "UBJobRequirementApprovalWorkflowResubmitActionMgr",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementWorkflowCancelMenuItem",
+    "HelpText": "Cancel the submitted Job Requirement request.",
+    "Label": "@UBHR:CancelRequest",
+    "Object": "WorkflowCancelManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBJobRequirementWorkflowSubmitMenuItem",
+    "HelpText": "UBJobRequirementWorkflow submit action",
+    "Label": "@UBHR:SubmitRequest",
+    "Object": "UBJobRequirementWorkflowSubmitManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowApprovalApprove",
+    "HelpText": "UBOfferWorkflowApproval approve action",
+    "Label": "@UBHR:ApproveRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowApprovalDelegateMenuItem",
+    "HelpText": "UBOfferWorkflowApproval delegate action",
+    "Label": "UBOfferWorkflowApprovalDelegateMenuItemMenuItem",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowApprovalDeny",
+    "HelpText": "UBOfferWorkflowApproval deny action",
+    "Label": "@UBHR:DenyRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowApprovalReject",
+    "HelpText": "UBOfferWorkflowApproval reject action",
+    "Label": "@UBHR:RejectRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowApprovalRequestChange",
+    "HelpText": "UBOfferWorkflowApproval request change action",
+    "Label": "@UBHR:RequestChange",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowApprovalResubmitMenuItem",
+    "HelpText": "UBOfferWorkflowApproval resubmit action",
+    "Label": "@UBHR:ResubmitRequest",
+    "Object": "UBInterviewFeedbackWorkflowSubmitManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowCancelMenuItem",
+    "HelpText": "UBOfferWorkflow cancel action",
+    "Label": "@UBHR:CancelRequest",
+    "Object": "WorkflowCancelUnrecoverableWorkflowFeature",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOfferWorkflowSubmitMenuItem",
+    "HelpText": "UBOfferWorkflow submit action",
+    "Label": "@UBHR:SubmitRequest",
+    "Object": "UBOfferWorkflowSubmitManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowApprovalApprove",
+    "HelpText": "UBOnboardingWorkflowApproval approve action",
+    "Label": "@UBHR:ApproveRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowApprovalDelegateMenuItem",
+    "HelpText": "UBOnboardingWorkflowApproval delegate action",
+    "Label": "UBOnboardingWorkflowApprovalDelegateMenuItemMenuItem",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowApprovalDeny",
+    "HelpText": "UBOnboardingWorkflowApproval deny action",
+    "Label": "@UBHR:DenyRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowApprovalReject",
+    "HelpText": "UBOnboardingWorkflowApproval reject action",
+    "Label": "@UBHR:RejectRequest",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowApprovalRequestChange",
+    "HelpText": "UBOnboardingWorkflowApproval request change action",
+    "Label": "@UBHR:RequestChange",
+    "Object": "WorkflowWorkItemActionManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowApprovalResubmitMenuItem",
+    "HelpText": "UBOnboardingWorkflowApproval resubmit action",
+    "Label": "@UBHR:ResubmitRequest",
+    "Object": "UBOnboardingWorkflowApprovalResubmitActionMgr",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowCancelMenuItem",
+    "HelpText": "UBOnboardingWorkflow cancel action",
+    "Label": "@UBHR:CancelRequest",
+    "Object": "WorkflowCancelManager",
+    "ObjectType": "Class"
+  },
+  {
+    "Name": "UBOnboardingWorkflowSubmitMenuItem",
+    "HelpText": "UBOnboardingWorkflow submit action",
+    "Label": "@UBHR:SubmitRequest",
+    "Object": "UBOnboardingWorkflowSubmitManager",
+    "ObjectType": "Class"
+  }
+]

@@ -20,14 +20,14 @@ from app.services.d365 import D365Service, MEMO_FIELDS, _pascal_evidence
 
 LEAN_REQUEST_FIELDS = {
     "company": "Company", "application_id": "ApplicationId", "requirement_id": "RequirementId",
-    "owner_issuer": "LinkedInIssuer", "owner_sub": "LinkedInSub", "first_name": "FirstName",
-    "last_name": "LastName", "email": "Email", "phone": "Phone", "linkedin_url": "LinkedInProfileUrl",
+    "owner_issuer": "LinkedInIssuer", "owner_sub": "LinkedInSub", "candidate_name": "CandidateName",
+    "email": "Email", "phone": "Phone", "linkedin_url": "LinkedInProfileUrl",
     "evaluation_id": "EvaluationId", "score": "Score", "meets_minimum_criteria": "MeetsMinimumCriteria",
     "match_label": "MatchLabel", "summary": "Summary", "matched_requirements": "MatchedSkillsJson",
     "not_evidenced_requirements": "MissingSkillsJson", "relevant_evidence": "EvidenceJson",
 }
-LEAN_SUBMIT_FIELDS = {"company", "application_id", "requirement_id", "owner_issuer", "owner_sub", "first_name",
-                      "last_name", "email", "phone", "linkedin_url"}
+LEAN_SUBMIT_FIELDS = {"company", "application_id", "requirement_id", "owner_issuer", "owner_sub", "candidate_name",
+                      "email", "phone", "linkedin_url"}
 LEAN_EVALUATION_FIELDS = {"company", "application_id", "requirement_id", "evaluation_id", "score",
                           "meets_minimum_criteria", "match_label", "summary", "matched_requirements",
                           "not_evidenced_requirements", "relevant_evidence"}
@@ -84,10 +84,9 @@ class SQLiteD365Service(D365Service):
         if record.get("candidate_id") and record["stage"] in {"accepted", "queued"}:
             log_event("d365.application.acknowledgement", "reused", application_id=application_id, cached=True)
             return {"success": True, "application_id": application_id, "candidate_id": record["candidate_id"]}
-        name = str(payload["candidate_name"]).strip().split(maxsplit=1)
         lean = {key: payload[key] for key in ("application_id", "requirement_id", "owner_issuer", "owner_sub",
-                                              "email", "phone", "linkedin_url")}
-        lean.update(company=self.settings.d365_company, first_name=name[0], last_name=name[1] if len(name) > 1 else "")
+                                              "candidate_name", "email", "phone", "linkedin_url")}
+        lean.update(company=self.settings.d365_company)
         data = await self.call_d365_service("submit_application", lean)
         if not isinstance(data, dict) or data.get("success") is not True:
             log_event("d365.application.acknowledgement", "rejected", issue_code="application_not_confirmed")

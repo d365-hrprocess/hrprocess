@@ -2,6 +2,8 @@
 
 All frontend requests use same-origin `/api` and `/auth` (the Docker gateway routes internally; native Vite defaults to HTTPS localhost port 7242), credentials included. JSON uses snake_case. API errors use `{detail: string}`. No secrets in frontend.
 
+The confirmed `candidate_name` is a full name. In the canonical `D365_CONTRACT_MODE=sqlite` integration it maps to the existing F&O `CandidateName` field without splitting. Deploy the expanded F&O request contract before this backend mapping. See the [AXPP review and rollout](../d365/review/2026-10-25/README.md).
+
 For a LinkedIn user, `User.name` and `User.email` can be empty strings when the provider does not supply them; only a valid email can prefill contact input. Optional `User.linkedin_profile` contains the sanitized standard public-profile fields listed below. Sign-in and ownership use the validated issuer/subject. The application form displays the supplied profile information and collects required contact details before submission.
 
 - `GET /api/health` -> `{status: "ok", demo_mode: boolean, app_name: string}`

@@ -99,7 +99,7 @@ def log_request_shape(operation: str, body: dict, *, level: int = logging.DEBUG)
     flat = next(iter(body.values())) if len(body) == 1 and isinstance(next(iter(body.values())), dict) else body
     permitted = {
         "Company", "ApplicationId", "RequirementId", "CandidateId", "EvaluationId", "FirstName", "LastName",
-        "FullName", "Email", "Phone", "LinkedInProfileUrl", "LinkedInIssuer", "LinkedInSub", "IdentityKey",
+        "FullName", "CandidateName", "Email", "Phone", "LinkedInProfileUrl", "LinkedInIssuer", "LinkedInSub", "IdentityKey",
         "Score", "MeetsMinimumCriteria", "MatchLabel", "Summary", "MatchedSkillsJson", "MissingSkillsJson", "EvidenceJson",
     }
     for field, value in flat.items():

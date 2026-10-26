@@ -39,8 +39,11 @@ def check(condition, message):
 def validate_dto(value, name, contracts):
     check(isinstance(value, dict), f"{name}: expected an object")
     members = contracts[name]["members"]
-    check(set(value) == set(members), f"{name}: example fields differ from the DTO")
+    optional = set(contracts[name].get("optional_members", []))
+    check(set(members) - optional <= set(value) <= set(members), f"{name}: example fields differ from the DTO")
     for field, kind in members.items():
+        if field not in value:
+            continue
         item = value[field]
         if kind.startswith("List<"):
             check(isinstance(item, list), f"{name}.{field}: expected an array")
@@ -93,7 +96,8 @@ def validate_sources(manifest, schema):
     request_members = set()
     for info in manifest["operations"].values():
         if info["request"]:
-            request_members.update(contracts[info["request"]]["members"])
+            contract = contracts[info["request"]]
+            request_members.update(set(contract["members"]) - set(contract.get("optional_members", [])))
     check(set(LEAN_REQUEST_FIELDS.values()) == request_members,
           "Lean backend aliases differ from the two request DTOs")
     check(schema["existing_tables"] is True, "The bundle must use existing tables")
@@ -172,7 +176,7 @@ async def validate_adapter(manifest, database):
         # Validate historical example shape separately from current eligibility.
         job = Job.model_validate(row)
         profile = {"sub": submit["LinkedInSub"], "issuer": submit["LinkedInIssuer"],
-                   "name": f'{submit["FirstName"]} {submit["LastName"]}'.strip()}
+                   "name": submit["CandidateName"]}
         payload = {
             "application_id": submit["ApplicationId"], "requirement_id": submit["RequirementId"],
             "candidate_name": profile["name"], "email": submit["Email"], "phone": submit["Phone"],

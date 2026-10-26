@@ -1,0 +1,2110 @@
+{
+  "UBCandidateForm": {
+    "sources": [
+      {
+        "Name": "UBCandidateTable",
+        "Table": "UBCandidateTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBCandidateTable_CandidateId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_FirstName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FirstName",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_LastName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LastName",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Email",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Email",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_CandidateStatus",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "CandidateStatus",
+        "DataSource": "UBCandidateTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBCandidateTable_CandidateId3",
+        "Skip": "Yes",
+        "Type": "String",
+        "WidthMode": "SizeToAvailable",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBCandidateTable",
+        "ShowLabel": "No",
+        "Style": "TitleField"
+      },
+      {
+        "Name": "UBCandidateTable_CandidateId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_CandidateSource",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "CandidateSource",
+        "DataSource": "UBCandidateTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBCandidateTable_CandidateStatusCopy1",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "CandidateStatus",
+        "DataSource": "UBCandidateTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBCandidateTable_CurrentCompany",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CurrentCompany",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_DataAreaId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DataAreaId",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Designation",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Designation",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_EmailCopy1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Email",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_ExperienceYears",
+        "Type": "Real",
+        "FormControlExtension": "",
+        "DataField": "ExperienceYears",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_FirstNameCopy1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FirstName",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_LastNameCopy1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LastName",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_LinkedInProfileUrl",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LinkedInProfileUrl",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_LocationName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LocationName",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_NaukriProfileId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "NaukriProfileId",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_NoticePeriodDays",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "NoticePeriodDays",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Partition",
+        "Type": "Int64",
+        "FormControlExtension": "",
+        "DataField": "Partition",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Phone",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Phone",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Qualification",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Qualification",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_RecId",
+        "Type": "Int64",
+        "FormControlExtension": "",
+        "DataField": "RecId",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_RelevantExperienceYears",
+        "Type": "Real",
+        "FormControlExtension": "",
+        "DataField": "RelevantExperienceYears",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Remarks",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Remarks",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_SourceId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "SourceId",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_CandidateId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_FirstName1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FirstName",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_LastName1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LastName",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Email1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Email",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_Designation1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Designation",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_CurrentCompany1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CurrentCompany",
+        "DataSource": "UBCandidateTable"
+      },
+      {
+        "Name": "UBCandidateTable_CandidateStatus1",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "CandidateStatus",
+        "DataSource": "UBCandidateTable",
+        "Items": ""
+      }
+    ]
+  },
+  "UBCandidateScreeningForm": {
+    "sources": [
+      {
+        "Name": "UBCandidateScreeningTable",
+        "Table": "UBCandidateScreeningTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      },
+      {
+        "Name": "UBSkillTable",
+        "Table": "UBSkillTable",
+        "ReferencedDataSources": "",
+        "JoinSource": "UBCandidateScreeningTable",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "SubmitBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBCandidateScreeningWorkflowSubmitMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Submit"
+      },
+      {
+        "Name": "CancelBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBCandidateScreeningWorkflowCancelMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Cancel"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_ScreeningId",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ScreeningId",
+        "DataSource": "UBCandidateScreeningTable"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_RequirementId",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBCandidateScreeningTable"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_ApplicationNumber1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationNumber",
+        "DataSource": "UBCandidateScreeningTable"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_ScreeningId1",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ScreeningId",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "Screening ID",
+        "Text": "Screening ID"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_RequirementId1",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBCandidateScreeningTable"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_CandidateName",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataMethod": "getCandidateName",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "Candidate Name",
+        "Text": "Candidate Name"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_ApplicationNumber",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataMethod": "getApplicationNumber",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "Application Number",
+        "Text": "Application Number"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_CandidateNumber",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataMethod": "getCandidateNumber",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "Candidate Number"
+      },
+      {
+        "Name": "SkillsetColumn",
+        "Type": "String",
+        "WidthMode": "SizeToAvailable",
+        "FormControlExtension": "",
+        "DataField": "Skillset",
+        "DataSource": "UBSkillTable",
+        "Label": "Skillset",
+        "MultiLine": "Yes",
+        "Text": "Skillset"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_UBScreeningDecision",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "UBScreeningDecision",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "Screening Decision",
+        "Items": ""
+      },
+      {
+        "Name": "UBCandidateScreeningTable_SkillsMatch",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "SkillsMatch",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "SkillsMatch",
+        "Text": "SkillsMatch"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_UBScreeningRecommendation",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "UBScreeningRecommendation",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "Recommendation",
+        "Items": ""
+      },
+      {
+        "Name": "UBCandidateScreeningTable_ExperienceMatch",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ExperienceMatch",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "Experience Match"
+      },
+      {
+        "Name": "UBCandidateScreeningTable_UBScreeningWorkflowStatus",
+        "AllowEdit": "No",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "UBScreeningWorkflowStatus",
+        "DataSource": "UBCandidateScreeningTable",
+        "Label": "@UBHR:WorkflowStatus",
+        "Items": ""
+      }
+    ]
+  },
+  "UBDepartmentForm": {
+    "sources": [
+      {
+        "Name": "UBDepartmentTable",
+        "Table": "UBDepartmentTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBDepartmentTable_DepartmentId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_DepartmentName2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentName",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_Description1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Description",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_IsActive2",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_DepartmentId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_DepartmentName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentName",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_IsActive",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_DepartmentId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_DepartmentName1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentName",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_Description",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Description",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_IsActive1",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_ValidFrom",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "ValidFrom",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_ValidTo",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "ValidTo",
+        "DataSource": "UBDepartmentTable"
+      },
+      {
+        "Name": "UBDepartmentTable_ManagerEmployeeId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ManagerEmployeeId",
+        "DataSource": "UBDepartmentTable"
+      }
+    ]
+  },
+  "UBEmployeeForm": {
+    "sources": [
+      {
+        "Name": "UBEmployeeTable",
+        "Table": "UBEmployeeTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBEmployeeTable_EmployeeId3",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "EmployeeId",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_EmploymentType2",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "EmploymentType",
+        "DataSource": "UBEmployeeTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBEmployeeTable_FirstName2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FirstName",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_IsActive1",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_JoiningDate2",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "JoiningDate",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_LastName2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LastName",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_Email2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Email",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_Phone2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Phone",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_Designation2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Designation",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_EmployeeId",
+        "Skip": "Yes",
+        "Type": "String",
+        "WidthMode": "SizeToAvailable",
+        "FormControlExtension": "",
+        "DataField": "EmployeeId",
+        "DataSource": "UBEmployeeTable",
+        "ShowLabel": "No",
+        "Style": "TitleField"
+      },
+      {
+        "Name": "UBEmployeeTable_EmployeeId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "EmployeeId",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_EmploymentType",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "EmploymentType",
+        "DataSource": "UBEmployeeTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBEmployeeTable_FirstName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FirstName",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_LastName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LastName",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_JoiningDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "JoiningDate",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_WorkMode",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkMode",
+        "DataSource": "UBEmployeeTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBEmployeeTable_Designation",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Designation",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_Email",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Email",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_CandidateId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_ManagerEmployeeId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ManagerEmployeeId",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_Phone",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Phone",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_PositionId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_WorkMode1",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkMode",
+        "DataSource": "UBEmployeeTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBEmployeeTable_Remarks",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Remarks",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_DepartmentId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_EmployeeId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "EmployeeId",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_EmploymentType1",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "EmploymentType",
+        "DataSource": "UBEmployeeTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBEmployeeTable_Email1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Email",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_FirstName1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FirstName",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_LastName1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LastName",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_Phone1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Phone",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_JoiningDate1",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "JoiningDate",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_Designation1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Designation",
+        "DataSource": "UBEmployeeTable"
+      },
+      {
+        "Name": "UBEmployeeTable_WorkMode2",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkMode",
+        "DataSource": "UBEmployeeTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBEmployeeTable_IsActive",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBEmployeeTable"
+      }
+    ]
+  },
+  "UBHRMatchEvaluationForm": {
+    "sources": [
+      {
+        "Name": "UBHRMatchEvaluationTable",
+        "Table": "UBHRMatchEvaluationTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBHRMatchEvaluationTable_ApplicationId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationId",
+        "DataSource": "UBHRMatchEvaluationTable"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_RequirementId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBHRMatchEvaluationTable"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_EvaluationId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "EvaluationId",
+        "DataSource": "UBHRMatchEvaluationTable"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_EvaluationId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "EvaluationId",
+        "DataSource": "UBHRMatchEvaluationTable"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_ApplicationId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationId",
+        "DataSource": "UBHRMatchEvaluationTable",
+        "Label": "Application Id"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_RequirementId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBHRMatchEvaluationTable",
+        "Label": "Requirement Id"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_Score",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "Score",
+        "DataSource": "UBHRMatchEvaluationTable",
+        "Label": "Score"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_Summary",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Summary",
+        "DataSource": "UBHRMatchEvaluationTable",
+        "Label": "Summary"
+      },
+      {
+        "Name": "UBHRMatchEvaluationTable_ScreeningStatus",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "ScreeningStatus",
+        "DataSource": "UBHRMatchEvaluationTable",
+        "Items": ""
+      }
+    ]
+  },
+  "UBHRWorkspace": {
+    "sources": [],
+    "controls": []
+  },
+  "UBInterviewFeedbackForm": {
+    "sources": [
+      {
+        "Name": "UBInterviewFeedbackTable",
+        "Table": "UBInterviewFeedbackTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "SubmitBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBInterviewFeedbackWorkflowSubmitMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Submit"
+      },
+      {
+        "Name": "CancelBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBInterviewFeedbackWorkflowCancelMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Cancel"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_InterviewId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "InterviewId",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_FeedbackId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FeedbackId",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_FeedbackId1",
+        "Skip": "Yes",
+        "Type": "String",
+        "WidthMode": "SizeToAvailable",
+        "FormControlExtension": "",
+        "DataField": "FeedbackId",
+        "DataSource": "UBInterviewFeedbackTable",
+        "ShowLabel": "No",
+        "Style": "TitleField"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_FeedbackId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "FeedbackId",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_InterviewId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "InterviewId",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_Round",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "Round",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_SkillArea",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "SkillArea",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_WorkflowStatus1",
+        "AllowEdit": "No",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkflowStatus",
+        "DataSource": "UBInterviewFeedbackTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_ProblemSolvingScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "ProblemSolvingScore",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_TechnicalScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "TechnicalScore",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_CommunicationScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "CommunicationScore",
+        "DataSource": "UBInterviewFeedbackTable"
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_Recommendation",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "Recommendation",
+        "DataSource": "UBInterviewFeedbackTable",
+        "Label": "@UBHR:InterviewRecommendation",
+        "Items": ""
+      },
+      {
+        "Name": "UBInterviewFeedbackTable_ReviewerComment1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ReviewerComment",
+        "DataSource": "UBInterviewFeedbackTable"
+      }
+    ]
+  },
+  "UBInterviewForm": {
+    "sources": [
+      {
+        "Name": "UBInterviewTable",
+        "Table": "UBInterviewTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBInterviewTable_InterviewId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "InterviewId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_CandidateId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_ApplicationId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewDateTime1",
+        "Type": "DateTime",
+        "FormControlExtension": "",
+        "DataField": "InterviewDateTime",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewResult2",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "InterviewResult",
+        "DataSource": "UBInterviewTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBInterviewTable_InterviewId",
+        "Skip": "Yes",
+        "Type": "String",
+        "WidthMode": "SizeToAvailable",
+        "FormControlExtension": "",
+        "DataField": "InterviewId",
+        "DataSource": "UBInterviewTable",
+        "ShowLabel": "No",
+        "Style": "TitleField"
+      },
+      {
+        "Name": "UBInterviewTable_ApplicationId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_CandidateId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_RequirementId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewDateTime",
+        "Type": "DateTime",
+        "FormControlExtension": "",
+        "DataField": "InterviewDateTime",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewerEmployeeId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "InterviewerEmployeeId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewResult",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "InterviewResult",
+        "DataSource": "UBInterviewTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBInterviewTable_Remarks",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Remarks",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_CommunicationScore1",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "CommunicationScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewScore1",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "InterviewScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_TechnicalScore1",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "TechnicalScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_FunctionalScore1",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "FunctionalScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewResult1",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "InterviewResult",
+        "DataSource": "UBInterviewTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBInterviewTable_CommunicationScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "CommunicationScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "InterviewScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_TechnicalScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "TechnicalScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_FunctionalScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "FunctionalScore",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewResult3",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "InterviewResult",
+        "DataSource": "UBInterviewTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBInterviewTable_ApplicationId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_CandidateId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_RequirementId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewDateTime2",
+        "Type": "DateTime",
+        "FormControlExtension": "",
+        "DataField": "InterviewDateTime",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewerEmployeeId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "InterviewerEmployeeId",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewRound",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "InterviewRound",
+        "DataSource": "UBInterviewTable"
+      },
+      {
+        "Name": "UBInterviewTable_InterviewResult4",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "InterviewResult",
+        "DataSource": "UBInterviewTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBInterviewTable_Remarks1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Remarks",
+        "DataSource": "UBInterviewTable"
+      }
+    ]
+  },
+  "UBJobApplicationForm": {
+    "sources": [
+      {
+        "Name": "UBJobApplicationTable",
+        "Table": "UBJobApplicationTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBJobApplicationTable_ApplicationNumber1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationNumber",
+        "DataSource": "UBJobApplicationTable"
+      },
+      {
+        "Name": "UBJobApplicationTable_RequirementId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBJobApplicationTable"
+      },
+      {
+        "Name": "UBJobApplicationTable_ApplicationNumber",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationNumber",
+        "DataSource": "UBJobApplicationTable",
+        "Text": "Application Number"
+      },
+      {
+        "Name": "UBJobApplicationTable_CandidateName",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataMethod": "getCandidateName",
+        "DataSource": "UBJobApplicationTable",
+        "Label": "Candidate Name"
+      },
+      {
+        "Name": "UBJobApplicationTable_RequirementId",
+        "AllowEdit": "No",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBJobApplicationTable"
+      },
+      {
+        "Name": "UBJobApplicationTable_ApplicationDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "ApplicationDate",
+        "DataSource": "UBJobApplicationTable"
+      },
+      {
+        "Name": "UBJobApplicationTable_ApplicationStatus",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "ApplicationStatus",
+        "DataSource": "UBJobApplicationTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBJobApplicationTable_OverallScore",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "OverallScore",
+        "DataSource": "UBJobApplicationTable"
+      },
+      {
+        "Name": "UBJobApplicationTable_Summary",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataMethod": "getEvaluationSummary",
+        "DataSource": "UBJobApplicationTable",
+        "Label": "Summary",
+        "MultiLine": "Yes"
+      },
+      {
+        "Name": "UBJobApplicationTable_UBScreeningRecommendation",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "UBScreeningRecommendation",
+        "DataSource": "UBJobApplicationTable",
+        "Label": "Screening Recommendation",
+        "Items": ""
+      }
+    ]
+  },
+  "UBJobRequirementForm": {
+    "sources": [
+      {
+        "Name": "UBJobRequirementTable",
+        "Table": "UBJobRequirementTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "FormMenuFunctionButtonControl1",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBJobRequirementWorkflowSubmitMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Submit"
+      },
+      {
+        "Name": "FormMenuFunctionButtonControl2",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBJobRequirementWorkflowCancelMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Cancel"
+      },
+      {
+        "Name": "UBJobRequirementTable_RequirementId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_JobTitle",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "JobTitle",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_PositionId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_RequirementStatus1",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "RequirementStatus",
+        "DataSource": "UBJobRequirementTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBJobRequirementTable_WorkflowStatus1",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkflowStatus",
+        "DataSource": "UBJobRequirementTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBJobRequirementTable_RequirementId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_PositionId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_DepartmentId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_JobTitle1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "JobTitle",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_EmploymentType",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "EmploymentType",
+        "DataSource": "UBJobRequirementTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBJobRequirementTable_WorkMode",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkMode",
+        "DataSource": "UBJobRequirementTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBJobRequirementTable_JobLocation",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "JobLocation",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_OpenDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "OpenDate",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_CloseDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "CloseDate",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_NumberOfOpenings",
+        "Type": "Integer",
+        "FormControlExtension": "",
+        "DataField": "NumberOfOpenings",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_MinimumExperienceYears",
+        "Type": "Real",
+        "FormControlExtension": "",
+        "DataField": "MinimumExperienceYears",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_RequiredQualifications",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequiredQualifications",
+        "DataSource": "UBJobRequirementTable"
+      },
+      {
+        "Name": "UBJobRequirementTable_MaximumExperienceYears",
+        "Type": "Real",
+        "FormControlExtension": "",
+        "DataField": "MaximumExperienceYears",
+        "DataSource": "UBJobRequirementTable",
+        "Label": "Maximum Experience Years"
+      },
+      {
+        "Name": "UBJobRequirementTable_WorkflowStatus",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkflowStatus",
+        "DataSource": "UBJobRequirementTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBJobRequirementTable_RequirementStatus",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "RequirementStatus",
+        "DataSource": "UBJobRequirementTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBJobRequirementTable_JobDescription",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "JobDescription",
+        "DataSource": "UBJobRequirementTable",
+        "Label": "Job Description"
+      },
+      {
+        "Name": "UBJobRequirementTable_RequiredSkills",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequiredSkills",
+        "DataSource": "UBJobRequirementTable",
+        "Label": "Required Skills"
+      }
+    ]
+  },
+  "UBOfferForm": {
+    "sources": [
+      {
+        "Name": "UBOfferTable",
+        "Table": "UBOfferTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "SubmitBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBOfferWorkflowSubmitMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Submit"
+      },
+      {
+        "Name": "CancelBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBOfferWorkflowCancelMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Cancel"
+      },
+      {
+        "Name": "UBOfferTable_OfferId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "OfferId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_RequirementId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_PositionId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_CandidateId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferId1",
+        "Skip": "Yes",
+        "Type": "String",
+        "WidthMode": "SizeToAvailable",
+        "FormControlExtension": "",
+        "DataField": "OfferId",
+        "DataSource": "UBOfferTable",
+        "ShowLabel": "No",
+        "Style": "TitleField"
+      },
+      {
+        "Name": "UBOfferTable_ApplicationId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_CandidateId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_RequirementId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_PositionId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "OfferDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_ExpectedJoiningDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "ExpectedJoiningDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferAccepted",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "OfferAccepted",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_AcceptanceDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "AcceptanceDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_WorkflowStatus",
+        "AllowEdit": "No",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkflowStatus",
+        "DataSource": "UBOfferTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBOfferTable_OfferId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "OfferId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferedSalaryCopy1",
+        "Type": "Real",
+        "FormControlExtension": "",
+        "DataField": "OfferedSalary",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_CurrencyCodeCopy1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CurrencyCode",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferAccepted1Copy1",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "OfferAccepted",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_AcceptanceDate1Copy1",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "AcceptanceDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferedSalary",
+        "Type": "Real",
+        "FormControlExtension": "",
+        "DataField": "OfferedSalary",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_CurrencyCode",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CurrencyCode",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_AcceptanceDate1",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "AcceptanceDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_AcceptanceDate2",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "AcceptanceDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_ApplicationId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "ApplicationId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_CandidateId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_CurrencyCode1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CurrencyCode",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_ExpectedJoiningDate1",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "ExpectedJoiningDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferAccepted2",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "OfferAccepted",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferDate1",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "OfferDate",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_Remarks1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Remarks",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_RequirementId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "RequirementId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_PositionId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBOfferTable"
+      },
+      {
+        "Name": "UBOfferTable_OfferedSalary1",
+        "Type": "Real",
+        "FormControlExtension": "",
+        "DataField": "OfferedSalary",
+        "DataSource": "UBOfferTable"
+      }
+    ]
+  },
+  "UBOnboardingForm": {
+    "sources": [
+      {
+        "Name": "UBOnboardingTable",
+        "Table": "UBOnboardingTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "SubmitBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBOnboardingWorkflowSubmitMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Submit"
+      },
+      {
+        "Name": "CancelBtn",
+        "Type": "MenuFunctionButton",
+        "FormControlExtension": "",
+        "MenuItemName": "UBOnboardingWorkflowCancelMenuItem",
+        "MenuItemType": "Action",
+        "Text": "@UBHR:Cancel"
+      },
+      {
+        "Name": "UBOnboardingTable_OnboardingId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "OnboardingId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_CandidateId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_OnboardingId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "OnboardingId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_CandidateId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "CandidateId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_OfferId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "OfferId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_JoiningDate",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "JoiningDate",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_DepartmentId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_WorkflowStatus",
+        "AllowEdit": "No",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkflowStatus",
+        "DataSource": "UBOnboardingTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBOnboardingTable_EmployeeId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "EmployeeId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_JoiningDate2",
+        "Type": "Date",
+        "FormControlExtension": "",
+        "DataField": "JoiningDate",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_DepartmentId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_PositionId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_BackgroundCheckCompleted",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "BackgroundCheckCompleted",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_OnboardingCompleted",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "OnboardingCompleted",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_DocumentsVerified",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "DocumentsVerified",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_AccountCreated",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "AccountCreated",
+        "DataSource": "UBOnboardingTable"
+      },
+      {
+        "Name": "UBOnboardingTable_Remarks",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Remarks",
+        "DataSource": "UBOnboardingTable"
+      }
+    ]
+  },
+  "UBPositionForm": {
+    "sources": [
+      {
+        "Name": "UBPositionTable",
+        "Table": "UBPositionTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBPositionTable_PositionId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_JobTitle",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "JobTitle",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_DepartmentId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_IsActive",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_PositionId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_JobTitle1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "JobTitle",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_DepartmentId1",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_IsActive1",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_PositionId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "PositionId",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_DepartmentId2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "DepartmentId",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_EmploymentType",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "EmploymentType",
+        "DataSource": "UBPositionTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBPositionTable_JobTitle2",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "JobTitle",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_IsActive2",
+        "Type": "CheckBox",
+        "FormControlExtension": "",
+        "DataField": "IsActive",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_LocationName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "LocationName",
+        "DataSource": "UBPositionTable"
+      },
+      {
+        "Name": "UBPositionTable_WorkMode",
+        "Type": "ComboBox",
+        "FormControlExtension": "",
+        "DataField": "WorkMode",
+        "DataSource": "UBPositionTable",
+        "Items": ""
+      },
+      {
+        "Name": "UBPositionTable_Description",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "Description",
+        "DataSource": "UBPositionTable"
+      }
+    ]
+  },
+  "UBSkillForm": {
+    "sources": [
+      {
+        "Name": "UBSkillTable",
+        "Table": "UBSkillTable",
+        "ReferencedDataSources": "",
+        "DataSourceLinks": "",
+        "DerivedDataSources": ""
+      }
+    ],
+    "controls": [
+      {
+        "Name": "UBSkillTable_SkillId",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "SkillId",
+        "DataSource": "UBSkillTable"
+      },
+      {
+        "Name": "UBSkillTable_SkillName",
+        "Type": "String",
+        "FormControlExtension": "",
+        "DataField": "SkillName",
+        "DataSource": "UBSkillTable"
+      }
+    ]
+  }
+}

@@ -36,6 +36,7 @@ public final class UBHRPortalService
         UBJobApplicationTable application;
         UBHRPortalResultContract result;
         str identityKey;
+        str candidateName;
         int attempts;
 
         if (!_request)
@@ -43,12 +44,12 @@ public final class UBHRPortalService
             throw error("The _request parameter is required.");
         }
         this.requireCompany(_request.parmCompany());
+        candidateName = this.requestCandidateName(_request);
         this.requireExternalId(_request.parmApplicationId(), "APP-", "ApplicationId");
         this.requireFieldText(application, fieldNum(UBJobApplicationTable, ApplicationId), _request.parmApplicationId());
         this.requireFieldText(requirement, fieldNum(UBJobRequirementTable, RequirementId), _request.parmRequirementId());
         this.requireFieldText(application, fieldNum(UBJobApplicationTable, RequirementId), _request.parmRequirementId());
-        this.requireFieldText(candidate, fieldNum(UBCandidateTable, FirstName), _request.parmFirstName());
-        this.requireFieldText(candidate, fieldNum(UBCandidateTable, LastName), _request.parmLastName(), false);
+        this.requireFieldText(candidate, fieldNum(UBCandidateTable, CandidateName), candidateName);
         this.requireFieldText(candidate, fieldNum(UBCandidateTable, Email), _request.parmEmail());
         this.requireFieldText(candidate, fieldNum(UBCandidateTable, Phone), _request.parmPhone(), false);
         this.requireFieldText(candidate, fieldNum(UBCandidateTable, LinkedInProfileUrl), _request.parmLinkedInProfileUrl(), false);
@@ -122,8 +123,14 @@ public final class UBHRPortalService
             }
             // Retain existing business defaults; write no provider JSON,
             // consent, blob, document digest or portal timestamp metadata.
-            this.writeText(candidate, fieldNum(UBCandidateTable, FirstName), _request.parmFirstName());
-            this.writeText(candidate, fieldNum(UBCandidateTable, LastName), _request.parmLastName(), false);
+            this.writeText(candidate, fieldNum(UBCandidateTable, CandidateName), candidateName);
+            // Only legacy callers supply these. Never guess name components
+            // by splitting a person's full name.
+            if (!strLen(strLRTrim(_request.parmCandidateName())))
+            {
+                this.writeText(candidate, fieldNum(UBCandidateTable, FirstName), _request.parmFirstName());
+                this.writeText(candidate, fieldNum(UBCandidateTable, LastName), _request.parmLastName(), false);
+            }
             this.writeText(candidate, fieldNum(UBCandidateTable, Email), _request.parmEmail());
             this.writeText(candidate, fieldNum(UBCandidateTable, Phone), _request.parmPhone(), false);
             this.writeText(candidate, fieldNum(UBCandidateTable, LinkedInProfileUrl), _request.parmLinkedInProfileUrl(), false);
@@ -145,6 +152,8 @@ public final class UBHRPortalService
             this.writeText(application, fieldNum(UBJobApplicationTable, ApplicationId), _request.parmApplicationId());
             this.writeText(application, fieldNum(UBJobApplicationTable, CandidateId), candidate.CandidateId);
             this.writeText(application, fieldNum(UBJobApplicationTable, RequirementId), requirement.RequirementId);
+            // Populate before insert(): the screening event copies this name.
+            this.writeText(application, fieldNum(UBJobApplicationTable, CandidateName), candidateName);
             // Preserve ApplicationStatus from existing initValue() defaults.
             this.writeSymbol(application, fieldNum(UBJobApplicationTable, AIStatus), this.pendingAIStatus());
             application.OverallScore = 0;
@@ -400,6 +409,19 @@ public final class UBHRPortalService
             && this.sameText(_evaluation.MatchedSkillsJson, _request.parmMatchedSkillsJson())
             && this.sameText(_evaluation.MissingSkillsJson, _request.parmMissingSkillsJson())
             && this.sameText(_evaluation.EvidenceJson, _request.parmEvidenceJson());
+    }
+
+    private str requestCandidateName(UBHRPortalApplicationRequestContract _request)
+    {
+        str name = strLRTrim(_request.parmCandidateName());
+
+        if (!strLen(name))
+        {
+            // Compatibility for the previous portal contract, not a split of
+            // the new CandidateName input.
+            name = strLRTrim(strFmt("%1 %2", _request.parmFirstName(), _request.parmLastName()));
+        }
+        return name;
     }
 
     private void requireCompany(str _company)

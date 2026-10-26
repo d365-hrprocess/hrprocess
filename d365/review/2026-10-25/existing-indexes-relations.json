@@ -1,0 +1,911 @@
+{
+  "UBCandidateScreeningTable": {
+    "properties": {
+      "Name": "UBCandidateScreeningTable",
+      "DeveloperDocumentation": "CandidateScreeningTable",
+      "Label": "CandidateScreeningTable",
+      "TitleField1": "ScreeningId",
+      "TitleField2": "RequirementId",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "ScreeningIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "ScreeningIdx",
+          "AllowDuplicates": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "ScreeningId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "CandidateRelation",
+          "RelatedTable": "UBCandidateTable"
+        },
+        "constraints": [
+          {
+            "Name": "CandidateId",
+            "Field": "CandidateId",
+            "RelatedField": "CandidateId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "JobRequirementRelation",
+          "RelatedTable": "UBJobRequirementTable"
+        },
+        "constraints": [
+          {
+            "Name": "RequirementId",
+            "Field": "RequirementId",
+            "RelatedField": "RequirementId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "ApplicationRelation",
+          "RelatedTable": "UBJobApplicationTable"
+        },
+        "constraints": [
+          {
+            "Name": "ApplicationId",
+            "Field": "ApplicationId",
+            "RelatedField": "ApplicationId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete",
+      "initValue",
+      "numRefScreeningId",
+      "getCandidateNumber",
+      "getApplicationNumber",
+      "getCandidateName"
+    ]
+  },
+  "UBCandidateSkillTable": {
+    "properties": {
+      "Name": "UBCandidateSkillTable",
+      "DeveloperDocumentation": "@UBHR:CandidateSkillTable",
+      "Label": "@UBHR:CandidateSkillTable",
+      "TitleField1": "CandidateId",
+      "TitleField2": "SkillId",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBCandidateSkillIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBCandidateSkillIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "CandidateId"
+          },
+          {
+            "DataField": "SkillId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBSkillRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBSkillTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "SkillId",
+            "Field": "SkillId",
+            "RelatedField": "SkillId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBCandidateRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBCandidateTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "CandidateId",
+            "Field": "CandidateId",
+            "RelatedField": "CandidateId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete"
+    ]
+  },
+  "UBCandidateTable": {
+    "properties": {
+      "Name": "UBCandidateTable",
+      "DeveloperDocumentation": "@UBHR:CandidateTable",
+      "Label": "@UBHR:CandidateTable",
+      "TitleField1": "CandidateId",
+      "TitleField2": "FirstName",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBCandidateIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "Relations": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBCandidateIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "CandidateId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBIdentityKeyIdx",
+          "AllowDuplicates": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "IdentityKey"
+          }
+        ]
+      }
+    ],
+    "relations": [],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete",
+      "numRefCandidateNumber",
+      "insert"
+    ]
+  },
+  "UBDepartmentTable": {
+    "properties": {
+      "Name": "UBDepartmentTable",
+      "DeveloperDocumentation": "@UBHR:DepartmentTable",
+      "Label": "@UBHR:DepartmentTable",
+      "TitleField1": "DepartmentId",
+      "TitleField2": "DepartmentName",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBDepartmentIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "Relations": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBDepartmentIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "DepartmentId"
+          }
+        ]
+      }
+    ],
+    "relations": [],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete"
+    ]
+  },
+  "UBEmployeeTable": {
+    "properties": {
+      "Name": "UBEmployeeTable",
+      "DeveloperDocumentation": "@UBHR:EmployeeTable",
+      "Label": "@UBHR:EmployeeTable",
+      "TitleField1": "EmployeeId",
+      "TitleField2": "FirstName",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBEmployeeIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBEmployeeIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "EmployeeId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBCandidateRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBCandidateTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "CandidateId",
+            "Field": "CandidateId",
+            "RelatedField": "CandidateId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBDepartmentRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBDepartmentTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "DepartmentId",
+            "Field": "DepartmentId",
+            "RelatedField": "DepartmentId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBPositionRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBPositionTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "PositionId",
+            "Field": "PositionId",
+            "RelatedField": "PositionId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete"
+    ]
+  },
+  "UBHRMatchEvaluationTable": {
+    "properties": {
+      "Name": "UBHRMatchEvaluationTable",
+      "AllowRowVersionChangeTracking": "Yes",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "Relations": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "EvaluationIdIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "EvaluationId"
+          }
+        ]
+      }
+    ],
+    "relations": [],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete"
+    ]
+  },
+  "UBInterviewFeedbackTable": {
+    "properties": {
+      "Name": "UBInterviewFeedbackTable",
+      "AllowRowVersionChangeTracking": "Yes",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "InterviewFeedbackIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "FeedbackId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "InterviewRelation",
+          "RelatedTable": "UBInterviewTable"
+        },
+        "constraints": [
+          {
+            "Name": "InterviewId",
+            "Field": "InterviewId",
+            "RelatedField": "InterviewId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete",
+      "initValue"
+    ]
+  },
+  "UBInterviewTable": {
+    "properties": {
+      "Name": "UBInterviewTable",
+      "DeveloperDocumentation": "@UBHR:InterviewTable",
+      "Label": "@UBHR:InterviewTable",
+      "TitleField1": "InterviewId",
+      "TitleField2": "CandidateId",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBInterviewIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBInterviewIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "InterviewId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBApplicationRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBJobApplicationTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "ApplicationId",
+            "Field": "ApplicationId",
+            "RelatedField": "ApplicationId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBCandidateRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBCandidateTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "CandidateId",
+            "Field": "CandidateId",
+            "RelatedField": "CandidateId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBRequirementRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBJobRequirementTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "RequirementId",
+            "Field": "RequirementId",
+            "RelatedField": "RequirementId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBEmployeeRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBEmployeeTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "InterviewerEmployeeId",
+            "Field": "InterviewerEmployeeId",
+            "RelatedField": "EmployeeId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete"
+    ]
+  },
+  "UBJobApplicationTable": {
+    "properties": {
+      "Name": "UBJobApplicationTable",
+      "DeveloperDocumentation": "@UBHR:JobApplicationTable",
+      "Label": "@UBHR:JobApplicationTable",
+      "TitleField1": "ApplicationId",
+      "TitleField2": "CandidateId",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBJobApplicationIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBJobApplicationIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "ApplicationId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBCandidateRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBCandidateTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "CandidateId",
+            "Field": "CandidateId",
+            "RelatedField": "CandidateId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBRequirementRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBJobRequirementTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "RequirementId",
+            "Field": "RequirementId",
+            "RelatedField": "RequirementId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete",
+      "initValue",
+      "insert",
+      "numRefApplicationNumber",
+      "getEvaluationSummary",
+      "getCandidateName"
+    ]
+  },
+  "UBJobRequirementTable": {
+    "properties": {
+      "Name": "UBJobRequirementTable",
+      "DeveloperDocumentation": "@UBHR:JobRequirementTable",
+      "Label": "@UBHR:JobRequirementTable",
+      "TitleField1": "RequirementId",
+      "TitleField2": "JobTitle",
+      "AllowRowVersionChangeTracking": "Yes",
+      "CreatedBy": "Yes",
+      "CreatedDateTime": "Yes",
+      "ModifiedBy": "Yes",
+      "ModifiedDateTime": "Yes",
+      "ReplacementKey": "UBRequirementIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBRequirementIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "RequirementId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBDepartmentRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBDepartmentTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "DepartmentId",
+            "Field": "DepartmentId",
+            "RelatedField": "DepartmentId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBPositionRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBPositionTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "PositionId",
+            "Field": "PositionId",
+            "RelatedField": "PositionId"
+          }
+        ]
+      }
+    ],
+    "methods": []
+  },
+  "UBOfferTable": {
+    "properties": {
+      "Name": "UBOfferTable",
+      "DeveloperDocumentation": "@UBHR:OfferTable",
+      "Label": "@UBHR:OfferTable",
+      "TitleField1": "OfferId",
+      "TitleField2": "CandidateId",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBOfferIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBOfferIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "OfferId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBApplicationRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBJobApplicationTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "ApplicationId",
+            "Field": "ApplicationId",
+            "RelatedField": "ApplicationId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBCandidateRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBCandidateTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "CandidateId",
+            "Field": "CandidateId",
+            "RelatedField": "CandidateId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBRequirementRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBJobRequirementTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "RequirementId",
+            "Field": "RequirementId",
+            "RelatedField": "RequirementId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBPositionRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBPositionTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "PositionId",
+            "Field": "PositionId",
+            "RelatedField": "PositionId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete",
+      "initValue"
+    ]
+  },
+  "UBOnboardingTable": {
+    "properties": {
+      "Name": "UBOnboardingTable",
+      "DeveloperDocumentation": "@UBHR:OnboardingTable",
+      "Label": "@UBHR:OnboardingTable",
+      "TitleField1": "OnboardingId",
+      "TitleField2": "EmployeeId",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBOnboardingIdx",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBOnboardingIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "OnboardingId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBOfferRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBOfferTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "OfferId",
+            "Field": "OfferId",
+            "RelatedField": "OfferId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBCandidateRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBCandidateTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "CandidateId",
+            "Field": "CandidateId",
+            "RelatedField": "CandidateId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBDepartmentRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBDepartmentTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "DepartmentId",
+            "Field": "DepartmentId",
+            "RelatedField": "DepartmentId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "UBPositionRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBPositionTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "PositionId",
+            "Field": "PositionId",
+            "RelatedField": "PositionId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete",
+      "initValue"
+    ]
+  },
+  "UBPositionTable": {
+    "properties": {
+      "Name": "UBPositionTable",
+      "DeveloperDocumentation": "@UBHR:PositionTable",
+      "Label": "@UBHR:PositionTable",
+      "TitleField1": "PositionId",
+      "TitleField2": "JobTitle",
+      "AllowRowVersionChangeTracking": "Yes",
+      "ReplacementKey": "UBPositionIdx",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBPositionIdx",
+          "AlternateKey": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "PositionId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBDepartmentRelation",
+          "Cardinality": "ZeroMore",
+          "RelatedTable": "UBDepartmentTable",
+          "RelatedTableCardinality": "ExactlyOne",
+          "RelationshipType": "Association"
+        },
+        "constraints": [
+          {
+            "Name": "DepartmentId",
+            "Field": "DepartmentId",
+            "RelatedField": "DepartmentId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete"
+    ]
+  },
+  "UBSkillTable": {
+    "properties": {
+      "Name": "UBSkillTable",
+      "DeveloperDocumentation": "@UBHR:SkillTable",
+      "Label": "@UBHR:SkillTable",
+      "TitleField1": "SkillId",
+      "TitleField2": "SkillName",
+      "AllowRowVersionChangeTracking": "Yes",
+      "DeleteActions": "",
+      "FullTextIndexes": "",
+      "Mappings": "",
+      "StateMachines": ""
+    },
+    "indexes": [
+      {
+        "properties": {
+          "Name": "UBSkillIdx",
+          "AllowDuplicates": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "SkillId"
+          }
+        ]
+      },
+      {
+        "properties": {
+          "Name": "ScreeningIdIdx",
+          "AllowDuplicates": "Yes"
+        },
+        "fields": [
+          {
+            "DataField": "ScreeningId"
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "properties": {
+          "Name": "UBCandidateScreeningTable",
+          "RelatedTable": "UBCandidateScreeningTable"
+        },
+        "constraints": [
+          {
+            "Name": "ScreeningId",
+            "Field": "ScreeningId",
+            "RelatedField": "ScreeningId"
+          }
+        ]
+      }
+    ],
+    "methods": [
+      "shouldThrowExceptionOnZeroDelete"
+    ]
+  }
+}
